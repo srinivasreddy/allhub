@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 from setuptools import *
+
 setup(
-    name='allhub',
+    name="allhub",
     version="0.0.1",
     packages=find_packages(exclude=["tests"]),
     description="Clone all projects from Github to your local directory.",
