@@ -3,8 +3,9 @@ import subprocess
 import sys
 from distutils.spawn import find_executable
 from multiprocessing import Pool
-
+from functools import partial
 import requests
+from .gist import Gist
 
 
 def check_git_installed():
@@ -29,7 +30,7 @@ def shell_git_clone(_url):
     )
 
 
-class User:
+class User(Gist):
     def __init__(self, user_name, auth_token):
         self.user_name = user_name
         self.auth_token = auth_token
@@ -37,6 +38,12 @@ class User:
         # TODO: Maybe need to revisit the assumption.
         self.clone_url = (
             f"https://api.github.com/users/{self.user_name}/repos?per_page=100"
+        )
+        self.get_partial = partial(
+            requests.get, headers={"Authorization": self.auth_token}
+        )
+        self.post_partial = partial(
+            requests.post, headers={"Authorization": self.auth_token}
         )
 
     @property
