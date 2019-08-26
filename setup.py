@@ -1,4 +1,7 @@
+# flake8: NOQA
+
 from setuptools import *
+
 
 setup(
     name="allhub",
@@ -19,7 +22,5 @@ setup(
         "Intended Audience :: Developers",
     ],
     python_requires=">=3.6.0",
-    project_urls={
-        "Source": "https://github.com/srinivasreddy/allhub"
-    },
+    project_urls={"Source": "https://github.com/srinivasreddy/allhub"},
 )

@@ -1,9 +1,10 @@
-import requests
 import multiprocessing
-from multiprocessing import Pool
 import subprocess
-from distutils.spawn import find_executable
 import sys
+from distutils.spawn import find_executable
+from multiprocessing import Pool
+
+import requests
 
 
 def check_git_installed():
