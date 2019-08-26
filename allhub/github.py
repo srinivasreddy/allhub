@@ -1,22 +1,31 @@
 import requests
 import multiprocessing
 from multiprocessing import Process, Pool
+import subprocess
+
 import os
 
 
-url = "https://api.github.com/users/{user}/repos?per_page={per_page}"
-auth_token = os.environ.get("AUTH_TOKEN")
-cpu_count = multiprocessing.cpu_count()
+user_name = os.environ.get("USER_NAME", "srinivasreddy")
+per_page = os.environ.get("PER_PAGE")
+auth_token = os.environ.get("AUTH_TOKEN", "f31d7232308cd7a67dd95599d5b4f3b1517cc20e")
+
+url = "https://api.github.com/users/{user}/repos"
+
+if per_page:
+    url = url+"?per_page={per_page}"
 
 
-class Clone:
+def distribute_work(_url):
+    command = f"git clone {_url}"
+    subprocess.call(command, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+
+
+class Repo:
     def __init__(self, auth_token, user_name, per_page):
         self.auth_token = auth_token
         self.user_name = user_name
         self.per_page = per_page
-
-    def _distribute_work(self, url):
-        pass
 
     def clone(self):
         list_of_repos = requests.get(
@@ -25,4 +34,4 @@ class Clone:
         ).json()
         urls = [repo["clone_url"] for repo in list_of_repos]
         with Pool(processes=multiprocessing.cpu_count()) as p:
-            p.map(self._distribute_work, urls)
+            p.map(distribute_work, urls)
