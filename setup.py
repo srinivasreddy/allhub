@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 from setuptools import *
 
 setup(
@@ -21,4 +19,7 @@ setup(
         "Intended Audience :: Developers",
     ],
     python_requires=">=3.6.0",
+    project_urls={
+        "Source": "https://github.com/srinivasreddy/allhub"
+    },
 )
