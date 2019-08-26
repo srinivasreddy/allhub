@@ -2,10 +2,11 @@
 
 from setuptools import *
 
+requires = open("requirements.txt").read().splitlines()
 
 setup(
     name="allhub",
-    version="0.0.1",
+    version="0.0.3",
     packages=find_packages(exclude=["tests"]),
     description="Clone all projects from Github to your local directory.",
     include_package_data=True,
@@ -13,6 +14,7 @@ setup(
     author="Srinivas Reddy Thatiparthy",
     author_email="srinivas.thatiparthy@gmail.com",
     license="PSF",
+    install_requires=requires,
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Programming Language :: Python :: 3.6",
