@@ -29,9 +29,9 @@ def shell_git_clone(_url):
 
 
 class User:
-    def __init__(self, auth_token, user_name):
-        self.auth_token = auth_token
+    def __init__(self, user_name, auth_token):
         self.user_name = user_name
+        self.auth_token = auth_token
         # TODO: I assume the max repos per a user is 100.
         # TODO: Maybe need to revisit the assumption.
         self.clone_url = (
