@@ -1,13 +1,12 @@
 import requests
 import multiprocessing
 from multiprocessing import Process, Pool
-from github import Github
+import os
 
 
 url = "https://api.github.com/users/{user}/repos?per_page={per_page}"
-auth_token = "cb7ffaccd9624fb040eb23552acd9870d20d7703"
+auth_token = os.environ.get("AUTH_TOKEN")
 cpu_count = multiprocessing.cpu_count()
-github = Github(auth_token)
 
 
 class Clone:
@@ -26,4 +25,4 @@ class Clone:
         ).json()
         urls = [repo["clone_url"] for repo in list_of_repos]
         with Pool(processes=multiprocessing.cpu_count()) as p:
-            p.map(self._distribute_work, [urls])
+            p.map(self._distribute_work, urls)
