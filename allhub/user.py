@@ -40,10 +40,20 @@ class User(Gist):
             f"https://api.github.com/users/{self.user_name}/repos?per_page=100"
         )
         self.get_partial = partial(
-            requests.get, headers={"Authorization": self.auth_token}
+            requests.get,
+            headers={
+                "Authorization": self.auth_token,
+                # TODO: the curreent version is v3, may be we need to configure
+                "Accept": "application/vnd.github.v3+json",
+            },
         )
         self.post_partial = partial(
-            requests.post, headers={"Authorization": self.auth_token}
+            requests.post,
+            headers={
+                "Authorization": self.auth_token,
+                # TODO: the curreent version is v3, may be we need to configureq
+                "Accept": "application/vnd.github.v3+json",
+            },
         )
 
     @property
