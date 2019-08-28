@@ -1,4 +1,4 @@
-class Gist:
+class GistMixin:
     def gist_comments(self, gist_id):
         url = f"https://api.github.com/users/gists/{gist_id}/comments"
         return self.get_partial(url).json()
@@ -7,7 +7,7 @@ class Gist:
         url = f"https://api.github.com/users/gists/{gist_id}/comments/{comment_id}"
         return self.get_partial(url).json()
 
-    def list_gists(self):
+    def list_user_gists(self):
         url = f"https://api.github.com/users/{self.user_name}/gists"
         return self.get_partial(url).json()
 

@@ -5,7 +5,7 @@ from distutils.spawn import find_executable
 from multiprocessing import Pool
 from functools import partial
 import requests
-from .gist import Gist
+from .gist import GistMixin
 
 
 def check_git_installed():
@@ -30,7 +30,7 @@ def shell_git_clone(_url):
     )
 
 
-class User(Gist):
+class User(GistMixin):
     def __init__(self, user_name, auth_token):
         self.user_name = user_name
         self.auth_token = auth_token
