@@ -20,6 +20,7 @@ def transform(class_name, json_data):
                 instance[key] = objs
             elif isinstance(value, dict):
                 _transform = transform(key, value)
+                # TODO: do i need to do assignment twice?
                 setattr(instance, key, _transform)
                 instance[key] = _transform
             else:
