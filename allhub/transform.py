@@ -9,7 +9,7 @@ def transform(class_name, json_data):
             instance.append(transform(class_name, item))
         return instance
     elif isinstance(json_data, dict):
-        instance = type(class_name, (dict,), {})
+        instance = type(class_name, (dict,), {})()
         for key, value in json_data.items():
             key = massage_key(key)
             if isinstance(value, list):
