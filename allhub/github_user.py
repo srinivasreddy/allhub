@@ -43,6 +43,7 @@ class User(GistMixin, UserMixin):
         self.get_partial = partial(
             requests.get,
             headers={
+                "User-Agent": "srinivasreddy",
                 "Authorization": self.auth_token,
                 # TODO: the current version is v3, may be we need to configure
                 "Accept": "application/vnd.github.v3+json",
@@ -51,6 +52,7 @@ class User(GistMixin, UserMixin):
         self.post_partial = partial(
             requests.post,
             headers={
+                "User-Agent": "srinivasreddy",
                 "Authorization": self.auth_token,
                 # TODO: the current version is v3, may be we need to configure
                 "Accept": "application/vnd.github.v3+json",
