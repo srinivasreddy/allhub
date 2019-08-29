@@ -1,3 +1,4 @@
+import requests
 from .transform import transform
 
 
@@ -6,10 +7,12 @@ class UserMixin:
         url = f"https://api.github.com/user/blocks"
         return transform(
             "BlockedUsers",
-            self.get_partial(
+            requests.get(
                 url,
                 headers={
-                    "Accept": "application/vnd.github.giant-sentry-fist-preview+json"
+                    "Authorization": self.auth_token,
+                    # TODO: the current version is v3, may be we need to configure
+                    "Accept": "application/vnd.github.giant-sentry-fist-preview+json",
                 },
             ).json(),
         )
