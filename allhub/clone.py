@@ -4,7 +4,7 @@ import multiprocessing
 from multiprocessing import Pool
 
 
-class Clone:
+class CloneMixin:
     @property
     def clone_urls(self):
         check_git_installed()  # TODO: Move this call to decorator.
