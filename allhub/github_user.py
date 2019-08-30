@@ -20,7 +20,7 @@ class User(GistMixin, UserMixin, OAuth):
         self.get_partial = partial(
             requests.get,
             headers={
-                "User-Agent": os.environ.get("GITHUB_USER", "srinivasreddy"),
+                "User-Agent": os.environ.get("APP_NAME", self.user_name),
                 "Authorization": f"token {self.auth_token}",
                 # TODO: the current version is v3, may be we need to configure
                 "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
@@ -29,7 +29,7 @@ class User(GistMixin, UserMixin, OAuth):
         self.post_partial = partial(
             requests.post,
             headers={
-                "User-Agent": os.environ.get("GITHUB_USER", "srinivasreddy"),
+                "User-Agent": os.environ.get("APP_NAME", self.user_name),
                 "Authorization": f"token {self.auth_token}",
                 # TODO: the current version is v3, may be we need to configure
                 "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
