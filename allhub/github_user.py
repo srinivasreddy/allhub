@@ -59,6 +59,22 @@ class User(GistMixin, UserMixin, OAuthMixin):
             },
         )
 
+    @classmethod
+    def build(
+        cls,
+        user_name,
+        auth_token,
+        api_version=3,
+        api_mime_type="json",
+        per_page=100,
+        password=None,
+    ):
+        obj = cls(user_name, auth_token, password)
+        obj.per_page = per_page
+        obj.api_version = api_version
+        obj.api_mime_type = api_mime_type
+        return obj
+
     def get(self, url, mime_type=MimeType.Json):
         response = requests.get(
             url,
@@ -71,9 +87,10 @@ class User(GistMixin, UserMixin, OAuthMixin):
         if response.status_code == 200:
             if mime_type == MimeType.Json:
                 return response.json()
-            # TODO: Think about doing it later.
+            # TODO: Think about doing other Mime types later.
         elif response.status_code == 301:
-            # Permanent URL redirection
+            # Permanent URL redirection.
+            # This can turn into an infinite recursion.
             return self.get(response.headers["Location"], mime_type)
         elif response.status_code == 302:
             return self.get(response.headers["Location"], mime_type)

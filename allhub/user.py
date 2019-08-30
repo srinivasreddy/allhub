@@ -5,7 +5,7 @@ import os
 
 class UserMixin:
     def list_blocked_users(self):
-        url = f"https://api.github.com/user/blocks"
+        url = "https://api.github.com/user/blocks"
         return transform(
             "BlockedUsers",
             requests.get(
