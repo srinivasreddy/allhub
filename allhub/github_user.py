@@ -5,6 +5,8 @@ import requests
 from .gist import GistMixin
 from .user import UserMixin
 from .oauth import OAuthMixin
+from enum import Enum
+
 
 """
 The usage pattern is like this,
@@ -26,6 +28,11 @@ export APP_NAME="Grandeur"
 """
 
 
+class MimeType(Enum):
+    Json = "json"
+    Text = "text"
+
+
 class User(GistMixin, UserMixin, OAuthMixin):
     def __init__(self, user_name, auth_token=None, password=None):
         self.user_name = user_name
@@ -34,14 +41,6 @@ class User(GistMixin, UserMixin, OAuthMixin):
         self.api_version = 3
         self.api_mime_type = "json"
         self.clone_url = f"https://api.github.com/users/{self.user_name}/repos?per_page={self.per_page}"
-        self.get = partial(
-            requests.get,
-            headers={
-                "User-Agent": os.environ.get("APP_NAME", self.user_name),
-                "Authorization": f"token {self.auth_token}",
-                "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
-            },
-        )
         self.get_basic = partial(
             requests.get,
             headers={
@@ -59,3 +58,24 @@ class User(GistMixin, UserMixin, OAuthMixin):
                 "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
             },
         )
+
+    def get(self, url, mime_type=MimeType.Json):
+        response = requests.get(
+            url,
+            headers={
+                "User-Agent": os.environ.get("APP_NAME", self.user_name),
+                "Authorization": f"token {self.auth_token}",
+                "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+            },
+        )
+        if response.status_code == 200:
+            if mime_type == MimeType.Json:
+                return response.json()
+            # TODO: Think about doing it later.
+        elif response.status_code == 301:
+            # Permanent URL redirection
+            return self.get(response.headers["Location"], mime_type)
+        elif response.status_code == 302:
+            return self.get(response.headers["Location"], mime_type)
+        elif response.status_code == 307:
+            return self.get(response.headers["Location"], mime_type)
