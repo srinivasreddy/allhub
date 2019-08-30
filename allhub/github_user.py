@@ -13,12 +13,12 @@ from allhub import User
 user = User('username', 'oauth_token')
 user.gist_comments("gist_id")
 ```
-For some API like oauth permit only Basic authentication, in that case you need
-to set PASSWORD environment variable as well,
+For some API, like OAuth - please see oauth.py file, permit only basic authentication, in that case,
+you need to set the password environment variable.
 
 export PASSWORD="mypassword"
 
-If you are using this library as part of a third party github app, you need to set the environment
+If you are using this library as part of a third party Github app, you need to set the environment
 variable APP_NAME as well in order for the github to correctly log/diagnose the API requests.
 
 export APP_NAME="Grandeur"
