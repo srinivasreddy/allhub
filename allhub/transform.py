@@ -6,7 +6,7 @@ def transform(class_name, json_data):
     if isinstance(json_data, list):
         instance = type(class_name, (list,), {})()
         for item in json_data:
-            instance.append(transform(class_name, item))
+            instance.append(transform(class_name[:-1], item))
         return instance
     elif isinstance(json_data, dict):
         instance = type(class_name, (dict,), {})()

@@ -1,5 +1,6 @@
 import requests
 from .transform import transform
+import os
 
 
 class UserMixin:
@@ -10,9 +11,8 @@ class UserMixin:
             requests.get(
                 url,
                 headers={
-                    "User-Agent": "srinivasreddy",
+                    "User-Agent": os.environ.get("APP_NAME", self.user_name),
                     "Authorization": f"token {self.auth_token}",
-                    # TODO: the current version is v3, may be we need to configure
                     "Accept": "application/vnd.github.giant-sentry-fist-preview+json",
                 },
             ).json(),

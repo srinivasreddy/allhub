@@ -48,7 +48,7 @@ class User(GistMixin, UserMixin, OAuthMixin):
                 "User-Agent": os.environ.get("APP_NAME", self.user_name),
                 "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
             },
-            auth=(self.user_name, os.environ["PASSWORD"]),
+            auth=(self.user_name, password or os.environ["PASSWORD"]),
         )
         self.post_partial = partial(
             requests.post,
