@@ -11,7 +11,7 @@ class UserMixin:
                 url,
                 headers={
                     "User-Agent": "srinivasreddy",
-                    "Authorization": self.auth_token,
+                    "Authorization": f"token {self.auth_token}",
                     # TODO: the current version is v3, may be we need to configure
                     "Accept": "application/vnd.github.giant-sentry-fist-preview+json",
                 },
