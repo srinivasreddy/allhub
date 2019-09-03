@@ -24,4 +24,4 @@ class GistMixin:
 
     def gist(self, gist_id):
         url = f"https://api.github.com/users/gists/{gist_id}"
-        return transform("Gist", self.get(url))
+        return transform("UserGist", self.get(url))
