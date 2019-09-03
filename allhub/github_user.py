@@ -5,8 +5,7 @@ import requests
 from .gist import GistMixin
 from .user import UserMixin
 from .oauth import OAuthMixin
-from enum import Enum
-
+from .util import MimeType
 
 """
 The usage pattern is like this,
@@ -28,11 +27,6 @@ export APP_NAME="Grandeur"
 """
 
 
-class MimeType(Enum):
-    Json = "json"
-    Text = "text"
-
-
 class User(GistMixin, UserMixin, OAuthMixin):
     def __init__(self, user_name, auth_token=None, password=None):
         self.user_name = user_name
@@ -41,14 +35,7 @@ class User(GistMixin, UserMixin, OAuthMixin):
         self.api_version = 3
         self.api_mime_type = "json"
         self.clone_url = f"https://api.github.com/users/{self.user_name}/repos?per_page={self.per_page}"
-        self.get_basic = partial(
-            requests.get,
-            headers={
-                "User-Agent": os.environ.get("APP_NAME", self.user_name),
-                "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
-            },
-            auth=(self.user_name, password or os.environ["PASSWORD"]),
-        )
+
         self.post_partial = partial(
             requests.post,
             headers={
@@ -65,7 +52,7 @@ class User(GistMixin, UserMixin, OAuthMixin):
         user_name,
         auth_token,
         api_version=3,
-        api_mime_type="json",
+        api_mime_type=MimeType.Json,
         per_page=100,
         password=None,
     ):
@@ -88,10 +75,32 @@ class User(GistMixin, UserMixin, OAuthMixin):
             if mime_type == MimeType.Json:
                 return response.json()
             # TODO: Think about doing other Mime types later.
+        # Permanent URL redirection.
         elif response.status_code == 301:
-            # Permanent URL redirection.
-            # This can turn into an infinite recursion.
             return self.get(response.headers["Location"], mime_type)
+        # Permanent URL redirection.
+        elif response.status_code == 302:
+            return self.get(response.headers["Location"], mime_type)
+        elif response.status_code == 307:
+            return self.get(response.headers["Location"], mime_type)
+
+    def get_basic(self, url, mime_type=MimeType.Json, password=None):
+        response = requests.get(
+            url,
+            headers={
+                "User-Agent": os.environ.get("APP_NAME", self.user_name),
+                "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+            },
+            auth=(self.user_name, password or os.environ["PASSWORD"]),
+        )
+        if response.status_code == 200:
+            if mime_type == MimeType.Json:
+                return response.json()
+            # TODO: Think about doing other Mime types later.
+        # Permanent URL redirection.
+        elif response.status_code == 301:
+            return self.get(response.headers["Location"], mime_type)
+        # Permanent URL redirection.
         elif response.status_code == 302:
             return self.get(response.headers["Location"], mime_type)
         elif response.status_code == 307:

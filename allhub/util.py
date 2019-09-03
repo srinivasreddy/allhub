@@ -1,6 +1,7 @@
 import sys
 from distutils.spawn import find_executable
 import subprocess
+from enum import Enum
 
 
 def check_git_installed():
@@ -11,6 +12,11 @@ def check_git_installed():
             "git is not installed. " "Please install git for your operating system.\n"
         )
         sys.exit(-1)
+
+
+class MimeType(Enum):
+    Json = "json"
+    Text = "text"
 
 
 def shell_git_clone(_url):
