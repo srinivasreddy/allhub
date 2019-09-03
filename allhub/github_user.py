@@ -34,7 +34,10 @@ class User(GistMixin, UserMixin, OAuthMixin):
         self.per_page = 100
         self.api_version = 3
         self.api_mime_type = "json"
-        self.clone_url = f"https://api.github.com/users/{self.user_name}/repos?per_page={self.per_page}"
+        self.host = "https://api.github.com/"
+        self.clone_url = (
+            f"{self.host}users/{self.user_name}/repos?per_page={self.per_page}"
+        )
 
         self.post_partial = partial(
             requests.post,
@@ -62,7 +65,8 @@ class User(GistMixin, UserMixin, OAuthMixin):
         obj.api_mime_type = api_mime_type
         return obj
 
-    def get(self, url, mime_type=MimeType.Json):
+    def get(self, url):
+        url = f"{self.host}{url}"
         response = requests.get(
             url,
             headers={
@@ -72,19 +76,18 @@ class User(GistMixin, UserMixin, OAuthMixin):
             },
         )
         if response.status_code == 200:
-            if mime_type == MimeType.Json:
-                return response.json()
-            # TODO: Think about doing other Mime types later.
+            return response.json()
         # Permanent URL redirection.
         elif response.status_code == 301:
-            return self.get(response.headers["Location"], mime_type)
+            return self.get(response.headers["Location"])
         # Permanent URL redirection.
         elif response.status_code == 302:
-            return self.get(response.headers["Location"], mime_type)
+            return self.get(response.headers["Location"])
         elif response.status_code == 307:
-            return self.get(response.headers["Location"], mime_type)
+            return self.get(response.headers["Location"])
 
-    def get_basic(self, url, mime_type=MimeType.Json, password=None):
+    def get_basic(self, url, password=None):
+        url = f"{self.host}{url}"
         response = requests.get(
             url,
             headers={
@@ -94,14 +97,12 @@ class User(GistMixin, UserMixin, OAuthMixin):
             auth=(self.user_name, password or os.environ["PASSWORD"]),
         )
         if response.status_code == 200:
-            if mime_type == MimeType.Json:
-                return response.json()
-            # TODO: Think about doing other Mime types later.
+            return response.json()
         # Permanent URL redirection.
         elif response.status_code == 301:
-            return self.get(response.headers["Location"], mime_type)
+            return self.get(response.headers["Location"])
         # Permanent URL redirection.
         elif response.status_code == 302:
-            return self.get(response.headers["Location"], mime_type)
+            return self.get(response.headers["Location"])
         elif response.status_code == 307:
-            return self.get(response.headers["Location"], mime_type)
+            return self.get(response.headers["Location"])
