@@ -77,13 +77,9 @@ class User(GistMixin, UserMixin, OAuthMixin):
         )
         if response.status_code == 200:
             return response.json()
-        # Permanent URL redirection.
-        elif response.status_code == 301:
-            return self.get(response.headers["Location"])
-        # Permanent URL redirection.
-        elif response.status_code == 302:
-            return self.get(response.headers["Location"])
-        elif response.status_code == 307:
+        # Permanent URL redirection - 301
+        # Temporary URL redirection - 302, 307
+        elif response.status_code in (301, 302, 307):
             return self.get(response.headers["Location"])
 
     def get_basic(self, url, password=None):
