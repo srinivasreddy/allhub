@@ -36,7 +36,7 @@ class FeedsMixin:
         self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()
 
-    def current_user_feed(self):
+    def current_user_public_feed(self):
         """
         The public timeline for the authenticated user
         """
@@ -44,10 +44,20 @@ class FeedsMixin:
         self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()
 
-    def current_user_private_feed(self):
+    def current_user_feed(self):
         """
         The private timeline for the authenticated user
         """
         url = self.feeds().current_user_url
         self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()
+
+    def current_user_actor_feed(self):
+        """
+        The private timeline for activity created by the authenticated user
+        """
+        url = self.feeds().current_user_actor_url
+        self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
+        return self.response.content()
+
+    # TODO: current_user_organization_url and current_user_organization_urls should be implemented.
