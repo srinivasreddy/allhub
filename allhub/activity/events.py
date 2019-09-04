@@ -79,7 +79,7 @@ class EventsMixin:
         self.response = Response(self.get(url, **headers), "UserReceivedPublicEvents")
         return self.response.transform()
 
-    def events_by_user(self, username, **headers):
+    def events_by_user(self, username, **kwargs):
         """
         List events performed by a user.
 
@@ -89,20 +89,21 @@ class EventsMixin:
         :return:
         """
         url = f"/users/{username}/events"
-        self.response = Response(self.get(url, **headers), "UserEvents")
+        transform_resp = kwargs.pop("transform_resp", True)
+        self.response = Response(self.get(url, **kwargs), "UserEvents", transform_resp)
         return self.response.transform()
 
-    def public_events_by_user(self, username, **headers):
+    def public_events_by_user(self, username, **kwargs):
         """
         List public events performed by a user
         :param username:
         :return:
         """
         url = f"/users/{username}/received_events"
-        self.response = Response(self.get(url, **headers), "UserPublicEvents")
+        self.response = Response(self.get(url, **kwargs), "UserPublicEvents")
         return self.response.transform()
 
-    def events_for_org(self, username, org, **headers):
+    def events_for_org(self, username, org, **kwargs):
         """
         List events for an organization.
 
@@ -113,5 +114,5 @@ class EventsMixin:
         :return: JSON transformed data.
         """
         url = f"/users/{username}/events/orgs/{org}"
-        self.response = Response(self.get(url, **headers), "UserReceivedEvents")
+        self.response = Response(self.get(url, **kwargs), "UserReceivedEvents")
         return self.response.transform()
