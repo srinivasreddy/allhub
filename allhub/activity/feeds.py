@@ -4,8 +4,8 @@ from allhub.response import Response
 class FeedsMixin:
     def feeds(self):
         """
-        List all the feeds in a JSON response.Though we use plural here response
-        is a dictionary not list.
+        List all the feeds in a JSON response.Though we use plural noun here response
+        is a dictionary, not list.
         """
         url = "/feeds"
         self.response = Response(self.get(url), "Feeds")
@@ -13,10 +13,10 @@ class FeedsMixin:
 
     def security_advisory_feed(self):
         """
-        Securiy advisory feed for Users/Orgs.
-        :return:
+        A collection of public announcements that provide information about
+        security-related vulnerabilities in software on GitHub.
         """
-        url = self.feeds()["security_advisories_url"]
+        url = self.feeds().security_advisories_url
         self.response = Response(
             self.get(url, Accept="application/atom+xml"), "SecurityAdvFeed"
         )
@@ -24,10 +24,9 @@ class FeedsMixin:
 
     def timeline_feed(self):
         """
-        Github timeline feed.
-        :return:
+        The GitHub global public timeline
         """
-        url = self.feeds()._links.timeline.href
+        url = self.feeds().timeline_url
         self.response = Response(
             self.get(url, Accept="application/atom+xml"), "TimelineFeed"
         )
@@ -35,12 +34,9 @@ class FeedsMixin:
 
     def user_feed(self, username):
         """
-        Public feed of username.
-
-        :param username:
-        :return:
+        The public timeline for any user.
         """
-        url = self.feeds()._links.user.href.format(user=username)
+        url = self.feeds().user_url.format(user=username)
         self.response = Response(
             self.get(url, Accept="application/atom+xml"), "UserFeed"
         )
@@ -48,10 +44,9 @@ class FeedsMixin:
 
     def current_user_feed(self):
         """
-        This is feed is gives only public data.
-        :return:
+        The public timeline for the authenticated user
         """
-        url = self.feeds()._links.current_user_public.href
+        url = self.feeds().current_user_public_url
         self.response = Response(
             self.get(url, Accept="application/atom+xml"), "CurrentUserFeed"
         )
