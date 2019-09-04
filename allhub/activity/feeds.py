@@ -8,7 +8,7 @@ class FeedsMixin:
         is a dictionary, not list.
         """
         url = "/feeds"
-        self.response = Response(self.get(url), "Feeds")
+        self.response = Response(self.get_basic(url), "Feeds")
         return self.response.transform()
 
     def security_advisory_feed(self):
@@ -17,9 +17,7 @@ class FeedsMixin:
         security-related vulnerabilities in software on GitHub.
         """
         url = self.feeds().security_advisories_url
-        self.response = Response(
-            self.get(url, Accept="application/atom+xml"), "SecurityAdvFeed"
-        )
+        self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()
 
     def timeline_feed(self):
@@ -27,9 +25,7 @@ class FeedsMixin:
         The GitHub global public timeline
         """
         url = self.feeds().timeline_url
-        self.response = Response(
-            self.get(url, Accept="application/atom+xml"), "TimelineFeed"
-        )
+        self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()
 
     def user_feed(self, username):
@@ -37,9 +33,7 @@ class FeedsMixin:
         The public timeline for any user.
         """
         url = self.feeds().user_url.format(user=username)
-        self.response = Response(
-            self.get(url, Accept="application/atom+xml"), "UserFeed"
-        )
+        self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()
 
     def current_user_feed(self):
@@ -47,7 +41,13 @@ class FeedsMixin:
         The public timeline for the authenticated user
         """
         url = self.feeds().current_user_public_url
-        self.response = Response(
-            self.get(url, Accept="application/atom+xml"), "CurrentUserFeed"
-        )
+        self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
+        return self.response.content()
+
+    def current_user_private_feed(self):
+        """
+        The private timeline for the authenticated user
+        """
+        url = self.feeds().current_user_url
+        self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()

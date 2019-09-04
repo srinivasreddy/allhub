@@ -86,15 +86,17 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
         # just return the response
         return response
 
-    def get_basic(self, url, password=None):
+    def get_basic(self, url, password=None, **c_headers):
         full_url = urljoin(self.host, url)
+        headers = {
+            "User-Agent": os.environ.get("APP_NAME", self.user_name),
+            "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+        }
+        headers.update(**c_headers)
         response = requests.get(
             full_url,
-            headers={
-                "User-Agent": os.environ.get("APP_NAME", self.user_name),
-                "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
-            },
-            auth=(self.user_name, password or os.environ["PASSWORD"]),
+            headers=headers,
+            auth=(self.user_name, password or self.password or os.environ["PASSWORD"]),
         )
         # Permanent URL redirection - 301
         # Temporary URL redirection - 302, 307
