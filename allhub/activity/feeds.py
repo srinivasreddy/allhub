@@ -2,12 +2,6 @@ from allhub.response import Response
 
 
 class FeedsMixin:
-    """
-    TODO:
-    security_advisory_feed is only the current feed added here.
-    Please feel free to add them later on when required.
-    """
-
     def feeds(self):
         """
         List all the feeds in a JSON response.Though we use plural here response
