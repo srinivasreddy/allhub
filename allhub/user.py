@@ -62,26 +62,25 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
         password=None,
         transform_resp=True,
     ):
-        obj = cls(user_name, auth_token, password)
+        obj = cls(user_name, auth_token, transform_resp, password)
         obj.per_page = per_page
         obj.api_version = api_version
         obj.api_mime_type = api_mime_type
-        obj.transform_resp = transform_resp
         return obj
 
-    def get(self, url, **headers):
+    def get(self, url, **c_headers):
         full_url = urljoin(self.host, url)
-        c_headers = {
+        headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
             "Authorization": f"token {self.auth_token}",
             "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
         }
-        c_headers.update(**headers)
-        response = requests.get(full_url, headers=c_headers)
+        headers.update(**c_headers)
+        response = requests.get(full_url, headers=headers)
         # Permanent URL redirection - 301
         # Temporary URL redirection - 302, 307
         if response.status_code in (301, 302, 307):
-            return self.get(response.headers["Location"], **headers)
+            return self.get(response.headers["Location"], **c_headers)
 
         # for response codes 2xx,4xx,5xx
         # just return the response
