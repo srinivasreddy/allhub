@@ -18,11 +18,22 @@ class Response:
         """
         return self.headers()["X-OAuth-Scopes"]
 
-    def transform(self):
-        return transform(self.class_name, self.json())
+    def transform(self, raw=False):
+        if raw:
+            return self.json()
+        else:
+            return transform(self.class_name, self.json())
 
     @property
     def poll_interval(self):
         # All responses may not contain X-Poll-Interval headers.
         interval = self.headers().get("X-Poll-Interval")
         return interval and int(interval) or None
+
+    @property
+    def etag(self):
+        """
+        ETag header helps by determining the result set changed between queries.
+        :return:
+        """
+        return self.headers().get("ETag")
