@@ -11,7 +11,7 @@ class FeedsMixin:
         return self.response.transform()
 
     def security_advisory_feed(self):
-        url = self.feeds()["security-advisories"]
+        url = self.feeds()["security_advisories_url"]
         self.response = Response(
             self.get(url, Accept="application/atom+xml"), "SecurityAdvFeed"
         )
