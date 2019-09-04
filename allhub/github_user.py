@@ -6,6 +6,7 @@ from .gist import GistMixin
 from .user import UserMixin
 from .oauth import OAuthMixin
 from .util import MimeType
+from .activity import ActivityMixin
 
 """
 The usage pattern is like this,
@@ -27,14 +28,14 @@ export APP_NAME="Grandeur"
 """
 
 
-class User(GistMixin, UserMixin, OAuthMixin):
+class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
     def __init__(self, user_name, auth_token=None, password=None):
         self.user_name = user_name
         self.auth_token = auth_token
         self.per_page = 100
         self.api_version = 3
         self.api_mime_type = "json"
-        self.host = "https://api.github.com/"
+        self.host = "https://api.github.com"
         self.clone_url = (
             f"{self.host}users/{self.user_name}/repos?per_page={self.per_page}"
         )
@@ -44,10 +45,10 @@ class User(GistMixin, UserMixin, OAuthMixin):
             headers={
                 "User-Agent": os.environ.get("APP_NAME", self.user_name),
                 "Authorization": f"token {self.auth_token}",
-                # TODO: the current version is v3, may be we need to configure
                 "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
             },
         )
+        self.response = None
 
     @classmethod
     def build(
@@ -94,11 +95,7 @@ class User(GistMixin, UserMixin, OAuthMixin):
         )
         if response.status_code == 200:
             return response.json()
-        # Permanent URL redirection.
-        elif response.status_code == 301:
-            return self.get(response.headers["Location"])
-        # Permanent URL redirection.
-        elif response.status_code == 302:
-            return self.get(response.headers["Location"])
-        elif response.status_code == 307:
+        # Permanent URL redirection - 301
+        # Temporary URL redirection - 302, 307
+        elif response.status_code in (301, 302, 307):
             return self.get(response.headers["Location"])

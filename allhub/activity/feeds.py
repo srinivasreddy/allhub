@@ -1,0 +1,2 @@
+class FeedsMixin:
+    pass
