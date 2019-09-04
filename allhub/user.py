@@ -66,22 +66,23 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
         obj.api_mime_type = api_mime_type
         return obj
 
-    def get(self, url):
-        url = f"{self.host}{url}"
-        response = requests.get(
-            url,
-            headers={
-                "User-Agent": os.environ.get("APP_NAME", self.user_name),
-                "Authorization": f"token {self.auth_token}",
-                "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
-            },
-        )
-        if response.status_code == 200:
-            return response
+    def get(self, _url, **headers):
+        url = os.path.join(self.host, _url)
+        _headers = {
+            "User-Agent": os.environ.get("APP_NAME", self.user_name),
+            "Authorization": f"token {self.auth_token}",
+            "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+        }
+        _headers.update(headers)
+        response = requests.get(url, headers=_headers)
         # Permanent URL redirection - 301
         # Temporary URL redirection - 302, 307
-        elif response.status_code in (301, 302, 307):
-            return self.get(response.headers["Location"])
+        if response.status_code in (301, 302, 307):
+            return self.get(response.headers["Location"], **headers)
+
+        # for response codes 2xx,4xx,5xx
+        # just return the response
+        return response
 
     def get_basic(self, url, password=None):
         url = f"{self.host}{url}"
@@ -93,9 +94,10 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
             },
             auth=(self.user_name, password or os.environ["PASSWORD"]),
         )
-        if response.status_code == 200:
-            return response
         # Permanent URL redirection - 301
         # Temporary URL redirection - 302, 307
-        elif response.status_code in (301, 302, 307):
+        if response.status_code in (301, 302, 307):
             return self.get(response.headers["Location"])
+        # For response codes 2xx,4xx,5xx
+        # Just return the response
+        return response
