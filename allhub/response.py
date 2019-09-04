@@ -25,6 +25,9 @@ class Response:
         else:
             return self.json()
 
+    def content(self):
+        return self.response.content()
+
     @property
     def poll_interval(self):
         # All responses may not contain X-Poll-Interval headers.
