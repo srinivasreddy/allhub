@@ -1,2 +1,2 @@
 # flake8: NOQA
-from .github_user import *
+from .user import *

@@ -7,7 +7,7 @@ class Response:
         self.class_name = class_name
 
     def headers(self):
-        return self.response.headers()
+        return self.response.headers
 
     def json(self):
         return self.response.json()
@@ -24,4 +24,5 @@ class Response:
     @property
     def poll_interval(self):
         # All responses may not contain X-Poll-Interval headers.
-        return self.headers().get("X-Poll-Interval")
+        interval = self.headers().get("X-Poll-Interval")
+        return interval and int(interval) or None
