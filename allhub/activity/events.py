@@ -1,73 +1,111 @@
-"""
-List public events
-List repository events
-List issue events for a repository
-List public events for a network of repositories
-List public events for an organization
-List events that a user has received
-List public events that a user has received
-List events performed by a user
-List public events performed by a user
-List events for an organization
-
-"""
 from allhub.response import Response
 
 
 class EventsMixin:
-    def public_events(self):
-        url = "/events"
-        self.response = Response(self.get(url), "PublicEvents")
-        return self.response.transform()
+    """
+    This is a readonly interface to events.
+    """
 
-    def repo_events(self, owner, repo):
-        url = f"/repos/{owner}/{repo}/events"
-        self.response = Response(self.get(url), "RepoEvents")
-        return self.response.transform()
-
-    def issue_events(self, owner, repo):
-        url = f"/repos/{owner}/{repo}/issues/events"
-        self.response = Response(self.get(url), "IssueEvents")
-        return self.response.transform()
-
-    def public_events_network_repos(self, owner, repo):
-        url = f"/networks/{owner}/{repo}/events"
-        self.response = Response(self.get(url), "NetworkRepoPublicEvents")
-        return self.response.transform()
-
-    def public_events_orgs(self, org):
-        url = f"/orgs/{org}/events"
-        self.response = Response(self.get(url), "OrgPublicEvents")
-        return self.response.transform()
-
-    def user_received_events(self, username):
-        url = f"/users/{username}/received_events"
-        self.response = Response(self.get(url), "UserReceivedEvents")
-        return self.response.transform()
-
-    def user_received_public_events(self, username):
-        url = f"/users/{username}/received_events/public"
-        self.response = Response(self.get(url), "UserReceivedPublicEvents")
-        return self.response.transform()
-
-    def events_by_user(self, username):
+    def public_events(self, **headers):
         """
+        List public events
+        :return:
+        """
+        url = "/events"
+        self.response = Response(self.get(url, **headers), "PublicEvents")
+        return self.response.transform()
+
+    def repo_events(self, owner, repo, **headers):
+        """
+        List repository events
+        :param owner:
+        :param repo:
+        :param etag_header:
+        :return:
+        """
+        url = f"/repos/{owner}/{repo}/events"
+        self.response = Response(self.get(url, **headers), "RepoEvents")
+        return self.response.transform()
+
+    def issue_events(self, owner, repo, **headers):
+        """
+        List issue events for a repository.
+        :param owner:
+        :param repo:
+        :return:
+        """
+        url = f"/repos/{owner}/{repo}/issues/events"
+        self.response = Response(self.get(url, **headers), "IssueEvents")
+        return self.response.transform()
+
+    def public_events_network_repos(self, owner, repo, **headers):
+        """
+        List public events for a network of repositories.
+        :param owner:
+        :param repo:
+        :return:
+        """
+        url = f"/networks/{owner}/{repo}/events"
+        self.response = Response(self.get(url, **headers), "NetworkRepoPublicEvents")
+        return self.response.transform()
+
+    def public_events_orgs(self, org, **headers):
+        """
+        List public events for an organization.
+        :param org:
+        :return:
+        """
+        url = f"/orgs/{org}/events"
+        self.response = Response(self.get(url, **headers), "OrgPublicEvents")
+        return self.response.transform()
+
+    def user_received_events(self, username, **headers):
+        """
+        List events that a user has received.
+        :param username:
+        :return:
+        """
+        url = f"/users/{username}/received_events"
+        self.response = Response(self.get(url, **headers), "UserReceivedEvents")
+        return self.response.transform()
+
+    def user_received_public_events(self, username, **headers):
+        """
+        List public events that a user has received.
+        :param username:
+        :return:
+        """
+        url = f"/users/{username}/received_events/public"
+        self.response = Response(self.get(url, **headers), "UserReceivedPublicEvents")
+        return self.response.transform()
+
+    def events_by_user(self, username, **headers):
+        """
+        List events performed by a user.
+
         If you are authenticated as the given user, you will see your private events.
         Otherwise, you'll only see public events.
         :param username:
         :return:
         """
         url = f"/users/{username}/events"
-        self.response = Response(self.get(url), "UserEvents")
+        self.response = Response(self.get(url, **headers), "UserEvents")
         return self.response.transform()
 
-    def public_events_by_user(self, username):
-        url = f"/users/{username}/received_events"
-        self.response = Response(self.get(url), "UserPublicEvents")
-        return self.response.transform()
-
-    def events_for_org(self, username, org):
+    def public_events_by_user(self, username, **headers):
         """
+        List public events performed by a user
+        :param username:
+        :return:
+        """
+        url = f"/users/{username}/received_events"
+        self.response = Response(self.get(url, **headers), "UserPublicEvents")
+        return self.response.transform()
+
+    def events_for_org(self, username, org, **headers):
+        """
+        List events for an organization.
+
         This is the user's organization dashboard.
         You must be authenticated as the user to view this.
         :param username: username
@@ -75,5 +113,5 @@ class EventsMixin:
         :return: JSON transformed data.
         """
         url = f"/users/{username}/events/orgs/{org}"
-        self.response = Response(self.get(url), "UserReceivedEvents")
+        self.response = Response(self.get(url, **headers), "UserReceivedEvents")
         return self.response.transform()
