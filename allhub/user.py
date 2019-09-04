@@ -1,5 +1,5 @@
+from urllib.parse import urljoin
 import os
-
 from functools import partial
 import requests
 from .gist import GistMixin
@@ -29,17 +29,18 @@ export APP_NAME="Grandeur"
 
 
 class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
-    def __init__(self, user_name, auth_token=None, password=None):
+    def __init__(self, user_name, auth_token, transform_resp, password=None):
         self.user_name = user_name
         self.auth_token = auth_token
         self.per_page = 100
         self.api_version = 3
         self.api_mime_type = "json"
+        self.transform_resp = transform_resp
         self.host = "https://api.github.com"
-        self.clone_url = (
-            f"{self.host}users/{self.user_name}/repos?per_page={self.per_page}"
+        self.password = password
+        self.clone_url = urljoin(
+            self.host, f"/users/{self.user_name}/repos?per_page={self.per_page}"
         )
-
         self.post_partial = partial(
             requests.post,
             headers={
@@ -59,22 +60,24 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
         api_mime_type=MimeType.Json,
         per_page=100,
         password=None,
+        transform_resp=True,
     ):
         obj = cls(user_name, auth_token, password)
         obj.per_page = per_page
         obj.api_version = api_version
         obj.api_mime_type = api_mime_type
+        obj.transform_resp = transform_resp
         return obj
 
-    def get(self, _url, **headers):
-        url = os.path.join(self.host, _url)
-        _headers = {
+    def get(self, url, **headers):
+        full_url = urljoin(self.host, url)
+        c_headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
             "Authorization": f"token {self.auth_token}",
             "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
         }
-        _headers.update(headers)
-        response = requests.get(url, headers=_headers)
+        c_headers.update(**headers)
+        response = requests.get(full_url, headers=c_headers)
         # Permanent URL redirection - 301
         # Temporary URL redirection - 302, 307
         if response.status_code in (301, 302, 307):
@@ -85,9 +88,9 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
         return response
 
     def get_basic(self, url, password=None):
-        url = f"{self.host}{url}"
+        full_url = urljoin(self.host, url)
         response = requests.get(
-            url,
+            full_url,
             headers={
                 "User-Agent": os.environ.get("APP_NAME", self.user_name),
                 "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
