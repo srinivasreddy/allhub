@@ -2,9 +2,10 @@ from .transform import transform
 
 
 class Response:
-    def __init__(self, response, class_name):
+    def __init__(self, response, class_name, transform_resp=True):
         self.response = response
         self.class_name = class_name
+        self.transform_resp = transform_resp
 
     def headers(self):
         return self.response.headers
@@ -18,11 +19,11 @@ class Response:
         """
         return self.headers()["X-OAuth-Scopes"]
 
-    def transform(self, raw=False):
-        if raw:
-            return self.json()
-        else:
+    def transform(self):
+        if self.transform_resp:
             return transform(self.class_name, self.json())
+        else:
+            return self.json()
 
     @property
     def poll_interval(self):
