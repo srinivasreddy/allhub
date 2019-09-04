@@ -1,4 +1,4 @@
-The code written down currently looks like crap.
+### Notes on development
 
-There is a lot of duplication in get methods of json.
-I have to remove duplication of code.
+
+1. I have skipped https://developer.github.com/v3/activity/events/types/ and is to be implemented yet.
