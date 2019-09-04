@@ -12,6 +12,10 @@ class FeedsMixin:
         return self.response.transform()
 
     def security_advisory_feed(self):
+        """
+        Securiy advisory feed for Users/Orgs.
+        :return:
+        """
         url = self.feeds()["security_advisories_url"]
         self.response = Response(
             self.get(url, Accept="application/atom+xml"), "SecurityAdvFeed"
@@ -19,6 +23,10 @@ class FeedsMixin:
         return self.response.content()
 
     def timeline_feed(self):
+        """
+        Github timeline feed.
+        :return:
+        """
         url = self.feeds()._links.timeline.href
         self.response = Response(
             self.get(url, Accept="application/atom+xml"), "TimelineFeed"
@@ -26,6 +34,12 @@ class FeedsMixin:
         return self.response.content()
 
     def user_feed(self, username):
+        """
+        Public feed of username.
+
+        :param username:
+        :return:
+        """
         url = self.feeds()._links.user.href.format(user=username)
         self.response = Response(
             self.get(url, Accept="application/atom+xml"), "UserFeed"
