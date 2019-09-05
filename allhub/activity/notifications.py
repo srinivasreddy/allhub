@@ -95,7 +95,7 @@ class NotificationsMixin:
 
     def delete_thread_subscription(self, thread_id, **kwargs):
         """
-        Set thread subscription
+        Delete thread subscription
         """
         url = f"/notifications/threads/{thread_id}/subscription"
         # Status code 204:  No Content
