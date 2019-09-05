@@ -18,10 +18,9 @@ class FeedsMixin:
     security-related vulnerabilities in software on GitHub.
     """
 
-    def feeds(self):
+    def feed(self):
         """
-        List all the feeds in a JSON response.Though we use plural noun here response
-        is a dictionary, not list.
+        List all the feeds in a JSON response - it is a dictionary.
         """
         url = "/feeds"
         self.response = Response(self.get_basic(url), "Feeds")
@@ -32,7 +31,7 @@ class FeedsMixin:
         A collection of public announcements that provide information about
         security-related vulnerabilities in software on GitHub.
         """
-        url = self.feeds().security_advisories_url
+        url = self.feed().security_advisories_url
         self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()
 
@@ -40,7 +39,7 @@ class FeedsMixin:
         """
         The GitHub global public timeline
         """
-        url = self.feeds().timeline_url
+        url = self.feed().timeline_url
         self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()
 
@@ -48,7 +47,7 @@ class FeedsMixin:
         """
         The public timeline for any user.
         """
-        url = self.feeds().user_url.format(user=username)
+        url = self.feed().user_url.format(user=username)
         self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()
 
@@ -56,7 +55,7 @@ class FeedsMixin:
         """
         The public timeline for the authenticated user
         """
-        url = self.feeds().current_user_public_url
+        url = self.feed().current_user_public_url
         self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()
 
@@ -64,7 +63,7 @@ class FeedsMixin:
         """
         The private timeline for the authenticated user
         """
-        url = self.feeds().current_user_url
+        url = self.feed().current_user_url
         self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()
 
@@ -72,7 +71,7 @@ class FeedsMixin:
         """
         The private timeline for activity created by the authenticated user
         """
-        url = self.feeds().current_user_actor_url
+        url = self.feed().current_user_actor_url
         self.response = Response(self.get_basic(url, Accept="application/atom+xml"), "")
         return self.response.content()
 
