@@ -21,4 +21,4 @@ class NotificationsMixin:
     def mark_notifications_read(self):
         url = "/notifications"
         self.response = Response(self.put(url), "")
-        return self.response.content()
+        return self.response.status_code == 205

@@ -68,31 +68,32 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
         obj.api_mime_type = api_mime_type
         return obj
 
-    def get(self, url, **c_headers):
+    def get(self, url, *args, **kwargs):
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
             "Authorization": f"token {self.auth_token}",
             "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
         }
-        headers.update(**c_headers)
+        headers.update(**kwargs)
         response = requests.get(full_url, headers=headers)
         # Permanent URL redirection - 301
         # Temporary URL redirection - 302, 307
         if response.status_code in (301, 302, 307):
-            return self.get(response.headers["Location"], **c_headers)
+            return self.get(response.headers["Location"], **kwargs)
 
         # for response codes 2xx,4xx,5xx
         # just return the response
         return response
 
-    def get_basic(self, url, password=None, **c_headers):
+    def get_basic(self, url, *args, **kwargs):
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
             "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
         }
-        headers.update(**c_headers)
+        password = kwargs.pop("password", None)
+        headers.update(**kwargs)
         response = requests.get(
             full_url,
             headers=headers,
@@ -106,19 +107,37 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
         # Just return the response
         return response
 
-    def put(self, url, **c_headers):
+    def put(self, url, *args, **kwargs):
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
             "Authorization": f"token {self.auth_token}",
             "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
         }
-        headers.update(**c_headers)
+        headers.update(**kwargs)
         response = requests.put(full_url, headers=headers)
         # Permanent URL redirection - 301
         # Temporary URL redirection - 302, 307
         if response.status_code in (301, 302, 307):
-            return self.get(response.headers["Location"], **c_headers)
+            return self.get(response.headers["Location"], **kwargs)
+
+        # for response codes 2xx,4xx,5xx
+        # just return the response
+        return response
+
+    def post(self, url, *args, **kwargs):
+        full_url = urljoin(self.host, url)
+        headers = {
+            "User-Agent": os.environ.get("APP_NAME", self.user_name),
+            "Authorization": f"token {self.auth_token}",
+            "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+        }
+        headers.update(**kwargs)
+        response = requests.put(full_url, headers=headers)
+        # Permanent URL redirection - 301
+        # Temporary URL redirection - 302, 307
+        if response.status_code in (301, 302, 307):
+            return self.get(response.headers["Location"], **kwargs)
 
         # for response codes 2xx,4xx,5xx
         # just return the response
