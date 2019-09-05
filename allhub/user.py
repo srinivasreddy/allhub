@@ -2,18 +2,18 @@ from urllib.parse import urljoin
 import os
 from functools import partial
 import requests
-from .gist import GistMixin
-from .user_mixin import UserMixin
-from .oauth import OAuthMixin
-from .util import MimeType
-from .activity import ActivityMixin
+from allhub.gist import GistMixin
+from allhub.user_mixin import UserMixin
+from allhub.oauth import OAuthMixin
+from allhub.util import MimeType
+from allhub.activity import ActivityMixin
 
 """
 The usage pattern is like this,
 ```
 from allhub import User
 user = User('username', 'oauth_token')
-user.gist_comments("gist_id")
+user.gist_comments('gist_id')
 ```
 For some API, like OAuth - please see oauth.py file, permit only basic authentication, in that case,
 you need to set the password environment variable.
