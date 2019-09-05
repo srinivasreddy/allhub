@@ -1,5 +1,4 @@
 import os
-from functools import partial
 from urllib.parse import urljoin
 
 import requests
@@ -35,6 +34,7 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
     def __init__(self, user_name, auth_token, transform_resp, password=None):
         self.user_name = user_name
         self.auth_token = auth_token
+        self.page = 1
         self.per_page = 100
         self.api_version = 3
         self.api_mime_type = "json"
@@ -43,14 +43,6 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
         self.password = password
         self.clone_url = urljoin(
             self.host, f"/users/{self.user_name}/repos?per_page={self.per_page}"
-        )
-        self.post_partial = partial(
-            requests.post,
-            headers={
-                "User-Agent": os.environ.get("APP_NAME", self.user_name),
-                "Authorization": f"token {self.auth_token}",
-                "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
-            },
         )
         self.response = None
 
