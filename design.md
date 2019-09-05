@@ -21,4 +21,7 @@ for event in events:
 from allhub import User, Response
 user = User("srinivasreddy", "xxxxxxxxxxxxx", True, "Git@weqwe")
 events = user.public_events()
+new_events = user.public_events(**{"If-None-Match": user.response.etag})
+new_events = user.public_events(**{"If-Modified-Since": user.response.last_modified})
+
 ```
