@@ -154,3 +154,14 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin):
         # for response codes 2xx,4xx,5xx
         # just return the response
         return response
+
+    def delete(self, url, *args, **kwargs):
+        full_url = urljoin(self.host, url)
+        headers = {
+            "User-Agent": os.environ.get("APP_NAME", self.user_name),
+            "Authorization": f"token {self.auth_token}",
+            "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+        }
+        headers.update(**kwargs)
+        response = requests.delete(full_url, headers=headers)
+        return response
