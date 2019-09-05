@@ -1,6 +1,6 @@
+import subprocess
 import sys
 from distutils.spawn import find_executable
-import subprocess
 from enum import Enum
 
 

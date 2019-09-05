@@ -1,7 +1,9 @@
-from .util import check_git_installed, shell_git_clone
-import requests
 import multiprocessing
 from multiprocessing import Pool
+
+import requests
+
+from .util import check_git_installed, shell_git_clone
 
 
 class CloneMixin:

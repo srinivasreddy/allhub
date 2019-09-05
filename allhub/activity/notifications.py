@@ -40,7 +40,10 @@ class NotificationsMixin:
 
     def mark_notifications_read(self, **kwargs):
         url = "/notifications"
+        params = None
         if "last_read_at" in kwargs:
             params = [("last_read_at", kwargs.pop("last_read_at"))]
         self.response = Response(self.put(url, params=params), "")
-        return self.response.status_code == 205
+        # Status: 205 Reset Content
+        # Status: 202 Accepted
+        return self.response.status_code == 205 or self.response.status_code == 202

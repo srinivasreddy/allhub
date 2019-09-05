@@ -1,12 +1,15 @@
-from urllib.parse import urljoin
 import os
 from functools import partial
+from urllib.parse import urljoin
+
 import requests
-from allhub.gist import GistMixin
-from allhub.user_mixin import UserMixin
-from allhub.oauth import OAuthMixin
-from allhub.util import MimeType
+
 from allhub.activity import ActivityMixin
+from allhub.gist import GistMixin
+from allhub.oauth import OAuthMixin
+from allhub.user_mixin import UserMixin
+from allhub.util import MimeType
+
 
 """
 The usage pattern is like this,
