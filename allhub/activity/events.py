@@ -4,7 +4,7 @@ from allhub.response import Response
 class EventsMixin:
     """
     This is a readonly interface to events.
-    Ref.  https://developer.github.com/v3/activity/events/
+    Ref. https://developer.github.com/v3/activity/events/
     """
 
     def public_events(self, **headers):
