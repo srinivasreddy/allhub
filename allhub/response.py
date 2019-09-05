@@ -19,6 +19,10 @@ class Response:
         """
         return self.headers()["X-OAuth-Scopes"]
 
+    @property
+    def status_code(self):
+        return self.response.status_code
+
     def transform(self):
         if self.transform_resp:
             return transform(self.class_name, self.json())
