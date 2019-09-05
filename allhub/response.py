@@ -37,7 +37,14 @@ class Response:
     @property
     def etag(self):
         """
-        ETag header helps by determining the result set changed between queries.
+        ETag header helps by determining the result set changed between time.
         :return:
         """
         return self.headers().get("ETag")
+
+    @property
+    def last_modified(self):
+        """
+        Last-Modified header helps in fetching the result set changed between time.
+        """
+        return self.headers().get("Last-Modified")
