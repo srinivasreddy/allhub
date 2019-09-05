@@ -52,7 +52,7 @@ class StarringMixin:
 
     def star_repo(self, owner, repo):
         url = f"/user/starred/{owner}/{repo}"
-        return Response(self.put(url, **{"Content-Length": 0}), "").status_code == 204
+        return Response(self.put(url, **{"Content-Length": "0"}), "").status_code == 204
 
     def unstar_repo(self, owner, repo):
         url = f"/user/starred/{owner}/{repo}"
