@@ -33,6 +33,31 @@ class Response:
         return self.response.content
 
     @property
+    def rate_limit(self):
+        """
+        The maximum number of requests you're permitted to make per hour.
+        """
+        interval = self.headers().get("X-RateLimit-Limit")
+        return interval and int(interval) or None
+
+    @property
+    def rate_limit_remaining(self):
+        """
+        The number of requests remaining in the current rate limit window.
+        """
+        interval = self.headers().get("X-RateLimit-Remaining")
+        return interval and int(interval) or None
+
+    @property
+    def rate_limit_reset(self):
+        """
+        The time at which the current rate limit window resets in UTC epoch seconds.
+        https://en.wikipedia.org/wiki/Unix_time
+        """
+        # TODO: to be done
+        pass
+
+    @property
     def poll_interval(self):
         # All responses may not contain X-Poll-Interval headers.
         interval = self.headers().get("X-Poll-Interval")
