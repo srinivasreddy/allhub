@@ -39,9 +39,6 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin, metaclass=ConflictCh
         self.transform_resp = transform_resp
         self.host = "https://api.github.com"
         self.password = password
-        self.clone_url = urljoin(
-            self.host, f"/users/{self.user_name}/repos?per_page={self.per_page}"
-        )
         self.response = None
 
     @classmethod
@@ -64,6 +61,8 @@ class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin, metaclass=ConflictCh
     def get(self, url, params=None, *args, **kwargs):
         if params is not None:
             params = dict(params)
+            params["per_page"] = self.per_page
+            params["page"] = self.page
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
