@@ -25,3 +25,12 @@ new_events = user.public_events(**{"If-None-Match": user.response.etag})
 new_events = user.public_events(**{"If-Modified-Since": user.response.last_modified})
 
 ```
+
+```
+from allhub import User, Response, Iterator
+user = User("srinivasreddy", "xxxxxxxxxxxxx", True, "Git@weqwe")
+events = user.public_events()
+for events in Iterator(user.public_events, user, page=1, per_page=100):
+    print(event)
+    
+```
