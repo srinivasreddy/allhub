@@ -29,7 +29,6 @@ class UserMixin:
             ),
             "",
         )
-        print(self.response.content())
         if self.response.status_code == 204:
             return True
         elif self.response.status_code == 404:
