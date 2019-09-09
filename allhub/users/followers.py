@@ -84,3 +84,44 @@ class Followers:
                 f"API has returned an Unexpected response code - {self.response.status_code}."
                 f"It should either be 204 or 404."
             )
+
+    def follow(self, username):
+        url = f"/user/following/{username}"
+        self.response = Response(
+            self.put(
+                url,
+                **{
+                    "Accept": "application/vnd.github.giant-sentry-fist-preview+json",
+                    "Content-Length": "0",
+                },
+            ),
+            "",
+        )
+        if self.response.status_code == 204:
+            return True
+        elif self.response.status_code == 404:
+            return False
+        else:
+            raise ErrorAPICode(
+                f"API has returned an Unexpected response code - {self.response.status_code}."
+                f"It should either be 204 or 404."
+            )
+
+    def unfollow(self, username):
+        url = f"/user/following/{username}"
+        self.response = Response(
+            self.delete(
+                url,
+                **{"Accept": "application/vnd.github.giant-sentry-fist-preview+json"},
+            ),
+            "",
+        )
+        if self.response.status_code == 204:
+            return True
+        elif self.response.status_code == 404:
+            return False
+        else:
+            raise ErrorAPICode(
+                f"API has returned an Unexpected response code - {self.response.status_code}."
+                f"It should either be 204 or 404."
+            )
