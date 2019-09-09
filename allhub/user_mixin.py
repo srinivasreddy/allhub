@@ -22,7 +22,14 @@ class UserMixin:
         Check whether you've blocked a user
         """
         url = f"/user/blocks/{username}"
-        self.response = Response(self.get(url), "")
+        self.response = Response(
+            self.get(
+                url,
+                **{"Accept": "application/vnd.github.giant-sentry-fist-preview+json"},
+            ),
+            "",
+        )
+        print(self.response.content())
         if self.response.status_code == 204:
             return True
         elif self.response.status_code == 404:
@@ -35,7 +42,13 @@ class UserMixin:
         Block a user
         """
         url = f"/user/blocks/{username}"
-        self.response = Response(self.put(url), "")
+        self.response = Response(
+            self.put(
+                url,
+                **{"Accept": "application/vnd.github.giant-sentry-fist-preview+json"},
+            ),
+            "",
+        )
         if self.response.status_code == 204:
             return True
         elif self.response.status_code == 404:
@@ -48,7 +61,13 @@ class UserMixin:
         Unblock a user
         """
         url = f"/user/blocks/{username}"
-        self.response = Response(self.delete(url), "")
+        self.response = Response(
+            self.delete(
+                url,
+                **{"Accept": "application/vnd.github.giant-sentry-fist-preview+json"},
+            ),
+            "",
+        )
         if self.response.status_code == 204:
             return True
         elif self.response.status_code == 404:
