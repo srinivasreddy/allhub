@@ -59,3 +59,17 @@ class EmailMixin:
             "",
         )
         return self.response.status_code == 204
+
+    def toggle_email_visibility(self, email, visibility):
+        url = "/user/email/visibility"
+        if visibility not in ("public", "private"):
+            raise ValueError("visibility should either be public or private.")
+        self.response = Response(
+            self.patch(
+                url,
+                json=[("email", email), ("visibility", visibility)],
+                **{"Accept": "application/vnd.github.giant-sentry-fist-preview+json"},
+            ),
+            "EmailVisibility",
+        )
+        return self.response.transform()
