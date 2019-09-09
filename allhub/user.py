@@ -4,7 +4,7 @@ import requests
 from allhub.activity import ActivityMixin
 from allhub.gist import GistMixin
 from allhub.oauth import OAuthMixin
-from allhub.user_mixin import UserMixin
+from allhub.users import Users
 from allhub.util import MimeType, ConflictCheck
 
 
@@ -28,7 +28,7 @@ export APP_NAME="Grandeur"
 """
 
 
-class User(GistMixin, UserMixin, OAuthMixin, ActivityMixin, metaclass=ConflictCheck):
+class User(GistMixin, OAuthMixin, ActivityMixin, Users, metaclass=ConflictCheck):
     def __init__(self, user_name, auth_token, transform_resp, password=None):
         self.user_name = user_name
         self.auth_token = auth_token
