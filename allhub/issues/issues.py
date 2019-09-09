@@ -16,21 +16,114 @@ class LockReason(Enum):
     Spam = "spam"
 
 
+class Filter(Enum):
+    Assigned = "assigned"
+    Created = "created"
+    Mentioned = "mentioned"
+    Subscribed = "subscribed"
+    All = "all"
+
+
+class State(Enum):
+    Open = "open"
+    Closed = "closed"
+    All = "all"
+
+
+class Sort(Enum):
+    Created = "created"
+    Updated = "updated"
+    Comments = "comments"
+
+
+class Direction(Enum):
+    Ascending = "asc"
+    Descending = "desc"
+
+
 IssueCustomMediaType = "application/vnd.github.symmetra-preview+json"
 
 
 class IssueMixin:
-    def assigned_issues(self):
+    def assigned_issues(
+        self,
+        filter=Filter.Assigned,
+        state=State.Open,
+        labels="",
+        sort=Sort.Created,
+        direction=Direction.Descending,
+        since="",
+    ):
         url = "/issues"
+        params = [
+            ("filter", filter.value),
+            ("state", state.value),
+            ("labels", labels),
+            ("sort", sort.value),
+            ("direction", direction.value),
+            ("since", since),
+        ]
         self.response = Response(
-            self.get(url, **{"Accept": IssueCustomMediaType}), "Issues"
+            self.get(url, params=params, **{"Accept": IssueCustomMediaType}), "Issues"
         )
         return self.response.transform()
 
-    def user_issues(self):
+    def user_issues(
+        self,
+        filter=Filter.Assigned,
+        state=State.Open,
+        labels="",
+        sort=Sort.Created,
+        direction=Direction.Descending,
+        since="",
+    ):
         url = "/user/issues"
+        params = [
+            ("filter", filter.value),
+            ("state", state.value),
+            ("labels", labels),
+            ("sort", sort.value),
+            ("direction", direction.value),
+            ("since", since),
+        ]
         self.response = Response(
-            self.get(url, **{"Accept": IssueCustomMediaType}), "Issues"
+            self.get(url, params=params, **{"Accept": IssueCustomMediaType}), "Issues"
+        )
+        return self.response.transform()
+
+    def org_user_issues(
+        self,
+        org,
+        filter=Filter.Assigned,
+        state=State.Open,
+        labels="",
+        sort=Sort.Created,
+        direction=Direction.Descending,
+        since="",
+    ):
+        url = f"/org/{org}/issues"
+        params = [
+            ("filter", filter.value),
+            ("state", state.value),
+            ("labels", labels),
+            ("sort", sort.value),
+            ("direction", direction.value),
+            ("since", since),
+        ]
+        self.response = Response(
+            self.get(url, params=params, **{"Accept": IssueCustomMediaType}), "Issues"
+        )
+        return self.response.transform()
+
+    def issue(self, owner, repo, issue_number):
+        url = f"/repos/{owner}/{repo}/issues/{issue_number}"
+        self.response = Response(
+            self.get(
+                url,
+                **{"Accept": "application/vnd.github.squirrel-girl-preview"},
+                # The above Accept header gives us the reactions API.
+            ),
+            "Issue",
         )
         return self.response.transform()
 
@@ -47,6 +140,9 @@ class IssueMixin:
         assignees,
     ):
         """
+        :param owner: repo owner
+        :param repo : repo name
+        :param issue_number: Issue number
         :param title: The title of the issue.
         :param body: The contents of the issue.
         :param state: State of the issue. Either open or closed.
