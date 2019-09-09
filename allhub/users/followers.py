@@ -2,7 +2,7 @@ from allhub.response import Response
 from allhub.util import ErrorAPICode
 
 
-class Followers:
+class FollowersMixin:
     def list_followers(self, username):
         url = f"/users/{username}/followers"
         self.response = Response(
