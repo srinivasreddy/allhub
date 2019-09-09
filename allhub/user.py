@@ -144,7 +144,9 @@ class User(GistMixin, OAuthMixin, ActivityMixin, Users, metaclass=ConflictCheck)
         # just return the response
         return response
 
-    def delete(self, url, *args, **kwargs):
+    def delete(self, url, json=None, *args, **kwargs):
+        if json is not None:
+            json = dict(json)
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
@@ -152,5 +154,5 @@ class User(GistMixin, OAuthMixin, ActivityMixin, Users, metaclass=ConflictCheck)
             "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
         }
         headers.update(**kwargs)
-        response = requests.delete(full_url, headers=headers)
+        response = requests.delete(full_url, headers=headers, json=json)
         return response

@@ -42,17 +42,18 @@ class EmailMixin:
 
     def delete_email(self, emails):
         url = "/user/emails"
-        if isinstance(emails, (list, tuple)):
-            for email in emails:
-                if not isinstance(email, str):
-                    raise ValueError("email should be string")
-        elif not isinstance(emails, str):
-            raise ValueError("The email should either be a string or list of strings")
+        if not isinstance(emails, (list, tuple)):
+            raise ValueError("The email should either be a list of strings.")
+        for email in emails:
+            if not isinstance(email, str):
+                raise ValueError(
+                    f"{email} should be string, but of type: {type(email)}"
+                )
 
         self.response = Response(
             self.delete(
                 url,
-                payload=[("emails", emails)],
+                json=[("emails", emails)],
                 **{"Accept": "application/vnd.github.giant-sentry-fist-preview+json"},
             ),
             "",
