@@ -124,9 +124,9 @@ class User(GistMixin, OAuthMixin, ActivityMixin, Users, metaclass=ConflictCheck)
         # just return the response
         return response
 
-    def post(self, url, payload=None, *args, **kwargs):
-        if payload is not None:
-            payload = dict(payload)
+    def post(self, url, json=None, *args, **kwargs):
+        if json is not None:
+            json = dict(json)
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
@@ -134,7 +134,7 @@ class User(GistMixin, OAuthMixin, ActivityMixin, Users, metaclass=ConflictCheck)
             "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
         }
         headers.update(**kwargs)
-        response = requests.post(full_url, headers=headers, payload=payload)
+        response = requests.post(full_url, headers=headers, json=json)
         # Permanent URL redirection - 301
         # Temporary URL redirection - 302, 307
         if response.status_code in (301, 302, 307):

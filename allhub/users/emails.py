@@ -26,24 +26,17 @@ class EmailMixin:
 
     def add_email(self, emails):
         url = "/user/emails"
-        if isinstance(emails, (list, tuple)):
-            for email in emails:
-                if not isinstance(email, str):
-                    raise ValueError(
-                        f"{email} should be string, but of type: {type(email)}"
-                    )
-        elif not isinstance(emails, str):
-            raise ValueError("The email should either be a string or list of strings.")
+        if not isinstance(emails, (list, tuple)):
+            raise ValueError("The email should either be a list of strings.")
+        for email in emails:
+            if not isinstance(email, str):
+                raise ValueError(
+                    f"{email} should be string, but of type: {type(email)}"
+                )
 
+        c_headers = {"Accept": "application/vnd.github.giant-sentry-fist-preview+json"}
         self.response = Response(
-            self.post(
-                url,
-                payload=[("emails", emails)],
-                headers={
-                    "Accept": "application/vnd.github.giant-sentry-fist-preview+json"
-                },
-            ),
-            "PublicEmails",
+            self.post(url, json=[("emails", emails)], **c_headers), "PublicEmails"
         )
         return self.response.transform()
 
