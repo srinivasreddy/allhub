@@ -25,7 +25,7 @@ class SSHKeysMixin:
         return self.response.transform()
 
     def public_key(self, key_id):
-        url = f"/users/keys/{key_id}"
+        url = f"/user/keys/{key_id}"
         self.response = Response(
             self.get(
                 url,
@@ -36,7 +36,7 @@ class SSHKeysMixin:
         return self.response.transform()
 
     def create_public_key(self, title, key):
-        url = f"/users/keys"
+        url = "/user/keys"
         self.response = Response(
             self.post(
                 url,
@@ -48,7 +48,7 @@ class SSHKeysMixin:
         return self.response.transform()
 
     def delete_public_key(self, key_id):
-        url = f"/users/keys/{key_id}"
+        url = f"/user/keys/{key_id}"
         self.response = Response(
             self.delete(
                 url,
