@@ -59,6 +59,7 @@ class User(GistMixin, OAuthMixin, ActivityMixin, UsersMixin, metaclass=ConflictC
         return obj
 
     def get(self, url, params=None, *args, **kwargs):
+        raise_for_status = kwargs.pop("raise_for_status", False)
         if params is not None:
             params = dict(params)
             params["per_page"] = self.per_page
@@ -71,6 +72,8 @@ class User(GistMixin, OAuthMixin, ActivityMixin, UsersMixin, metaclass=ConflictC
         }
         headers.update(**kwargs)
         response = requests.get(full_url, headers=headers, params=params)
+        if raise_for_status:
+            response.raise_for_status()
         # Permanent URL redirection - 301
         # Temporary URL redirection - 302, 307
         if response.status_code in (301, 302, 307):
@@ -81,6 +84,7 @@ class User(GistMixin, OAuthMixin, ActivityMixin, UsersMixin, metaclass=ConflictC
         return response
 
     def get_basic(self, url, params=None, *args, **kwargs):
+        raise_for_status = kwargs.pop("raise_for_status", False)
         if params is not None:
             params = dict(params)
         full_url = urljoin(self.host, url)
@@ -96,6 +100,8 @@ class User(GistMixin, OAuthMixin, ActivityMixin, UsersMixin, metaclass=ConflictC
             auth=(self.user_name, password or self.password or os.environ["PASSWORD"]),
             params=params,
         )
+        if raise_for_status:
+            response.raise_for_status()
         # Permanent URL redirection - 301
         # Temporary URL redirection - 302, 307
         if response.status_code in (301, 302, 307):
@@ -105,6 +111,7 @@ class User(GistMixin, OAuthMixin, ActivityMixin, UsersMixin, metaclass=ConflictC
         return response
 
     def put(self, url, params=None, *args, **kwargs):
+        raise_for_status = kwargs.pop("raise_for_status", False)
         if params is not None:
             params = dict(params)
         full_url = urljoin(self.host, url)
@@ -115,6 +122,8 @@ class User(GistMixin, OAuthMixin, ActivityMixin, UsersMixin, metaclass=ConflictC
         }
         headers.update(**kwargs)
         response = requests.put(full_url, headers=headers, params=params)
+        if raise_for_status:
+            response.raise_for_status()
         # Permanent URL redirection - 301
         # Temporary URL redirection - 302, 307
         if response.status_code in (301, 302, 307):
@@ -125,6 +134,7 @@ class User(GistMixin, OAuthMixin, ActivityMixin, UsersMixin, metaclass=ConflictC
         return response
 
     def post(self, url, json=None, *args, **kwargs):
+        raise_for_status = kwargs.pop("raise_for_status", False)
         if json is not None:
             json = dict(json)
         full_url = urljoin(self.host, url)
@@ -135,6 +145,31 @@ class User(GistMixin, OAuthMixin, ActivityMixin, UsersMixin, metaclass=ConflictC
         }
         headers.update(**kwargs)
         response = requests.post(full_url, headers=headers, json=json)
+        if raise_for_status:
+            response.raise_for_status()
+        # Permanent URL redirection - 301
+        # Temporary URL redirection - 302, 307
+        if response.status_code in (301, 302, 307):
+            return self.post(response.headers["Location"], **kwargs)
+
+        # for response codes 2xx,4xx,5xx
+        # just return the response
+        return response
+
+    def patch(self, url, json=None, *args, **kwargs):
+        raise_for_status = kwargs.pop("raise_for_status", False)
+        if json is not None:
+            json = dict(json)
+        full_url = urljoin(self.host, url)
+        headers = {
+            "User-Agent": os.environ.get("APP_NAME", self.user_name),
+            "Authorization": f"token {self.auth_token}",
+            "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+        }
+        headers.update(**kwargs)
+        response = requests.patch(full_url, headers=headers, json=json)
+        if raise_for_status:
+            response.raise_for_status()
         # Permanent URL redirection - 301
         # Temporary URL redirection - 302, 307
         if response.status_code in (301, 302, 307):
@@ -145,6 +180,7 @@ class User(GistMixin, OAuthMixin, ActivityMixin, UsersMixin, metaclass=ConflictC
         return response
 
     def delete(self, url, json=None, *args, **kwargs):
+        raise_for_status = kwargs.pop("raise_for_status", False)
         if json is not None:
             json = dict(json)
         full_url = urljoin(self.host, url)
@@ -155,4 +191,6 @@ class User(GistMixin, OAuthMixin, ActivityMixin, UsersMixin, metaclass=ConflictC
         }
         headers.update(**kwargs)
         response = requests.delete(full_url, headers=headers, json=json)
+        if raise_for_status:
+            response.raise_for_status()
         return response
