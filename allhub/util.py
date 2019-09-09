@@ -5,6 +5,10 @@ from enum import Enum
 from collections import Counter
 
 
+class ErrorAPICode(Exception):
+    pass
+
+
 def check_git_installed():
     # TODO: move to utils.
     git_location = find_executable("git")

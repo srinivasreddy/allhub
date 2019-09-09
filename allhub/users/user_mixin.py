@@ -1,4 +1,5 @@
 from allhub.response import Response
+from allhub.util import ErrorAPICode
 
 
 class UserMixin:
@@ -34,7 +35,10 @@ class UserMixin:
         elif self.response.status_code == 404:
             return False
         else:
-            return None
+            raise ErrorAPICode(
+                f"API has returned an Unexpected response code - {self.response.status_code}."
+                f"It should either be 204 or 404."
+            )
 
     def block(self, username):
         """
@@ -53,7 +57,10 @@ class UserMixin:
         elif self.response.status_code == 404:
             return False
         else:
-            return None
+            raise ErrorAPICode(
+                f"API has returned an Unexpected response code - {self.response.status_code}."
+                f"It should either be 204 or 404."
+            )
 
     def unblock(self, username):
         """
@@ -72,4 +79,7 @@ class UserMixin:
         elif self.response.status_code == 404:
             return False
         else:
-            return None
+            raise ErrorAPICode(
+                f"API has returned an Unexpected response code - {self.response.status_code}."
+                f"It should either be 204 or 404."
+            )
