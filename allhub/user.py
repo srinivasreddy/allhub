@@ -6,7 +6,7 @@ from allhub.gist import GistMixin
 from allhub.oauth import OAuthMixin
 from allhub.users import UsersMixin
 from allhub.util import MimeType, ConflictCheck
-
+from allhub.repos import RepositoryMixin
 
 """
 The usage pattern is like this,
@@ -28,7 +28,14 @@ export APP_NAME="Grandeur"
 """
 
 
-class User(GistMixin, OAuthMixin, ActivityMixin, UsersMixin, metaclass=ConflictCheck):
+class User(
+    GistMixin,
+    OAuthMixin,
+    ActivityMixin,
+    UsersMixin,
+    RepositoryMixin,
+    metaclass=ConflictCheck,
+):
     def __init__(self, user_name, auth_token, transform_resp, password=None):
         self.user_name = user_name
         self.auth_token = auth_token
