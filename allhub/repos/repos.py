@@ -39,55 +39,64 @@ _affiliation = f"{Affiliation.OWNER.value},{Affiliation.COLLABORATOR.value},{Aff
 
 
 class ReposMixin:
-    def repos(
-        self,
-        visibility=Visibility.ALL,
-        affiliation=_affiliation,
-        type=Type.ALL,
-        sort=Sort.FULLNAME,
-        direction=Direction.DESC,
-    ):
+    def repos(self, **kwargs):
         """
         Lists repositories that the authenticated user has explicit permission
         (:read, :write, or :admin) to access.
         """
-        if not isinstance(visibility, Visibility):
-            raise ValueError(f"'{visibility}' should be instance Visibility")
-        if visibility not in Visibility:
-            raise ValueError(
-                f"'{visibility}' should either be 'ALL','PUBLIC', or 'PRIVATE'"
-            )
-        for aff in affiliation.split(","):
-            if aff not in ("owner", "collaborator", "organization_member"):
+        params = []
+        if "visibility" in kwargs:
+            visibility = kwargs.pop("visibility")
+            if not isinstance(visibility, Visibility):
+                raise ValueError(f"'{visibility}' should be instance Visibility")
+            if visibility not in Visibility:
                 raise ValueError(
-                    f"'{aff}' should either be 'owner', 'collaborator', 'organization_member'"
+                    f"'{visibility}' should either be 'ALL','PUBLIC', or 'PRIVATE'"
                 )
-        if not isinstance(type, Type):
-            raise ValueError(f"'{type}' should be instance of Type")
-        if type not in Type:
-            raise ValueError(
-                f"'{type}' should either be 'ALL', 'OWNER', 'PUBLIC', 'PRIVATE', or 'MEMBER'"
+            params.append(("visibility", visibility.value))
+
+        if "affiliation" in kwargs:
+            affiliation = kwargs.pop("affiliation")
+            for aff in affiliation.split(","):
+                if aff not in ("owner", "collaborator", "organization_member"):
+                    raise ValueError(
+                        f"'{aff}' should either be 'owner', 'collaborator', or 'organization_member'"
+                    )
+            params.append(("affiliation", affiliation))
+
+        if "type" in kwargs and ("visibility" in kwargs or "affiliation" in kwargs):
+            raise AttributeError(
+                "If you specify visibility or affiliation, you cannot specify type."
             )
 
-        if not isinstance(sort, Sort):
-            raise ValueError(f"{sort} should be instance of Sort")
-        if sort not in Sort:
-            raise ValueError(
-                f"'{sort}' should either be 'CREATED', 'UPDATED', 'PUSHED', or 'FULLNAME'"
-            )
+        if "type" in kwargs:
+            type = kwargs.pop("type")
+            if not isinstance(type, Type):
+                raise ValueError(f"'{type}' should be instance of Type")
+            if type not in Type:
+                raise ValueError(
+                    f"'{type}' should either be 'ALL', 'OWNER', 'PUBLIC', 'PRIVATE', or 'MEMBER'"
+                )
+            params.append(("type", type.value))
 
-        if not isinstance(direction, Direction):
-            raise ValueError(f"'{direction}' is not an instance of Direction")
-        if direction not in Direction:
-            raise ValueError(f"'{direction}' should either be 'ASC', or 'DESC'")
+        if "sort" in kwargs:
+            sort = kwargs.pop("sort")
+            if not isinstance(sort, Sort):
+                raise ValueError(f"{sort} should be instance of Sort")
+            if sort not in Sort:
+                raise ValueError(
+                    f"'{sort}' should either be 'CREATED', 'UPDATED', 'PUSHED', or 'FULLNAME'"
+                )
+            params.append(("sort", sort.value))
+
+        if "direction" in kwargs:
+            direction = kwargs.pop("direction")
+            if not isinstance(direction, Direction):
+                raise ValueError(f"'{direction}' is not an instance of Direction")
+            if direction not in Direction:
+                raise ValueError(f"'{direction}' should either be 'ASC', or 'DESC'")
+            params.append(("direction", direction.value))
 
         url = "/user/repos"
-        params = [
-            ("visibility", visibility.value),
-            ("affiliation", affiliation),
-            ("type", type.value),
-            ("sort", sort.value),
-            ("direction", direction.value),
-        ]
         self.response = Response(self.get_basic(url, params=params), "Repos")
         return self.response.transform()
