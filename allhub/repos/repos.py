@@ -52,32 +52,34 @@ class ReposMixin:
         (:read, :write, or :admin) to access.
         """
         if not isinstance(visibility, Visibility):
-            raise ValueError("visibility should be Visibility type")
+            raise ValueError(f"'{visibility}' should be instance Visibility")
         if visibility not in Visibility:
-            raise ValueError("visibility should either be 'ALL','PUBLIC', or 'PRIVATE'")
+            raise ValueError(
+                f"'{visibility}' should either be 'ALL','PUBLIC', or 'PRIVATE'"
+            )
         for aff in affiliation.split(","):
-            if aff not in ("owner", "collaborator" "organization_member"):
+            if aff not in ("owner", "collaborator", "organization_member"):
                 raise ValueError(
-                    f"{aff} should either be 'owner', 'collaborator', 'organization_member'"
+                    f"'{aff}' should either be 'owner', 'collaborator', 'organization_member'"
                 )
         if not isinstance(type, Type):
-            raise ValueError("type should be instance of Type")
+            raise ValueError(f"'{type}' should be instance of Type")
         if type not in Type:
             raise ValueError(
-                "type should either be 'ALL', 'OWNER', 'PUBLIC', 'PRIVATE', or 'MEMBER'"
+                f"'{type}' should either be 'ALL', 'OWNER', 'PUBLIC', 'PRIVATE', or 'MEMBER'"
             )
 
         if not isinstance(sort, Sort):
-            raise ValueError("sort should be instance of Sort")
+            raise ValueError(f"{sort} should be instance of Sort")
         if sort not in Sort:
             raise ValueError(
-                "sort should either be 'CREATED', 'UPDATED', 'PUSHED', or 'FULLNAME'"
+                f"'{sort}' should either be 'CREATED', 'UPDATED', 'PUSHED', or 'FULLNAME'"
             )
 
         if not isinstance(direction, Direction):
-            raise ValueError("direction should be instance of Direction")
+            raise ValueError(f"'{direction}' is not an instance of Direction")
         if direction not in Direction:
-            raise ValueError("direction should either be 'ASC', or 'DESC'")
+            raise ValueError(f"'{direction}' should either be 'ASC', or 'DESC'")
 
         url = "/user/repos"
         params = [
