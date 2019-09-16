@@ -39,4 +39,23 @@ class TestEvents:
 
     def test_user_received_events(self):
         events = user.user_received_events(os.environ.get("USERNAME"))
+        # TODO: Need to do something to receive the user to receive events.
         assert len(events) == 0
+
+    def test_user_received_public_events(self):
+        events = user.user_received_public_events(os.environ.get("USERNAME"))
+        # TODO: Need to do something to receive the user to receive events.
+        assert len(events) == 0
+
+    def test_events_by_user(self):
+        events = user.events_by_user(os.environ.get("USERNAME"))
+        TestEvents.helper(events, "UserEvent")
+
+    def test_public_events_by_user(self):
+        events = user.public_events_by_user(os.environ.get("USERNAME"))
+        # TODO: Need to do something to receive the user to receive events.
+        assert len(events) == 0
+
+    def test_events_for_org(self):
+        events = user.events_for_org(os.environ.get("USERNAME"), "python")
+        TestEvents.helper(events, "UserReceivedEvent")
