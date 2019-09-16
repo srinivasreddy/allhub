@@ -20,18 +20,35 @@ class TestStarring:
     def test_stargazers(self):
         stars = user.stargazers("python", "cpython")
         TestStarring.helper(stars, "StarGazer")
+        # pass starred_at=True
+        stars = user.stargazers("python", "cpython", starred_at=True)
+        assert stars[0].starred_at is not None
+        assert stars[0].user.login is not None
+        assert stars[0]["user"]["login"] is not None
 
     def test_starred(self):
-        pass
+        stars = user.starred()
+        stars[0].owner.login is not None
+        stars[0]["owner"]["login"] is not None
+        stars = user.starred(starred_at=True)
+        assert stars[0].starred_at is not None
+        assert stars[0].repo.owner.login is not None
+        assert stars[0]["repo"]["owner"]["login"] is not None
 
     def test_starred_by(self):
-        pass
+        stars = user.starred_by("srinivasreddy")
+        stars[0].owner.login is not None
+        stars[0]["owner"]["login"] is not None
+        stars = user.starred_by("srinivasreddy", starred_at=True)
+        assert stars[0].starred_at is not None
+        assert stars[0].repo.owner.login is not None
+        assert stars[0]["repo"]["owner"]["login"] is not None
 
     def test_is_starred(self):
-        pass
+        assert user.is_starred("python", "cpython") is False
 
     def test_star_repo(self):
-        pass
+        assert user.star_repo("python", "cpython") is True
 
     def test_unstar_repo(self):
-        pass
+        assert user.unstar_repo("python", "cpython") is True

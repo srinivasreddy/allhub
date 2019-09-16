@@ -1,4 +1,15 @@
 from allhub.response import Response
+from enum import Enum
+
+
+class Direction(Enum):
+    ASC = "asc"
+    DESC = "desc"
+
+
+class Sort(Enum):
+    CREATED = "created"
+    UPDATED = "updated"
 
 
 class StarringMixin:
@@ -12,23 +23,30 @@ class StarringMixin:
         self.response = Response(self.get(url, **kwargs), "StarGazers")
         return self.response.transform()
 
-    def starred(self, **kwargs):
+    def starred(
+        self, sort=Sort.CREATED, direction=Direction.DESC, starred_at=False, **kwargs
+    ):
         url = "/user/starred"
-        params = []
-        if "sort" in kwargs:
-            params.append(("sort", kwargs.pop("sort")))
-        if "direction" in kwargs:
-            params.append(("direction", kwargs.pop("direction")))
+        params = [("sort", sort.value), ("direction", direction.value)]
+        if starred_at:
+            kwargs.update(
+                {
+                    "Accept": f"application/vnd.github.v{self.api_version}.star+{self.api_mime_type}"
+                }
+            )
         self.response = Response(self.get(url, params, **kwargs), "StarRepos")
         return self.response.transform()
 
-    def starred_by(self, username, starred_at=False, **kwargs):
+    def starred_by(
+        self,
+        username,
+        sort=Sort.CREATED,
+        direction=Direction.DESC,
+        starred_at=False,
+        **kwargs,
+    ):
         url = f"/users/{username}/starred"
-        params = []
-        if "sort" in kwargs:
-            params.append(("sort", kwargs.pop("sort")))
-        if "direction" in kwargs:
-            params.append(("direction", kwargs.pop("direction")))
+        params = [("sort", sort.value), ("direction", direction.value)]
         if starred_at:
             kwargs.update(
                 {
