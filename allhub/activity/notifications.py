@@ -2,37 +2,44 @@ from allhub.response import Response
 
 
 class NotificationsMixin:
-    def notifications(self, **kwargs):
+    def notifications(
+        self, all=False, participating=False, since=None, before=None, **kwargs
+    ):
         """
         List all notifications for the current user, sorted by most recently updated.
         """
         url = "/notifications"
         params = [
-            ("all", kwargs.pop("all", False)),
-            ("participating", kwargs.pop("participating", False)),
+            ("all", all),
+            ("participating", participating),
+            ("since", since),
+            ("before", before),
         ]
-        if "since" in kwargs:
-            params.append(("since", kwargs.pop("since")))
-        if "before" in kwargs:
-            params.append(("before", kwargs.pop("before")))
         self.response = Response(
             self.get(url, params=params, **kwargs), "Notifications"
         )
         return self.response.transform()
 
-    def notifications_in_repo(self, owner, repo, **kwargs):
+    def notifications_in_repo(
+        self,
+        owner,
+        repo,
+        all=False,
+        participating=False,
+        since=None,
+        before=None,
+        **kwargs,
+    ):
         """
         List all notifications for the current user.
         """
         url = f"/repos/{owner}/{repo}/notifications"
         params = [
-            ("all", kwargs.pop("all", False)),
-            ("participating", kwargs.pop("participating", False)),
+            ("all", all),
+            ("participating", participating),
+            ("since", since),
+            ("before", before),
         ]
-        if "since" in kwargs:
-            params.append(("since", kwargs.pop("since")))
-        if "before" in kwargs:
-            params.append(("before", kwargs.pop("before")))
         self.response = Response(
             self.get(url, params=params, **kwargs), "NotificationsRepo"
         )
