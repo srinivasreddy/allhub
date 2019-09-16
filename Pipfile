@@ -7,7 +7,9 @@ verify_ssl = true
 
 [packages]
 requests = "==2.22.0"
-uritemplate = "==3.0.0"
+dataclasses = "==0.6"
+black = "==19.3b0"
+
 
 [requires]
 python_version = "3.7"
