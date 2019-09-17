@@ -19,6 +19,30 @@ class Response:
         """
         return self.headers()["X-OAuth-Scopes"]
 
+    def next_link(self):
+        for link in self.headers()["Link"].split(","):
+            if 'rel="next"' in link:
+                return link.split(";")[0]
+        return None
+
+    def prev_link(self):
+        for link in self.headers()["Link"].split(","):
+            if 'rel="prev"' in link:
+                return link.split(";")[0]
+        return None
+
+    def last_link(self):
+        for link in self.headers()["Link"].split(","):
+            if 'rel="last"' in link:
+                return link.split(";")[0]
+        return None
+
+    def first_link(self):
+        for link in self.headers()["Link"].split(","):
+            if 'rel="first"' in link:
+                return link.split(";")[0]
+        return None
+
     @property
     def status_code(self):
         return self.response.status_code
