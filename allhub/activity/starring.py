@@ -26,6 +26,11 @@ class StarringMixin:
     def starred(
         self, sort=Sort.CREATED, direction=Direction.DESC, starred_at=False, **kwargs
     ):
+        if sort not in Sort:
+            raise ValueError("'sort' must be of type Sort")
+        if direction not in Direction:
+            raise ValueError("'direction' must be of type Direction")
+
         url = "/user/starred"
         params = [("sort", sort.value), ("direction", direction.value)]
         if starred_at:
@@ -45,6 +50,11 @@ class StarringMixin:
         starred_at=False,
         **kwargs,
     ):
+        if sort not in Sort:
+            raise ValueError("'sort' must be of type Sort")
+        if direction not in Direction:
+            raise ValueError("'direction' must be of type Direction")
+
         url = f"/users/{username}/starred"
         params = [("sort", sort.value), ("direction", direction.value)]
         if starred_at:
