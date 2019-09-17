@@ -22,13 +22,9 @@ class WatchingMixin:
         self.response = Response(self.get(url, **kwargs), "RepoSubscription")
         return self.response.transform()
 
-    def set_subscription(self, owner, repo, **kwargs):
+    def set_subscription(self, owner, repo, subscribed=True, ignored=False, **kwargs):
         url = f"repos/{owner}/{repo}/subscription"
-        params = []
-        if "subscribed" in kwargs:
-            params.append(("subscribed", kwargs.pop("kwargs")))
-        if "ignored" in kwargs:
-            params.append(("ignored", kwargs.pop("ignored")))
+        params = [("subscribed", subscribed), ("ignored", ignored)]
         self.response = Response(self.put(url, params=params, **kwargs), "Subscription")
         return self.response.transform()
 

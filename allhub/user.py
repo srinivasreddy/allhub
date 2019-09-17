@@ -2,7 +2,7 @@ import os
 from urllib.parse import urljoin
 import requests
 from allhub.activity import ActivityMixin
-from allhub.gist import GistMixin
+from allhub.gists import GistMixin
 from allhub.oauth import OAuthMixin
 from allhub.users import UsersMixin
 from allhub.util import MimeType, ConflictCheck
