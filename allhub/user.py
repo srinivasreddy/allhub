@@ -69,8 +69,8 @@ class User(
         raise_for_status = kwargs.pop("raise_for_status", False)
         if params is not None:
             params = dict(params)
-            params["per_page"] = self.per_page
-            params["page"] = self.page
+        else:
+            params = {"per_page": self.per_page, "page": self.page}
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
@@ -94,6 +94,8 @@ class User(
         raise_for_status = kwargs.pop("raise_for_status", False)
         if params is not None:
             params = dict(params)
+        else:
+            params = {"per_page": self.per_page, "page": self.page}
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
