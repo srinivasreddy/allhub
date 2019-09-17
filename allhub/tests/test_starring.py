@@ -50,5 +50,8 @@ class TestStarring:
     def test_star_repo(self):
         assert user.star_repo("python", "cpython") is True
 
+    def test_is_starred_true(self):
+        assert user.is_starred("python", "cpython") is True
+
     def test_unstar_repo(self):
         assert user.unstar_repo("python", "cpython") is True
