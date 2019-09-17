@@ -40,7 +40,7 @@ class User(
         self.user_name = user_name
         self.auth_token = auth_token
         self.page = 1
-        self.per_page = 100
+        self.per_page = 30  # respect the default per_page given by Github API.
         self.api_version = 3
         self.api_mime_type = "json"
         self.transform_resp = transform_resp
