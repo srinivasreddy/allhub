@@ -4,10 +4,13 @@ from allhub.repos import Response
 class GistCommentsMixin:
     def gist_comments(self, gist_id, **kwargs):
         """
+        The following are the MIME types supported by this method,
+
         application/vnd.github.VERSION.raw+json
         application/vnd.github.VERSION.text+json
         application/vnd.github.VERSION.html+json
         application/vnd.github.VERSION.full+json
+
         :param gist_id:
         :param kwargs:
         :return:
@@ -30,10 +33,13 @@ class GistCommentsMixin:
 
     def gist_comment(self, gist_id, comment_id, **kwargs):
         """
+        The following are the MIME types supported by this method,
+
         application/vnd.github.VERSION.raw+json
         application/vnd.github.VERSION.text+json
         application/vnd.github.VERSION.html+json
         application/vnd.github.VERSION.full+json
+
         :param gist_id:
         :param kwargs:
         :return:
