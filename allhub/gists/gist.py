@@ -1,5 +1,6 @@
 from allhub.response import Response
 from allhub.util import ErrorAPICode, validate_iso8601_string
+from pathlib import Path
 
 
 class GistMixin:
@@ -49,7 +50,8 @@ class GistMixin:
         url = "/gists"
         files_contents = {}
         for _file in files:
-            files_contents[_file] = {"content": open(_file).read()}
+            _path = Path(_file)
+            files_contents[_path.name] = {"content": open(_file).read()}
         params = {"files": files_contents, "description": description, "public": public}
         self.response = Response(self.post(url, params=params), "Gist")
         return self.response.transform()
@@ -58,7 +60,8 @@ class GistMixin:
         url = f"/gists/{gist_id}"
         files_contents = {}
         for _file in files:
-            files_contents[_file] = {"content": open(_file).read()}
+            _path = Path(_file)
+            files_contents[_path.name] = {"content": open(_file).read()}
         params = {"files": files_contents, "description": description}
         self.response = Response(self.patch(url, params=params), "Gist")
         return self.response.transform()
