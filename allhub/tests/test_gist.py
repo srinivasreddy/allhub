@@ -100,6 +100,7 @@ class TestGist:
         gist = user.gist_revision(edited_gist.id, edited_gist.history[1].version)
         assert gist.description == modified_description
         gist = user.gist_revision(edited_gist.id, edited_gist.history[0].version)
+        # TODO: Shouldn't i get the starting description.
         assert gist.description == modified_description
         gist = user.gist(edited_gist.id)
         assert gist.description == modified_description
