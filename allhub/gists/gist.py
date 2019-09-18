@@ -63,6 +63,11 @@ class GistMixin:
         self.response = Response(self.patch(url, params=params), "Gist")
         return self.response.transform()
 
+    def gist_commits(self, gist_id):
+        url = f"/gists/{gist_id}/commits"
+        self.response = Response(self.patch(url), "GitCommits")
+        return self.response.transform()
+
     def star_gist(self, gist_id):
         url = f"/gists/{gist_id}/star"
         return Response(self.put(url, **{"Content-Length": "0"}), "").status_code == 204
@@ -80,7 +85,7 @@ class GistMixin:
             return False
         else:
             raise ErrorAPICode(
-                f"The url:{url} returned status code: {code}. May be try after sometime?"
+                f"The url:{url} returned status code: {code}. Maybe try after sometime?"
             )
 
     def fork_gist(self, gist_id):
