@@ -58,3 +58,20 @@ class TestGist:
         assert user.unstar_gist(gist.id) is True
         assert user.star_gist(gist.id) is True
         assert user.delete_gist(gist.id) is True
+
+    def test_gists(self):
+        user.create_gist(["test_watching.py"], "Create a gist", public=True)
+        gists = user.gists()
+        for gist in gists:
+            assert user.delete_gist(gist.id) is True
+
+    def test_starred_gists(self):
+        for gist in user.starred_gists():
+            assert user.unstar_gist(gist.id)
+        gists = user.public_gists()
+        for gist in gists:
+            assert user.star_gist(gist.id)
+        starred_gists = user.starred_gists()
+        assert len(starred_gists) == len(gists)
+        for gist in gists:
+            assert user.unstar_gist(gist.id)
