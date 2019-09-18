@@ -2,12 +2,47 @@ from allhub.repos import Response
 
 
 class GistCommentsMixin:
-    def gist_comments(self, gist_id):
-        url = f"/users/gists/{gist_id}/comments"
+    def gist_comments(self, gist_id, **kwargs):
+        """
+        application/vnd.github.VERSION.raw+json
+        application/vnd.github.VERSION.text+json
+        application/vnd.github.VERSION.html+json
+        application/vnd.github.VERSION.full+json
+        :param gist_id:
+        :param kwargs:
+        :return:
+        """
+        url = f"/gists/{gist_id}/comments"
         self.response = Response(self.get(url), "GistComments")
         return self.response.transform()
 
+    def create_gist_comment(self, gist_id, body):
+        url = f"/gists/{gist_id}/comments"
+        params = {"body": body}
+        self.response = Response(self.post(url, params=params), "GistComments")
+        return self.response.transform()
+
+    def edit_gist_comment(self, gist_id, comment_id, body):
+        url = f"/gists/{gist_id}/comments/{comment_id}"
+        params = {"body": body}
+        self.response = Response(self.patch(url, params=params), "GistComments")
+        return self.response.transform()
+
     def gist_comment(self, gist_id, comment_id):
-        url = f"/users/gists/{gist_id}/comments/{comment_id}"
+        """
+        application/vnd.github.VERSION.raw+json
+        application/vnd.github.VERSION.text+json
+        application/vnd.github.VERSION.html+json
+        application/vnd.github.VERSION.full+json
+        :param gist_id:
+        :param kwargs:
+        :return:
+        """
+        url = f"/gists/{gist_id}/comments/{comment_id}"
         self.response = Response(self.get(url), "GistComment")
         return self.response.transform()
+
+    def delete_gist_comment(self, gist_id, comment_id):
+        url = f"/gists/{gist_id}/comments/{comment_id}"
+        self.response = None
+        return Response(self.delete(url), "GistComments").status_code == 204

@@ -113,3 +113,11 @@ class TestGist:
         edited_gist = user.edit_gist(gist.id, [named_file.name], modified_description)
         assert len(user.gist_commits(edited_gist.id)) == 2
         assert user.delete_gist(edited_gist.id)
+
+    def test_gist_comments(self):
+        description = "Create a gist"
+        modified_description = "Modified the created gist"
+        gist = user.create_gist([named_file.name], description, public=True)
+        edited_gist = user.edit_gist(gist.id, [named_file.name], modified_description)
+        assert len(user.gist_commits(edited_gist.id)) == 2
+        assert user.delete_gist(edited_gist.id)
