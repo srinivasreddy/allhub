@@ -15,15 +15,11 @@ named_file.close()
 
 
 class TestGist:
-    @staticmethod
-    def delete_gist(gist_id):
-        assert user.delete_gist(gist_id)
-
     def test_create_gist(self):
         gist = user.create_gist([named_file.name], "Create a gist", public=True)
         assert user.response.status_code == 201
         assert gist.owner.login == user.user_name
-        TestGist.delete_gist(gist.id)
+        assert user.delete_gist(gist.id)
 
     def test_edit_gist(self):
         gist = user.create_gist([named_file.name], "Create a gist", public=False)
@@ -36,7 +32,7 @@ class TestGist:
         assert edited_gist.owner.login == user.user_name
         new_gist = user.gist(edited_gist.id)
         assert new_gist.description == "Modified the Created gist"
-        TestGist.delete_gist(edited_gist.id)
+        assert user.delete_gist(gist.id)
 
     def test_delete_gist(self):
         gist = user.create_gist([named_file.name], "Create a gist", public=True)
@@ -103,9 +99,16 @@ class TestGist:
         edited_gist = user.edit_gist(gist.id, [named_file.name], modified_description)
         gist = user.gist_revision(edited_gist.id, edited_gist.history[1].version)
         assert gist.description == modified_description
-        assert (
-            user.gist_revision(
-                edited_gist.id, edited_gist.history[0].version
-            ).description
-            == modified_description
-        )
+        gist = user.gist_revision(edited_gist.id, edited_gist.history[0].version)
+        assert gist.description == modified_description
+        gist = user.gist(edited_gist.id)
+        assert gist.description == modified_description
+        assert user.delete_gist(gist.id)
+
+    def test_gist_commits(self):
+        description = "Create a gist"
+        modified_description = "Modified the created gist"
+        gist = user.create_gist([named_file.name], description, public=True)
+        edited_gist = user.edit_gist(gist.id, [named_file.name], modified_description)
+        assert len(user.gist_commits(edited_gist.id)) == 2
+        assert user.delete_gist(edited_gist.id)
