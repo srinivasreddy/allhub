@@ -1,4 +1,5 @@
 from allhub.response import Response
+from allhub.util import ErrorAPICode
 from enum import Enum
 
 
@@ -68,20 +69,25 @@ class StarringMixin:
 
     def is_starred(self, owner, repo):
         url = f"/user/starred/{owner}/{repo}"
-        status_code = Response(self.get(url), "").status_code
+        self.response = Response(self.get(url), "")
+        status_code = self.response.status_code
         if status_code == 204:
             is_starred = True
         elif status_code == 404:
             is_starred = False
         else:
-            # TODO: Currently i am giving it a False, not sure what to do.
-            is_starred = False
+            raise ErrorAPICode(
+                f"url: {url} supposed to return 204 or 404 but returned {status_code}."
+                f"Maybe try after sometime?"
+            )
         return is_starred
 
     def star_repo(self, owner, repo):
         url = f"/user/starred/{owner}/{repo}"
-        return Response(self.put(url, **{"Content-Length": "0"}), "").status_code == 204
+        self.response = Response(self.put(url, **{"Content-Length": "0"}), "")
+        return self.response.status_code == 204
 
     def unstar_repo(self, owner, repo):
         url = f"/user/starred/{owner}/{repo}"
-        return Response(self.delete(url), "").status_code == 204
+        self.response = Response(self.delete(url), "")
+        return self.response.status_code == 204

@@ -30,7 +30,8 @@ class WatchingMixin:
 
     def delete_subscription(self, owner, repo, **kwargs):
         url = f"repos/{owner}/{repo}/subscription"
-        return Response(self.delete(url, **kwargs), "").status_code == 204
+        self.response = Response(self.delete(url, **kwargs), "")
+        return self.response.status_code == 204
 
     # TODO: The following legacy APIs are left out. Raise a PR if you like them to be here.
     # https://developer.github.com/v3/activity/watching/#check-if-you-are-watching-a-repository-legacy
