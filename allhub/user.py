@@ -67,10 +67,12 @@ class User(
 
     def get(self, url, params=None, *args, **kwargs):
         raise_for_status = kwargs.pop("raise_for_status", False)
-        if params is not None:
-            params = dict(params)
-        else:
+        if params is None:
             params = {"per_page": self.per_page, "page": self.page}
+        else:
+            params = dict(params)
+            params.update({"per_page": self.per_page, "page": self.page})
+
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
@@ -92,10 +94,11 @@ class User(
 
     def get_basic(self, url, params=None, *args, **kwargs):
         raise_for_status = kwargs.pop("raise_for_status", False)
-        if params is not None:
-            params = dict(params)
-        else:
+        if params is None:
             params = {"per_page": self.per_page, "page": self.page}
+        else:
+            params = dict(params)
+            params.update({"per_page": self.per_page, "page": self.page})
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
@@ -142,10 +145,10 @@ class User(
         # just return the response
         return response
 
-    def post(self, url, json=None, *args, **kwargs):
+    def post(self, url, params=None, *args, **kwargs):
         raise_for_status = kwargs.pop("raise_for_status", False)
-        if json is not None:
-            json = dict(json)
+        if params is not None:
+            params = dict(params)
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
@@ -153,7 +156,7 @@ class User(
             "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
         }
         headers.update(**kwargs)
-        response = requests.post(full_url, headers=headers, json=json)
+        response = requests.post(full_url, headers=headers, json=params)
         if raise_for_status:
             response.raise_for_status()
         # Permanent URL redirection - 301
@@ -165,10 +168,10 @@ class User(
         # just return the response
         return response
 
-    def patch(self, url, json=None, *args, **kwargs):
+    def patch(self, url, params=None, *args, **kwargs):
         raise_for_status = kwargs.pop("raise_for_status", False)
-        if json is not None:
-            json = dict(json)
+        if params is not None:
+            params = dict(params)
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
@@ -176,7 +179,7 @@ class User(
             "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
         }
         headers.update(**kwargs)
-        response = requests.patch(full_url, headers=headers, json=json)
+        response = requests.patch(full_url, headers=headers, json=params)
         if raise_for_status:
             response.raise_for_status()
         # Permanent URL redirection - 301

@@ -24,6 +24,11 @@ class MimeType(Enum):
     Text = "text"
 
 
+def validate_iso8601_string(string):
+    return True
+    # raise an exception otherwise.
+
+
 class ConflictCheck(type):
     def __new__(mcs, name, bases, dikt):
         object_methods = {}

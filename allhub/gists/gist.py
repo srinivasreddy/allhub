@@ -1,5 +1,5 @@
 from allhub.response import Response
-from allhub.util import ErrorAPICode
+from allhub.util import ErrorAPICode, validate_iso8601_string
 
 
 class GistMixin:
@@ -8,19 +8,59 @@ class GistMixin:
         self.response = Response(self.get(url), "UserGists")
         return self.response.transform()
 
-    def public_gists(self, since=None):
-        url = "/gists/public"
-        self.response = Response(self.get(url), "PublicGists")
+    def gists(self, since=None):
+        url = "/gists"
+        if since:
+            validate_iso8601_string()
+        params = {"since": since}
+        self.response = Response(self.get(url, params=params), "Gists")
         return self.response.transform()
 
-    def list_starred_gists(self):
+    def public_gists(self, since=None):
+        if since:
+            validate_iso8601_string()
+        params = {"since": since}
+        url = "/gists/public"
+        self.response = Response(self.get(url, params=params), "PublicGists")
+        return self.response.transform()
+
+    def starred_gists(self, since=None):
+        """
+        :return: List the authenticated user's starred gists.
+        """
+        if since:
+            validate_iso8601_string()
+        params = {"since": since}
         url = "/gists/starred"
-        self.response = Response(self.get(url), "StarredGists")
+        self.response = Response(self.get(url, params=params), "StarredGists")
         return self.response.transform()
 
     def gist(self, gist_id):
-        url = f"/users/gists/{gist_id}"
-        self.response = Response(self.get(url), "UserGist")
+        url = f"/gists/{gist_id}"
+        self.response = Response(self.get(url), "Gist")
+        return self.response.transform()
+
+    def gist_revision(self, gist_id, sha):
+        url = f"/gists/{gist_id}/{sha}"
+        self.response = Response(self.get(url), "Gist")
+        return self.response.transform()
+
+    def create_gist(self, files, description, public=True):
+        url = "/gists"
+        files_contents = {}
+        for _file in files:
+            files_contents[_file] = {"content": open(_file).read()}
+        params = {"files": files_contents, "description": description, "public": public}
+        self.response = Response(self.post(url, params=params), "Gist")
+        return self.response.transform()
+
+    def edit_gist(self, gist_id, files, description):
+        url = f"/gists/{gist_id}"
+        files_contents = {}
+        for _file in files:
+            files_contents[_file] = {"content": open(_file).read()}
+        params = {"files": files_contents, "description": description}
+        self.response = Response(self.patch(url, params=params), "Gist")
         return self.response.transform()
 
     def star_gist(self, gist_id):
