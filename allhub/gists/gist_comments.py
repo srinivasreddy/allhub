@@ -13,7 +13,7 @@ class GistCommentsMixin:
         :return:
         """
         url = f"/gists/{gist_id}/comments"
-        self.response = Response(self.get(url), "GistComments")
+        self.response = Response(self.get(url, **kwargs), "GistComments")
         return self.response.transform()
 
     def create_gist_comment(self, gist_id, body):
@@ -28,7 +28,7 @@ class GistCommentsMixin:
         self.response = Response(self.patch(url, params=params), "GistComments")
         return self.response.transform()
 
-    def gist_comment(self, gist_id, comment_id):
+    def gist_comment(self, gist_id, comment_id, **kwargs):
         """
         application/vnd.github.VERSION.raw+json
         application/vnd.github.VERSION.text+json
@@ -39,10 +39,10 @@ class GistCommentsMixin:
         :return:
         """
         url = f"/gists/{gist_id}/comments/{comment_id}"
-        self.response = Response(self.get(url), "GistComment")
+        self.response = Response(self.get(url, **kwargs), "GistComment")
         return self.response.transform()
 
     def delete_gist_comment(self, gist_id, comment_id):
         url = f"/gists/{gist_id}/comments/{comment_id}"
-        self.response = None
-        return Response(self.delete(url), "GistComments").status_code == 204
+        self.response = Response(self.delete(url), "GistComments")
+        return self.response.status_code == 204
