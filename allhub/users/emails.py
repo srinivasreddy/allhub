@@ -36,7 +36,7 @@ class EmailMixin:
 
         c_headers = {"Accept": "application/vnd.github.giant-sentry-fist-preview+json"}
         self.response = Response(
-            self.post(url, json=[("emails", emails)], **c_headers), "PublicEmails"
+            self.post(url, params=[("emails", emails)], **c_headers), "PublicEmails"
         )
         return self.response.transform()
 

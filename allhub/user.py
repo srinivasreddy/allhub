@@ -15,7 +15,7 @@ from allhub import User
 user = User('username', 'oauth_token')
 user.gist_comments('gist_id')
 ```
-For some API, like OAuth - please see oauth.py file, permit only basic authentication, in that case,
+For some API, like OAuth - please see oauth.py file, permits only basic authentication, in that case,
 you need to set the password environment variable.
 
 export PASSWORD="mypassword"
