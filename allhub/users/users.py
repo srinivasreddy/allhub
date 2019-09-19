@@ -50,9 +50,13 @@ class UsersMixin:
             return self.response.transform()
 
     def hover_card(self, username, subject_tye=SubjectType.NONE, subject_id=None):
-        if subject_tye.value is None or subject_id is None:
-            raise ValueError(f"subject_type and subject_id both should provided.")
-        params = [("subject_type", subject_tye.value), ("subject_id", subject_id)]
+        if bool(subject_tye.value) != bool(subject_id):  # Python shortcut for XOR.
+            raise ValueError(
+                f"subject_type and subject_id both should provided or both left out"
+            )
+        params = []
+        if subject_id and subject_tye.value:
+            params = [("subject_type", subject_tye.value), ("subject_id", subject_id)]
         url = f"/users/{username}/hovercard"
         self.response = Response(
             self.get(
