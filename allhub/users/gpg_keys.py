@@ -35,7 +35,7 @@ class GPGKeysMixin:
         )
         return self.response.transform()
 
-    def create_public_key(self, armored_public_key):
+    def create_public_gpg_key(self, armored_public_key):
         url = "/user/gpg_keys"
         self.response = Response(
             self.post(
@@ -47,7 +47,7 @@ class GPGKeysMixin:
         )
         return self.response.transform()
 
-    def delete_public_key(self, gpg_key_id):
+    def delete_public_gpg_key(self, gpg_key_id):
         url = f"/user/gpg_keys/{gpg_key_id}"
         self.response = Response(
             self.delete(
