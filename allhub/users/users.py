@@ -68,7 +68,9 @@ class UsersMixin:
         )
         return self.response.transform()
 
-    def users(self, since=None):
+    def users(self, since):
+        # TODO: Looks like this API is not working currently.
+        # As of 19-Sep-2019.
         url = "/users"
         params = [("since", since)]
         self.response = Response(self.patch(url, params=params), "Users")
