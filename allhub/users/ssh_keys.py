@@ -14,7 +14,7 @@ class SSHKeysMixin:
         return self.response.transform()
 
     def public_keys(self):
-        url = f"/users/keys"
+        url = "/user/keys"
         self.response = Response(
             self.get(
                 url,
