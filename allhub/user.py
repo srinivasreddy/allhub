@@ -5,7 +5,7 @@ from allhub.activity import ActivityMixin
 from allhub.gists import GistMixin
 from allhub.oauth import OAuthMixin
 from allhub.users import UsersMixin
-from allhub.util import MimeType, ConflictCheck
+from allhub.util import MimeType, ConflictCheck, config
 from allhub.repos import RepositoryMixin
 
 """
@@ -41,8 +41,6 @@ class User(
         self.auth_token = auth_token
         self.page = 1
         self.per_page = 30  # respect the default per_page given by Github API.
-        self.api_version = 3
-        self.api_mime_type = "json"
         self.transform_resp = transform_resp
         self.host = "https://api.github.com"
         self.password = password
@@ -77,7 +75,7 @@ class User(
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
             "Authorization": f"token {self.auth_token}",
-            "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+            "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }
         headers.update(**kwargs)
         response = requests.get(full_url, headers=headers, params=params)
@@ -102,7 +100,7 @@ class User(
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
-            "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+            "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }
         password = kwargs.pop("password", None)
         headers.update(**kwargs)
@@ -130,7 +128,7 @@ class User(
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
             "Authorization": f"token {self.auth_token}",
-            "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+            "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }
         headers.update(**kwargs)
         response = requests.put(full_url, headers=headers, params=params)
@@ -153,7 +151,7 @@ class User(
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
             "Authorization": f"token {self.auth_token}",
-            "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+            "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }
         headers.update(**kwargs)
         response = requests.post(full_url, headers=headers, json=params)
@@ -176,7 +174,7 @@ class User(
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
             "Authorization": f"token {self.auth_token}",
-            "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+            "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }
         headers.update(**kwargs)
         response = requests.patch(full_url, headers=headers, json=params)
@@ -199,7 +197,7 @@ class User(
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
             "Authorization": f"token {self.auth_token}",
-            "Accept": f"application/vnd.github.v{self.api_version}+{self.api_mime_type}",
+            "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }
         headers.update(**kwargs)
         response = requests.delete(full_url, headers=headers, json=json)

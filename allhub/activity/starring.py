@@ -1,5 +1,5 @@
 from allhub.response import Response
-from allhub.util import ErrorAPICode
+from allhub.util import ErrorAPICode, config
 from enum import Enum
 
 
@@ -19,7 +19,7 @@ class StarringMixin:
         kwargs = {}
         if starred_at:
             kwargs = {
-                "Accept": f"application/vnd.github.v{self.api_version}.star+{self.api_mime_type}"
+                "Accept": f"application/vnd.github.v{config.api_version}.star+{config.api_mime_type}"
             }
         self.response = Response(self.get(url, **kwargs), "StarGazers")
         return self.response.transform()
@@ -37,7 +37,7 @@ class StarringMixin:
         if starred_at:
             kwargs.update(
                 {
-                    "Accept": f"application/vnd.github.v{self.api_version}.star+{self.api_mime_type}"
+                    "Accept": f"application/vnd.github.v{config.api_version}.star+{config.api_mime_type}"
                 }
             )
         self.response = Response(self.get(url, params, **kwargs), "StarRepos")
@@ -61,7 +61,7 @@ class StarringMixin:
         if starred_at:
             kwargs.update(
                 {
-                    "Accept": f"application/vnd.github.v{self.api_version}.star+{self.api_mime_type}"
+                    "Accept": f"application/vnd.github.v{config.api_version}.star+{config.api_mime_type}"
                 }
             )
         self.response = Response(self.get(url, params, **kwargs), "StarRepos")

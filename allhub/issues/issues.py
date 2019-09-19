@@ -3,7 +3,7 @@ from allhub.response import Response
 
 
 class IssueType(Enum):
-    Raw = "application/vnd.github.VERSION.raw+json"
+    Raw = f"application/vnd.github.VERSION.raw+json"
     Text = "application/vnd.github.VERSION.text+json"
     Html = "application/vnd.github.VERSION.html+json"
     Full = "application/vnd.github.VERSION.full+json"

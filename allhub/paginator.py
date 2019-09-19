@@ -14,5 +14,5 @@ class Paginator:
     def per_page(self):
         self.per_page
 
-    def next_page(self):
-        pass
+    def page_results(self, page):
+        return self.function(self.args, self.kwargs, self.per_page, page)

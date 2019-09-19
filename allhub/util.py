@@ -4,6 +4,17 @@ from distutils.spawn import find_executable
 from enum import Enum
 from collections import Counter
 
+from dataclasses import dataclass
+
+
+@dataclass()
+class Config:
+    api_version = 3
+    api_mime_type = "json"
+
+
+config = Config()
+
 
 class ErrorAPICode(Exception):
     pass
