@@ -1,3 +1,3 @@
 # flake8: NOQA
 from allhub.response import Response
-from allhub.allhub import AllHub
+from allhub.all_hub import AllHub
