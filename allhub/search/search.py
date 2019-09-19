@@ -1,6 +1,9 @@
 from enum import Enum
 from allhub.response import Response
 
+# TODO: Query builder for search is another project. and will taken later.
+# TODO: "Query builder" will generate search query in string format.
+
 
 class Order(Enum):
     ASC = "asc"
@@ -66,7 +69,7 @@ class SearchMixin:
                 params=params,
                 **{"Accept": "application/vnd.github.mercy-preview+json"}
             ),
-            "SearchResults",
+            "Repos",
         )
         return self.response.transform()
 
@@ -79,7 +82,7 @@ class SearchMixin:
             self.get(
                 url, params=params, **{"Accept": "application/vnd.github.cloak-preview"}
             ),
-            "SearchResults",
+            "Commits",
         )
         return self.response.transform()
 
@@ -88,7 +91,7 @@ class SearchMixin:
         params = [("q", q), ("order", order.value)]
         if sort.value:
             params.append(("sort", sort.value))
-        self.response = Response(self.get(url, params=params), "SearchResults")
+        self.response = Response(self.get(url, params=params), "Codes")
         return self.response.transform()
 
     def search_issues(self, q, sort=IssueSort.NONE, order=Order.DESC):
@@ -102,7 +105,7 @@ class SearchMixin:
                 params=params,
                 **{"Accept": "application/vnd.github.symmetra-preview+json"}
             ),
-            "SearchResults",
+            "Issues",
         )
         return self.response.transform()
 
@@ -117,7 +120,7 @@ class SearchMixin:
                 params=params,
                 **{"Accept": "application/vnd.github.symmetra-preview+json"}
             ),
-            "SearchResults",
+            "Users",
         )
         return self.response.transform()
 
@@ -130,7 +133,7 @@ class SearchMixin:
                 params=params,
                 **{"Accept": "application/vnd.github.mercy-preview+json"}
             ),
-            "SearchResults",
+            "Topics",
         )
         return self.response.transform()
 
@@ -149,6 +152,6 @@ class SearchMixin:
                 params=params,
                 **{"Accept": "application/vnd.github.symmetra-preview+json"}
             ),
-            "SearchResults",
+            "Labels",
         )
         return self.response.transform()
