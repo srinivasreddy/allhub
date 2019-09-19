@@ -7,6 +7,7 @@ from allhub.oauth import OAuthMixin
 from allhub.users import UsersMixin
 from allhub.util import MimeType, ConflictCheck, config
 from allhub.repos import RepositoryMixin
+from allhub.search import SearchMixin
 
 """
 The usage pattern is like this,
@@ -34,6 +35,7 @@ class User(
     ActivityMixin,
     UsersMixin,
     RepositoryMixin,
+    SearchMixin,
     metaclass=ConflictCheck,
 ):
     def __init__(self, user_name, auth_token, transform_resp, password=None):
