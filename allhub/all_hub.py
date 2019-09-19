@@ -8,6 +8,8 @@ from allhub.users import UsersMixin
 from allhub.util import MimeType, ConflictCheck, config
 from allhub.repos import RepositoryMixin
 from allhub.search import SearchMixin
+from allhub.projects import ProjectsMixin
+
 
 """
 The usage pattern is like this,
@@ -36,6 +38,7 @@ class AllHub(
     UsersMixin,
     RepositoryMixin,
     SearchMixin,
+    ProjectsMixin,
     metaclass=ConflictCheck,
 ):
     def __init__(self, user_name, auth_token, transform_resp, password=None):
