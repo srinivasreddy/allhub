@@ -12,9 +12,9 @@ from allhub.search import SearchMixin
 """
 The usage pattern is like this,
 ```
-from allhub import User
-user = User('username', 'oauth_token')
-user.gist_comments('gist_id')
+from allhub import AllHub
+all_hub = AllHub('username', 'oauth_token')
+all_hub.gist_comments('gist_id')
 ```
 For some API, like OAuth - please see oauth.py file, permits only basic authentication, in that case,
 you need to set the password environment variable.
