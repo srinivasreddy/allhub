@@ -10,6 +10,8 @@ from .search import (
     SearchMixin as _SearchMixin,
 )
 
+from allhub.util import ConflictCheck
 
-class SearchMixin(_SearchMixin):
+
+class SearchMixin(_SearchMixin, metaclass=ConflictCheck):
     pass
