@@ -29,7 +29,7 @@ export APP_NAME="Grandeur"
 """
 
 
-class User(
+class AllHub(
     GistMixin,
     OAuthMixin,
     ActivityMixin,

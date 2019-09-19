@@ -1,7 +1,7 @@
-from allhub.user import User
+from allhub import AllHub
 import os
 
-user = User(
+allhub = AllHub(
     os.environ.get("USERNAME"),
     os.environ.get("TOKEN"),
     True,
@@ -11,29 +11,29 @@ user = User(
 
 class TestFeeds:
     def test_feeds(self):
-        feeds = user.feeds()
+        feeds = allhub.feeds()
         assert len(feeds) > 0
 
     def test_security_advisory_feed(self):
-        feed = user.security_advisory_feed()
+        feed = allhub.security_advisory_feed()
         assert len(feed) > 0
 
     def test_timeline_feed(self):
-        feed = user.timeline_feed()
+        feed = allhub.timeline_feed()
         assert len(feed) > 0
 
     def test_user_feed(self):
-        feed = user.user_feed(os.environ.get("USERNAME"))
+        feed = allhub.user_feed(os.environ.get("USERNAME"))
         assert len(feed) > 0
 
     def test_current_user_public_feed(self):
-        feed = user.current_user_public_feed()
+        feed = allhub.current_user_public_feed()
         assert len(feed) > 0
 
     def test_current_user_feed(self):
-        feed = user.current_user_feed()
+        feed = allhub.current_user_feed()
         assert len(feed) > 0
 
     def test_current_user_actor_feed(self):
-        feed = user.current_user_actor_feed()
+        feed = allhub.current_user_actor_feed()
         assert len(feed) > 0

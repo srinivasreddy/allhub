@@ -1,7 +1,7 @@
-from allhub.user import User
+from allhub import AllHub
 import os
 
-user = User(
+allhub = AllHub(
     os.environ.get("USERNAME"),
     os.environ.get("TOKEN"),
     True,
@@ -18,40 +18,40 @@ class TestStarring:
         assert _list[0]["login"] is not None
 
     def test_stargazers(self):
-        stars = user.stargazers("python", "cpython")
+        stars = allhub.stargazers("python", "cpython")
         TestStarring.helper(stars, "StarGazer")
         # pass starred_at=True
-        stars = user.stargazers("python", "cpython", starred_at=True)
+        stars = allhub.stargazers("python", "cpython", starred_at=True)
         assert stars[0].starred_at is not None
         assert stars[0].user.login is not None
         assert stars[0]["user"]["login"] is not None
 
     def test_starred(self):
-        stars = user.starred()
+        stars = allhub.starred()
         stars[0].owner.login is not None
         stars[0]["owner"]["login"] is not None
-        stars = user.starred(starred_at=True)
+        stars = allhub.starred(starred_at=True)
         assert stars[0].starred_at is not None
         assert stars[0].repo.owner.login is not None
         assert stars[0]["repo"]["owner"]["login"] is not None
 
     def test_starred_by(self):
-        stars = user.starred_by("srinivasreddy")
+        stars = allhub.starred_by("srinivasreddy")
         stars[0].owner.login is not None
         stars[0]["owner"]["login"] is not None
-        stars = user.starred_by("srinivasreddy", starred_at=True)
+        stars = allhub.starred_by("srinivasreddy", starred_at=True)
         assert stars[0].starred_at is not None
         assert stars[0].repo.owner.login is not None
         assert stars[0]["repo"]["owner"]["login"] is not None
 
     def test_is_starred(self):
-        assert user.is_starred("python", "cpython") is False
+        assert allhub.is_starred("python", "cpython") is False
 
     def test_star_repo(self):
-        assert user.star_repo("python", "cpython") is True
+        assert allhub.star_repo("python", "cpython") is True
 
     def test_is_starred_true(self):
-        assert user.is_starred("python", "cpython") is True
+        assert allhub.is_starred("python", "cpython") is True
 
     def test_unstar_repo(self):
-        assert user.unstar_repo("python", "cpython") is True
+        assert allhub.unstar_repo("python", "cpython") is True
