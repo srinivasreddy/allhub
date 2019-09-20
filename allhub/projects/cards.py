@@ -76,7 +76,10 @@ class CardsMixin:
         url = f"/projects/columns/cards/{card_id}/moves"
         if position not in CardPosition:
             raise ValueError("position should be of type CardPosition.")
-        params = [("position", position.value), ("column_id", column_id)]
+        params = [
+            ("position", position.value.format(card_id)),
+            ("column_id", column_id),
+        ]
         self.response = Response(
             self.post(url, params=params, **{"Accept": _project_accept_header}),
             "ProjectCard",
