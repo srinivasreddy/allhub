@@ -51,7 +51,8 @@ class ProjectMixin:
         url = f"/repos/{owner}/{repo}/projects"
         params = [("name", name), ("body", body)]
         self.response = Response(
-            self.post(url, params, **{"Accept": _project_accept_header}), "Project"
+            self.post(url, params=params, **{"Accept": _project_accept_header}),
+            "Project",
         )
         return self.response.transform()
 
