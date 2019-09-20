@@ -9,7 +9,7 @@ from allhub.util import MimeType, ConflictCheck, config
 from allhub.repos import RepositoryMixin
 from allhub.search import SearchMixin
 from allhub.projects import ProjectsMixin
-
+from allhub.apps import AppMixin
 
 """
 The usage pattern is like this,
@@ -39,11 +39,15 @@ class AllHub(
     RepositoryMixin,
     SearchMixin,
     ProjectsMixin,
+    AppMixin,
     metaclass=ConflictCheck,
 ):
-    def __init__(self, user_name, auth_token, transform_resp, password=None):
+    def __init__(
+        self, user_name, auth_token, transform_resp, app_token=None, password=None
+    ):
         self.user_name = user_name
         self.auth_token = auth_token
+        self.app_token = app_token
         self.page = 1
         self.per_page = 30  # respect the default per_page given by Github API.
         self.transform_resp = transform_resp

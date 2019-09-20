@@ -92,6 +92,5 @@ class AppMixin:
                 raise ValueError("repository_ids should contain only integers.")
 
         url = f"/app/installations/{installation_id}/access_tokens"
-
         self.response = Response(self.post(url, **{"Accept": _app_mime_type}), "Token")
         return self.response.transform()

@@ -158,3 +158,8 @@ class AppPermission:
     def watching(self, permission):
         self.watching = permission.value
         return self
+
+    def to_dict(self):
+        return {
+            attr: getattr(self, attr) for attr in dir(self) if not attr.startswith("__")
+        }
