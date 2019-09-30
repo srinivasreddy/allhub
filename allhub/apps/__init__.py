@@ -1,5 +1,7 @@
 # flake8: NOQA
 from .app import *
+from .events import *
+from .permission import *
 from allhub.util import ConflictCheck
 
 

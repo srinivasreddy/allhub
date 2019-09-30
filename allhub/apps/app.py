@@ -1,4 +1,5 @@
 from allhub.response import Response
+from .permission import AppPermission
 
 _app_mime_type = "application/vnd.github.machine-man-preview+json"
 
@@ -87,6 +88,7 @@ class AppMixin:
 
     def create_app_access_token(self, installation_id, repository_ids, permissions):
         assert isinstance(repository_ids, (list, tuple))
+        assert isinstance(permissions, AppPermission)
         for repository_id in repository_ids:
             if not isinstance(repository_id, int):
                 raise ValueError("repository_ids should contain only integers.")
