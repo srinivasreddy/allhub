@@ -53,7 +53,7 @@ class AppMixin:
     def app_installtion(self, installation_id):
         if self.app_token is None:
             raise ValueError(
-                f"You need to supply app_token to {self.__class__.__name__}()."
+                f"You need to supply app_token to {self.__class__.__name__}(.....)."
                 f"In order to obtain app_token see the documentation on how to generate JWT"
             )
         url = f"/app/installations/{installation_id}"
@@ -73,7 +73,7 @@ class AppMixin:
         """Uninstalls a GitHub App on a user, organization, or business account."""
         if self.app_token is None:
             raise ValueError(
-                f"You need to supply app_token to {self.__class__.__name__}()."
+                f"You need to supply app_token to {self.__class__.__name__}(.....)."
                 f"In order to obtain app_token, invoke the method `create_app_access_token(....)` "
             )
         url = f"/app/installations/{installation_id}"
@@ -109,7 +109,7 @@ class AppMixin:
     def org_installation(self, org):
         if self.app_token is None:
             raise ValueError(
-                f"You need to supply app_token to {self.__class__.__name__}()."
+                f"You need to supply app_token to {self.__class__.__name__}(.....)."
                 f"In order to obtain app_token, invoke the method `create_app_access_token(....)` "
             )
         url = f"/orgs/{org}/installation"
@@ -128,7 +128,7 @@ class AppMixin:
     def repo_installation(self, owner, repo):
         if self.app_token is None:
             raise ValueError(
-                f"You need to supply app_token to {self.__class__.__name__}()."
+                f"You need to supply app_token to {self.__class__.__name__}(.....)."
                 f"In order to obtain app_token, invoke the method `create_app_access_token(....)` "
             )
         url = f"/repos/{owner}/{repo}/installation"
