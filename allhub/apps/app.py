@@ -107,6 +107,11 @@ class AppMixin:
         return self.response.transform()
 
     def org_installation(self, org):
+        if self.app_token is None:
+            raise ValueError(
+                f"You need to supply app_token to {self.__class__.__name__}()."
+                f"In order to obtain app_token, invoke the method `create_app_access_token(....)` "
+            )
         url = f"/orgs/{org}/installation"
         self.response = Response(
             self.get(
@@ -121,6 +126,11 @@ class AppMixin:
         return self.response.transform()
 
     def repo_installation(self, owner, repo):
+        if self.app_token is None:
+            raise ValueError(
+                f"You need to supply app_token to {self.__class__.__name__}()."
+                f"In order to obtain app_token, invoke the method `create_app_access_token(....)` "
+            )
         url = f"/repos/{owner}/{repo}/installation"
         self.response = Response(
             self.get(
@@ -135,6 +145,11 @@ class AppMixin:
         return self.response.transform()
 
     def user_installation(self, username):
+        if self.app_token is None:
+            raise ValueError(
+                f"You need to supply app_token to {self.__class__.__name__}()."
+                f"In order to obtain app_token, invoke the method `create_app_access_token(....)` "
+            )
         url = f"/users/{username}/installation"
         self.response = Response(
             self.get(
