@@ -2,6 +2,7 @@ import os
 from urllib.parse import urljoin
 import requests
 from allhub.activity import ActivityMixin
+from allhub.orgs import OrganizationMixin
 from allhub.gists import GistMixin
 from allhub.oauth import OAuthMixin
 from allhub.users import UsersMixin
@@ -40,6 +41,7 @@ class AllHub(
     SearchMixin,
     ProjectsMixin,
     AppMixin,
+    OrganizationMixin,
     metaclass=ConflictCheck,
 ):
     def __init__(
