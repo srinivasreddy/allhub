@@ -200,10 +200,10 @@ class AllHub(
         # just return the response
         return response
 
-    def delete(self, url, json=None, *args, **kwargs):
+    def delete(self, url, params=None, *args, **kwargs):
         raise_for_status = kwargs.pop("raise_for_status", False)
-        if json is not None:
-            json = dict(json)
+        if params is not None:
+            params = dict(params)
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.user_name),
@@ -211,7 +211,7 @@ class AllHub(
             "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }
         headers.update(**kwargs)
-        response = requests.delete(full_url, headers=headers, json=json)
+        response = requests.delete(full_url, headers=headers, json=params)
         if raise_for_status:
             response.raise_for_status()
         return response
