@@ -1,7 +1,3 @@
-def massage_key(key):
-    return key.replace("-", "_")
-
-
 def transform(class_name, json_data):
     if isinstance(json_data, list):
         instance = type(class_name, (list,), {})()
@@ -11,7 +7,6 @@ def transform(class_name, json_data):
     elif isinstance(json_data, dict):
         instance = type(class_name, (dict,), {})()
         for key, value in json_data.items():
-            key = massage_key(key)
             if isinstance(value, list):
                 objs = []
                 for item in value:

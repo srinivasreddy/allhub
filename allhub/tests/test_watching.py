@@ -46,5 +46,5 @@ class TestWatching:
     def test_delete_subscription(self):
         assert user.delete_subscription("python", "cpython") is True
         # Second assertion is redundant but it is a testimony for
-        # Idempotent.
+        # API's Idempotency.
         assert user.delete_subscription("python", "cpython") is True
