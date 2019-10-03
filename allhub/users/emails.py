@@ -53,12 +53,19 @@ class EmailMixin:
         self.response = Response(
             self.delete(
                 url,
-                json=[("emails", emails)],
+                params=[("emails", emails)],
                 **{"Accept": "application/vnd.github.giant-sentry-fist-preview+json"},
             ),
             "",
         )
-        return self.response.status_code == 204
+        if self.response.status_code == 204:
+            return True
+        elif self.response.status_code == 404:
+            return False
+        else:
+            raise ValueError(
+                f"the API returned response code:{self.response.status_code}, it should either be 204 or 404"
+            )
 
     def toggle_email_visibility(self, email, visibility):
         url = "/user/email/visibility"
@@ -67,7 +74,7 @@ class EmailMixin:
         self.response = Response(
             self.patch(
                 url,
-                json=[("email", email), ("visibility", visibility)],
+                params=[("email", email), ("visibility", visibility)],
                 **{"Accept": "application/vnd.github.giant-sentry-fist-preview+json"},
             ),
             "EmailVisibility",
