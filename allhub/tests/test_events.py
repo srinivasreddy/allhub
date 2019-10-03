@@ -1,4 +1,4 @@
-from allhub.allhub import AllHub
+from allhub import AllHub
 import os
 
 allhub = AllHub(

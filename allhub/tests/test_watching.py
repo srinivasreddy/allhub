@@ -1,7 +1,7 @@
-from allhub.user import User
+from allhub import AllHub
 import os
 
-user = User(
+user = AllHub(
     os.environ.get("USERNAME"),
     os.environ.get("TOKEN"),
     True,
