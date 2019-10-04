@@ -16,6 +16,15 @@ class Config:
 config = Config()
 
 
+class MediaType(Enum):
+    RAW = f"application/vnd.github.{config.api_version}.raw+json"
+    TEXT = f"application/vnd.github.{config.api_version}.text+json"
+    HTML = f"application/vnd.github.{config.api_version}.html+json"
+    FULL = f"application/vnd.github.{config.api_version}.full+json"
+    JSON = f"application/vnd.github.{config.api_version}+json"
+    NONE = None
+
+
 class ErrorAPICode(Exception):
     pass
 
