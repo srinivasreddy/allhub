@@ -86,7 +86,7 @@ class AllHub(
 
         full_url = urljoin(self.host, url)
         headers = {
-            "User-Agent": os.environ.get("APP_NAME", self.user_name),
+            "User-Agent": os.environ.get("APP_NAME", self.username),
             "Authorization": f"token {self.auth_token}",
             "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }
@@ -112,7 +112,7 @@ class AllHub(
             params.update({"per_page": self.per_page, "page": self.page})
         full_url = urljoin(self.host, url)
         headers = {
-            "User-Agent": os.environ.get("APP_NAME", self.user_name),
+            "User-Agent": os.environ.get("APP_NAME", self.username),
             "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }
         password = kwargs.pop("password", None)
@@ -120,7 +120,7 @@ class AllHub(
         response = requests.get(
             full_url,
             headers=headers,
-            auth=(self.user_name, password or self.password or os.environ["PASSWORD"]),
+            auth=(self.username, password or self.password or os.environ["PASSWORD"]),
             params=params,
         )
         if raise_for_status:
@@ -139,7 +139,7 @@ class AllHub(
             params = dict(params)
         full_url = urljoin(self.host, url)
         headers = {
-            "User-Agent": os.environ.get("APP_NAME", self.user_name),
+            "User-Agent": os.environ.get("APP_NAME", self.username),
             "Authorization": f"token {self.auth_token}",
             "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }
@@ -162,7 +162,7 @@ class AllHub(
             params = dict(params)
         full_url = urljoin(self.host, url)
         headers = {
-            "User-Agent": os.environ.get("APP_NAME", self.user_name),
+            "User-Agent": os.environ.get("APP_NAME", self.username),
             "Authorization": f"token {self.auth_token}",
             "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }
@@ -185,7 +185,7 @@ class AllHub(
             params = dict(params)
         full_url = urljoin(self.host, url)
         headers = {
-            "User-Agent": os.environ.get("APP_NAME", self.user_name),
+            "User-Agent": os.environ.get("APP_NAME", self.username),
             "Authorization": f"token {self.auth_token}",
             "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }
@@ -208,7 +208,7 @@ class AllHub(
             params = dict(params)
         full_url = urljoin(self.host, url)
         headers = {
-            "User-Agent": os.environ.get("APP_NAME", self.user_name),
+            "User-Agent": os.environ.get("APP_NAME", self.username),
             "Authorization": f"token {self.auth_token}",
             "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
         }

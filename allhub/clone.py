@@ -11,13 +11,13 @@ class CloneMixin:
     def clone_urls(self):
         check_git_installed()  # TODO: Move this call to decorator.
         list_of_repos = requests.get(
-            self.clone_url.format(user=self.user_name),
+            self.clone_url.format(user=self.username),
             headers={"Authorization": f"token {self.auth_token}"},
         ).json()
         return [repo["clone_url"] for repo in list_of_repos]
 
     def _build_clone_url(self, repo_name):
-        return f"https://github.com/{self.user_name}/{repo_name}.git"
+        return f"https://github.com/{self.username}/{repo_name}.git"
 
     def clone_repos(self, urls=None):
         check_git_installed()

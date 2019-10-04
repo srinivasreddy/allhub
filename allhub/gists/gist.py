@@ -5,7 +5,7 @@ from pathlib import Path
 
 class GistMixin:
     def user_gists(self):
-        url = f"/users/{self.user_name}/gists"
+        url = f"/users/{self.username}/gists"
         self.response = Response(self.get(url), "UserGists")
         return self.response.transform()
 
