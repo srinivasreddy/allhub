@@ -1,7 +1,9 @@
 # flake8: NOQA
 
-from .repos import *
+from .webhooks import WebHooksMixin
+from .repos import ReposMixin
+from allhub.util import ConflictCheck
 
 
-class RepositoryMixin(ReposMixin):
+class RepositoryMixin(ReposMixin, WebHooksMixin, metaclass=ConflictCheck):
     pass
