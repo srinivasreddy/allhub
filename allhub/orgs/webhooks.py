@@ -1,0 +1,2 @@
+class WebHooksMixin:
+    pass
