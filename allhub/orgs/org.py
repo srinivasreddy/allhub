@@ -88,3 +88,17 @@ class OrgMixin:
             "Organization",
         )
         return self.response.transform()
+
+    def org_credential_authorizations(self, org):
+        url = f"/orgs/{org}/credential-authorizations"
+        self.response = Response(self.get(url), "Credentials")
+        return self.response.transform()
+
+    def remove_org_credential_authorizations(self, org, credential_id):
+        url = f"/orgs/{org}/credential-authorizations/{credential_id}"
+        self.response = Response(self.delete(url), "")
+        if self.response.status_code == 204:
+            return True
+        raise ValueError(
+            f"remove_org_credential_authorizations(.....) returned {self.response.status_code} instead of 204"
+        )
