@@ -1,5 +1,5 @@
 # flake8: NOQA
-from .blocking_users import *
+from .blocking_users import BlockingMixin
 from .members import *
 from .org import *
 from .outside_collab import *
