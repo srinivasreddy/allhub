@@ -41,7 +41,7 @@ class WebHooksMixin:
         )
 
     def delete_hook(self, org, hook_id):
-        url = f"/orgs/{org}/hooks/{hook_id}/pings"
+        url = f"/orgs/{org}/hooks/{hook_id}"
         self.response = Response(self.delete(url), "")
         if self.response.status_code == 204:
             return True
