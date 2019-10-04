@@ -45,9 +45,9 @@ class AllHub(
     metaclass=ConflictCheck,
 ):
     def __init__(
-        self, user_name, auth_token, transform_resp, app_token=None, password=None
+        self, username, auth_token, transform_resp, app_token=None, password=None
     ):
-        self.user_name = user_name
+        self.username = username
         self.auth_token = auth_token
         self.app_token = app_token
         self.page = 1
