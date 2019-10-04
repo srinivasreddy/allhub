@@ -12,6 +12,7 @@ from allhub.search import SearchMixin
 from allhub.projects import ProjectsMixin
 from allhub.apps import AppMixin
 from allhub.misc import MiscellaneousMixin
+from allhub.migrations import MigrationMixin
 
 """
 The usage pattern is like this,
@@ -44,6 +45,7 @@ class AllHub(
     AppMixin,
     OrganizationMixin,
     MiscellaneousMixin,
+    MigrationMixin,
     metaclass=ConflictCheck,
 ):
     def __init__(
