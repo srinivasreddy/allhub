@@ -1,5 +1,6 @@
 # flake8: NOQA
 
+from .branches import BranchMixin
 from .webhooks import WebHooksMixin
 from .repos import ReposMixin
 from .traffic import TrafficMixin
@@ -8,6 +9,11 @@ from allhub.util import ConflictCheck
 
 
 class RepositoryMixin(
-    ReposMixin, TrafficMixin, StatusMixin, WebHooksMixin, metaclass=ConflictCheck
+    BranchMixin,
+    ReposMixin,
+    TrafficMixin,
+    StatusMixin,
+    WebHooksMixin,
+    metaclass=ConflictCheck,
 ):
     pass
