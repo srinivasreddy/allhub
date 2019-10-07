@@ -12,6 +12,7 @@ from .deployments import DeploymentMixin
 from .contents import ContentsMixin
 from .invitations import InvitationMixin
 from .merging import MergingMixin
+from .releases import ReleaseMixin
 from allhub.util import ConflictCheck
 
 
@@ -28,6 +29,7 @@ class RepositoryMixin(
     StatusMixin,
     WebHooksMixin,
     DownloadMixin,
+    ReleaseMixin,
     metaclass=ConflictCheck,
 ):
     pass
