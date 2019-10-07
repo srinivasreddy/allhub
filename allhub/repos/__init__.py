@@ -7,11 +7,13 @@ from .traffic import TrafficMixin
 from .statuses import StatusMixin
 from .downloads import DownloadMixin
 from .forks import ForkMixin
+from .deployments import DeploymentMixin
 from allhub.util import ConflictCheck
 
 
 class RepositoryMixin(
     BranchMixin,
+    DeploymentMixin,
     ReposMixin,
     ForkMixin,
     TrafficMixin,
