@@ -10,6 +10,7 @@ from .deploy_keys import DeployKeysMixin
 from .forks import ForkMixin
 from .deployments import DeploymentMixin
 from .contents import ContentsMixin
+from .invitations import InvitationMixin
 from allhub.util import ConflictCheck
 
 
@@ -18,6 +19,7 @@ class RepositoryMixin(
     ContentsMixin,
     DeploymentMixin,
     DeployKeysMixin,
+    InvitationMixin,
     ReposMixin,
     ForkMixin,
     TrafficMixin,
