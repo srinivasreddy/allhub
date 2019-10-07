@@ -23,7 +23,7 @@ class OrganizationMigrationMixin:
         self.response = Response(self.get(url, **{"Accept": _mime}), "OrgMigrations")
         return self.response.transform()
 
-    def migration_status(self, org, migration_id):
+    def org_migration_status(self, org, migration_id):
         url = f"/orgs/{org}/migrations/{migration_id}"
         self.response = Response(self.get(url, **{"Accept": _mime}), "OrgMigrations")
         return self.response.transform()

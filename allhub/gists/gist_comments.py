@@ -1,4 +1,4 @@
-from allhub.repos import Response
+from allhub.response import Response
 
 
 class GistCommentsMixin:

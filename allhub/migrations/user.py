@@ -25,7 +25,7 @@ class UserMigrationMixin:
         self.response = Response(self.get(url, **{"Accept": _mime}), "UserMigrations")
         return self.response.transform()
 
-    def migration_status(self, migration_id):
+    def user_migration_status(self, migration_id):
         url = f"/user/migrations/{migration_id}"
         self.response = Response(self.get(url, **{"Accept": _mime}), "UserMigrations")
         return self.response.transform()
