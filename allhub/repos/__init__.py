@@ -14,6 +14,7 @@ from .invitations import InvitationMixin
 from .merging import MergingMixin
 from .releases import ReleaseMixin
 from .statistics import StatisticsMixin
+from .pages import PagesSiteMixin
 from allhub.util import ConflictCheck
 
 
@@ -32,6 +33,7 @@ class RepositoryMixin(
     DownloadMixin,
     StatisticsMixin,
     ReleaseMixin,
+    PagesSiteMixin,
     metaclass=ConflictCheck,
 ):
     pass
