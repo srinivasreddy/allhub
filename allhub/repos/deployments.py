@@ -54,3 +54,49 @@ class DeploymentMixin:
             self.post(url, params=params, **{"Accept": _mime}), "Deployment"
         )
         return self.response.transform()
+
+    def deployment_statuses(self, owner, repo, deployment_id):
+        url = f"/repos/{owner}/{repo}/deployments/{deployment_id}/statuses"
+        self.response = Response(self.get(url, **{"Accept": _mime}), "DeploymentStatus")
+        return self.response.transform()
+
+    def deployment_status(self, owner, repo, deployment_id, status_id):
+        url = f"/repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id}"
+        self.response = Response(
+            self.get(url, **{"Accept": "application/vnd.github.machine-man-preview"}),
+            "DeploymentStatus",
+        )
+        return self.response.transform()
+
+    def create_deployment_status(
+        self,
+        owner,
+        repo,
+        deployment_id,
+        state,
+        environment,
+        target_url="",
+        log_url="",
+        description="",
+        environment_url="",
+        auto_inactive=True,
+    ):
+        url = f"/repos/{owner}/{repo}/deployments/{deployment_id}/statuses/"
+        params = {
+            "state": state,
+            "environment": environment,
+            "target_url": target_url,
+            "log_url": log_url,
+            "description": description,
+            "environment_url": environment_url,
+            "auto_inactive": auto_inactive,
+        }
+        self.response = Response(
+            self.post(
+                url,
+                params=params,
+                **{"Accept": "application/vnd.github.flash-preview+json"},
+            ),
+            "DeploymentStatus",
+        )
+        return self.response.transform()
