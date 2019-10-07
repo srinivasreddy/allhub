@@ -11,6 +11,7 @@ from .forks import ForkMixin
 from .deployments import DeploymentMixin
 from .contents import ContentsMixin
 from .invitations import InvitationMixin
+from .merging import MergingMixin
 from allhub.util import ConflictCheck
 
 
@@ -22,6 +23,7 @@ class RepositoryMixin(
     InvitationMixin,
     ReposMixin,
     ForkMixin,
+    MergingMixin,
     TrafficMixin,
     StatusMixin,
     WebHooksMixin,
