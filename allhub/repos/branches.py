@@ -43,3 +43,9 @@ class BranchMixin:
             self.put(url, params=params, **{"Accept": mime}), "UpdateBranchProtection"
         )
         return self.response.transform()
+
+    def remove_branch_protection(self, owner, repo, branch):
+        mime = "application/vnd.github.luke-cage-preview+json"
+        url = f"/repos/{owner}/{repo}/branches/{branch}/protection"
+        self.response = Response(self.delete(url, **{"Accept": mime}), "")
+        return self.response.status_code == 204
