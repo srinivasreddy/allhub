@@ -16,6 +16,7 @@ from .releases import ReleaseMixin
 from .statistics import StatisticsMixin
 from .pages import PagesSiteMixin
 from .community import CommunityMixin
+from .collabs import CollaboratorsMixin
 from .commits import CommitMixin
 from .comments import CommentsMixin
 from allhub.util import ConflictCheck
@@ -23,6 +24,7 @@ from allhub.util import ConflictCheck
 
 class RepositoryMixin(
     BranchMixin,
+    CollaboratorsMixin,
     ContentsMixin,
     CommentsMixin,
     DeploymentMixin,
