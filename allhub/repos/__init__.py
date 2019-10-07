@@ -15,6 +15,7 @@ from .merging import MergingMixin
 from .releases import ReleaseMixin
 from .statistics import StatisticsMixin
 from .pages import PagesSiteMixin
+from .community import CommunityMixin
 from allhub.util import ConflictCheck
 
 
@@ -33,6 +34,7 @@ class RepositoryMixin(
     DownloadMixin,
     StatisticsMixin,
     ReleaseMixin,
+    CommunityMixin,
     PagesSiteMixin,
     metaclass=ConflictCheck,
 ):
