@@ -33,3 +33,9 @@ class CommitMixin:
         url = f"/repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head"
         self.response = Response(self.get(url, **{"Accept": _mime}), "Branches")
         return self.response.transform()
+
+    def prs_for_commit(self, owner, repo, commit_sha):
+        _mime = "application/vnd.github.groot-preview+json"
+        url = f"/repos/{owner}/{repo}/commits/{commit_sha}/pulls"
+        self.response = Response(self.get(url, **{"Accept": _mime}), "PRs")
+        return self.response.transform()
