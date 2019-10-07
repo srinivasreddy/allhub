@@ -47,3 +47,18 @@ class PagesSiteMixin:
         url = f" /repos/{owner}/{repo}/pages/builds"
         self.response = Response(self.post(url), "PagesInfo")
         return self.response.transform()
+
+    def pages_build(self, owner, repo):
+        url = f"/repos/{owner}/{repo}/pages/builds"
+        self.response = Response(self.get(url), "PagesInfo")
+        return self.response.transform()
+
+    def latest_pages_build(self, owner, repo):
+        url = f"/repos/{owner}/{repo}/pages/builds/latest"
+        self.response = Response(self.get(url), "PagesInfo")
+        return self.response.transform()
+
+    def get_pages_build(self, owner, repo, build_id):
+        url = f"/repos/{owner}/{repo}/pages/builds/{build_id}"
+        self.response = Response(self.get(url), "PagesInfo")
+        return self.response.transform()
