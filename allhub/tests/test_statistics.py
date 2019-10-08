@@ -8,7 +8,7 @@ class TestStats:
         assert response[0].author.login == "srinivasreddy"
 
     def test_last_year_commit_activity(self):
-        response = allhub.last_year_commit_activity("python", "cpython")
+        response = allhub.last_year_commit_activity("test-github42", "allhub")
         week1 = response[0]
         assert "total" in week1
         assert "week" in week1
@@ -16,13 +16,13 @@ class TestStats:
         assert len(week1.days) == 7
 
     def test_additions_deletions_per_week(self):
-        response = allhub.additions_deletions_per_week("python", "cpython")
+        response = allhub.additions_deletions_per_week("test-github42", "allhub")
         assert len(response) > 0
 
     def test_weekly_commit_count(self):
-        response = allhub.weekly_commit_count("python", "cpython")
+        response = allhub.weekly_commit_count("test-github42", "allhub")
         assert len(response) > 0
 
     def test_punchcard(self):
-        response = allhub.punchcard("python", "cpython")
+        response = allhub.punchcard("test-github42", "allhub")
         assert len(response) > 0
