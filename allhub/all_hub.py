@@ -8,6 +8,7 @@ from allhub.oauth import OAuthMixin
 from allhub.users import UsersMixin
 from allhub.util import MimeType, ConflictCheck, config
 from allhub.repos import RepositoryMixin
+from allhub.reactions import ReactionMixin
 from allhub.search import SearchMixin
 from allhub.projects import ProjectsMixin
 from allhub.apps import AppMixin
@@ -41,6 +42,7 @@ class AllHub(
     ActivityMixin,
     UsersMixin,
     RepositoryMixin,
+    ReactionMixin,
     SearchMixin,
     ProjectsMixin,
     AppMixin,
