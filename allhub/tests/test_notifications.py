@@ -1,16 +1,5 @@
-import os
-
 import pytest
-
-from allhub import AllHub
-
-
-allhub = AllHub(
-    os.environ.get("USERNAME"),
-    os.environ.get("TOKEN"),
-    True,
-    os.environ.get("PASSWORD"),
-)
+from .utils import allhub
 
 
 class TestNotifications:

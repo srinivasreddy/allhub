@@ -1,13 +1,6 @@
-import os
-from allhub import AllHub
 from tempfile import NamedTemporaryFile
+from .utils import allhub
 
-allhub = AllHub(
-    os.environ.get("USERNAME"),
-    os.environ.get("TOKEN"),
-    True,
-    os.environ.get("PASSWORD"),
-)
 
 named_file = NamedTemporaryFile(delete=False)
 named_file.write(b"Hello world!!!")

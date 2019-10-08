@@ -1,13 +1,5 @@
-from allhub import AllHub
-import os
 import pytest
-
-allhub = AllHub(
-    os.environ.get("USERNAME"),
-    os.environ.get("TOKEN"),
-    True,
-    os.environ.get("PASSWORD"),
-)
+from .utils import allhub
 
 
 @pytest.fixture(scope="module")
