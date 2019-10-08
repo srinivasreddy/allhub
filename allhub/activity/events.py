@@ -71,8 +71,7 @@ class EventsMixin:
         Otherwise, you'll only see public events.
         """
         url = f"/users/{username}/events"
-        transform_resp = kwargs.pop("transform_resp", True)
-        self.response = Response(self.get(url, **kwargs), "UserEvents", transform_resp)
+        self.response = Response(self.get(url, **kwargs), "UserEvents")
         return self.response.transform()
 
     def public_events_by_user(self, username, **kwargs):

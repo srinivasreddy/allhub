@@ -49,15 +49,12 @@ class AllHub(
     MigrationMixin,
     metaclass=ConflictCheck,
 ):
-    def __init__(
-        self, username, auth_token, transform_resp, app_token=None, password=None
-    ):
+    def __init__(self, username, auth_token, app_token=None, password=None):
         self.username = username
         self.auth_token = auth_token
         self.app_token = app_token
-        self.page = 1
-        self.per_page = 30  # respect the default per_page given by Github API.
-        self.transform_resp = transform_resp
+        self._page = 1
+        self._per_page = 30  # respect the default per_page given by Github API.
         self.host = "https://api.github.com"
         self.password = password
         self.response = None
@@ -71,9 +68,8 @@ class AllHub(
         api_mime_type=MimeType.Json,
         per_page=100,
         password=None,
-        transform_resp=True,
     ):
-        obj = cls(user_name, auth_token, transform_resp, password)
+        obj = cls(user_name, auth_token, password)
         obj.per_page = per_page
         obj.api_version = api_version
         obj.api_mime_type = api_mime_type
@@ -81,8 +77,7 @@ class AllHub(
 
     def get(self, url, params=None, *args, **kwargs):
         raise_for_status = kwargs.pop("raise_for_status", False)
-        if params is not None:
-            params = dict(params)
+        params = params and dict(params) or {}
         params.update(
             {"per_page": kwargs.pop("per_page", 30), "page": kwargs.pop("page", 1)}
         )
@@ -107,11 +102,8 @@ class AllHub(
 
     def get_basic(self, url, params=None, *args, **kwargs):
         raise_for_status = kwargs.pop("raise_for_status", False)
-        if params is None:
-            params = {"per_page": self.per_page, "page": self.page}
-        else:
-            params = dict(params)
-            params.update({"per_page": self.per_page, "page": self.page})
+        params = params and dict(params) or {}
+        params.update({"per_page": self.per_page, "page": self.page})
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.username),
@@ -208,6 +200,7 @@ class AllHub(
         raise_for_status = kwargs.pop("raise_for_status", False)
         if params is not None:
             params = dict(params)
+
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.username),
@@ -220,5 +213,21 @@ class AllHub(
             response.raise_for_status()
         return response
 
+    @property
+    def per_page(self):
+        return self._per_page
+
+    @property
+    def page(self):
+        return self._page
+
+    @per_page.setter
+    def per_page(self, value):
+        self._per_page = value
+
+    @page.setter
+    def page(self, value):
+        self._page = value
+
     def iterator(self, function, *args, **kwargs):
-        return Iterator(self, function, 100, 1, *args, **kwargs)
+        return Iterator(self, function, self._per_page, self._page, *args, **kwargs)
