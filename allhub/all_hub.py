@@ -13,6 +13,7 @@ from allhub.projects import ProjectsMixin
 from allhub.apps import AppMixin
 from allhub.misc import MiscellaneousMixin
 from allhub.migrations import MigrationMixin
+from allhub.iterator import Iterator
 
 """
 The usage pattern is like this,
@@ -218,3 +219,6 @@ class AllHub(
         if raise_for_status:
             response.raise_for_status()
         return response
+
+    def iterator(self, function, *args, **kwargs):
+        return Iterator(self, function, 100, 1, *args, **kwargs)
