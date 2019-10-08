@@ -18,18 +18,18 @@ class TestGist:
     def test_create_gist(self):
         gist = allhub.create_gist([named_file.name], "Create a gist", public=True)
         assert allhub.response.status_code == 201
-        assert gist.owner.login == allhub.user_name
+        assert gist.owner.login == allhub.username
         assert allhub.delete_gist(gist.id)
 
     def test_edit_gist(self):
         gist = allhub.create_gist([named_file.name], "Create a gist", public=False)
         assert allhub.response.status_code == 201
-        assert gist.owner.login == allhub.user_name
+        assert gist.owner.login == allhub.username
         edited_gist = allhub.edit_gist(
             gist.id, [named_file.name], "Modified the Created gist"
         )
         assert allhub.response.status_code == 200
-        assert edited_gist.owner.login == allhub.user_name
+        assert edited_gist.owner.login == allhub.username
         new_gist = allhub.gist(edited_gist.id)
         assert new_gist.description == "Modified the Created gist"
         assert allhub.delete_gist(gist.id)
@@ -37,27 +37,27 @@ class TestGist:
     def test_delete_gist(self):
         gist = allhub.create_gist([named_file.name], "Create a gist", public=True)
         assert allhub.response.status_code == 201
-        assert gist.owner.login == allhub.user_name
+        assert gist.owner.login == allhub.username
         assert allhub.delete_gist(gist.id)
 
     def test_is_gist_starred(self):
         gist = allhub.create_gist([named_file.name], "Create a gist", public=True)
         assert allhub.response.status_code == 201
-        assert gist.owner.login == allhub.user_name
+        assert gist.owner.login == allhub.username
         assert allhub.is_gist_starred(gist.id)
         assert allhub.delete_gist(gist.id)
 
     def test_gist_unstarred(self):
         gist = allhub.create_gist([named_file.name], "Create a gist", public=True)
         assert allhub.response.status_code == 201
-        assert gist.owner.login == allhub.user_name
+        assert gist.owner.login == allhub.username
         assert allhub.is_gist_starred(gist.id)
         assert allhub.unstar_gist(gist.id)
 
     def test_gist_starred(self):
         gist = allhub.create_gist([named_file.name], "Create a gist", public=True)
         assert allhub.response.status_code == 201
-        assert gist.owner.login == allhub.user_name
+        assert gist.owner.login == allhub.username
         assert allhub.is_gist_starred(gist.id)
         assert allhub.unstar_gist(gist.id)
         assert allhub.star_gist(gist.id)
