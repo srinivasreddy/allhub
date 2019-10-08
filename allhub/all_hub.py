@@ -80,12 +80,11 @@ class AllHub(
 
     def get(self, url, params=None, *args, **kwargs):
         raise_for_status = kwargs.pop("raise_for_status", False)
-        if params is None:
-            params = {"per_page": self.per_page, "page": self.page}
-        else:
+        if params is not None:
             params = dict(params)
-            params.update({"per_page": self.per_page, "page": self.page})
-
+        params.update(
+            {"per_page": kwargs.pop("per_page", 30), "page": kwargs.pop("page", 1)}
+        )
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.username),
