@@ -17,7 +17,7 @@ class Permission(Enum):
 
 
 class CollaboratorsMixin:
-    def collaborators(self, project_id, collaborators=Collaborators.ALL):
+    def project_collaborators(self, project_id, collaborators=Collaborators.ALL):
         """
         Lists the collaborators for an organization project.
         """

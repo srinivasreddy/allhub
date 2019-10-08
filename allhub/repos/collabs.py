@@ -4,7 +4,7 @@ _mime = "application/vnd.github.hellcat-preview+json"
 
 
 class CollaboratorsMixin:
-    def collaborators(self, owner, repo, affiliation="all"):
+    def repo_collaborators(self, owner, repo, affiliation="all"):
         url = f"/repos/{owner}/{repo}/collaborators"
         self.response = Response(
             self.get(url, params={"affiliation": affiliation}, **{"Accept": _mime}),
