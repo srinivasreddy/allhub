@@ -2,10 +2,9 @@ from .transform import transform
 
 
 class Response:
-    def __init__(self, response, class_name, transform_resp=True):
+    def __init__(self, response, class_name):
         self.response = response
         self.class_name = class_name
-        self.transform_resp = transform_resp
 
     def headers(self):
         return self.response.headers
@@ -20,25 +19,25 @@ class Response:
         return self.headers()["X-OAuth-Scopes"]
 
     def next_link(self):
-        for link in self.headers()["Link"].split(","):
+        for link in self.headers().get("Link", "").split(","):
             if 'rel="next"' in link:
                 return link.split(";")[0]
         return None
 
     def prev_link(self):
-        for link in self.headers()["Link"].split(","):
+        for link in self.headers().get("Link", "").split(","):
             if 'rel="prev"' in link:
                 return link.split(";")[0]
         return None
 
     def last_link(self):
-        for link in self.headers()["Link"].split(","):
+        for link in self.headers().get("Link", "").split(","):
             if 'rel="last"' in link:
                 return link.split(";")[0]
         return None
 
     def first_link(self):
-        for link in self.headers()["Link"].split(","):
+        for link in self.headers().get("Link", "").split(","):
             if 'rel="first"' in link:
                 return link.split(";")[0]
         return None
@@ -48,10 +47,7 @@ class Response:
         return self.response.status_code
 
     def transform(self):
-        if self.transform_resp:
-            return transform(self.class_name, self.json())
-        else:
-            return self.json()
+        return transform(self.class_name, self.json())
 
     def content(self):
         return self.response.content
