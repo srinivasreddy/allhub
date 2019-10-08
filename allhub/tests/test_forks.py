@@ -14,4 +14,4 @@ class TestForks:
             for fork in response
             if fork.owner.login == "test-github42" and fork.name == "allhub"
         ]
-        assert len(data) > 0
+        assert len(data) == 1
