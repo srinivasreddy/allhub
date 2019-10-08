@@ -1,6 +1,3 @@
-### WIP - Don't use
-
-
 ### About allhub
 
 allhub is a collection of utilities to work with Github API. I am no way interested to support git API.
