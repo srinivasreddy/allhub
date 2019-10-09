@@ -45,7 +45,7 @@ IssueCustomMediaType = "application/vnd.github.symmetra-preview+json"
 
 
 class IssueMixin:
-    def assigned_issues(
+    def all_assigned_issues(
         self,
         filter=Filter.ASSIGNED,
         state=State.OPEN,
@@ -167,6 +167,40 @@ class IssueMixin:
         )
         return self.response.transform()
 
+    def create_issue(
+        self,
+        owner,
+        repo,
+        title,
+        body=None,
+        assignee=None,
+        milestone=None,
+        labels=None,
+        assignees=None,
+    ):
+        params = {"title": title}
+        if body:
+            params["body"] = body
+        if assignee:
+            params["assignee"] = assignee
+        if milestone:
+            params["milestone"] = milestone
+        if assignee:
+            params["assignee"] = assignee
+        if assignees:
+            params["assignees"] = assignees
+        url = f"/repos/{owner}/{repo}/issues"
+        self.response = Response(
+            self.post(
+                url,
+                params=params,
+                **{"Accept": "application/vnd.github.symmetra-preview+json"},
+                # The above Accept header gives us the reactions API.
+            ),
+            "Issue",
+        )
+        return self.response.transform()
+
     def edit_issue(
         self,
         owner,
@@ -198,7 +232,7 @@ class IssueMixin:
         self.response = Response(
             self.patch(
                 url,
-                json=[
+                params=[
                     ("title", title),
                     ("body", body),
                     ("assignees", list(assignees)),
@@ -227,7 +261,7 @@ class IssueMixin:
         self.response = Response(
             self.put(
                 url,
-                json=[("locked", True), ("active_lock_reason", lock_reason.value)]
+                params=[("locked", True), ("active_lock_reason", lock_reason.value)]
                 ** custom_headers,
             ),
             "",
