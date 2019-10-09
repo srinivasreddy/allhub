@@ -31,3 +31,12 @@ class TestCollaborator:
             permission=CollabPermission.ADMIN,
         )
         assert response.permissions == "write"
+
+    def test_remove_user_as_collaborator(self):
+        assert allhub.remove_user_as_collaborator(
+            "test-github42", "cpython", "srinivasreddy"
+        )
+
+        assert allhub.remove_user_as_collaborator(
+            "test-github42", "cpython", "srinivasreddy42"
+        )
