@@ -21,3 +21,16 @@ from .milestones import (
     MilestoneDirection,
 )
 from .timeline import TimelineMixin
+from allhub.util import ConflictCheck
+
+
+class IssuesMixin(
+    IssueMixin,
+    IssueLabelsMixin,
+    AssigneesMixin,
+    CommentsMixin,
+    IssueEventsMixin,
+    MilestoneMixin,
+    metaclass=ConflictCheck,
+):
+    pass
