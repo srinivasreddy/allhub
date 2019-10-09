@@ -279,3 +279,49 @@ class BranchMixin:
             "RestrictionsOfProtectedBranch",
         )
         return self.response.status_code == 204
+
+    def users_with_access_to_protected_branch(self, owner, repo, branch):
+        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users"
+        self.response = Response(self.get(url), "Users")
+        return self.response.transform()
+
+    def replace_user_restrictions_of_protected_branch(self, owner, repo, branch, array):
+        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users"
+        params = {"array": array}
+        self.response = Response(self.put(url, params=params), "Users")
+        return self.response.transform()
+
+    def add_user_restrictions_of_protected_branch(self, owner, repo, branch, array):
+        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users"
+        params = {"array": array}
+        self.response = Response(self.post(url, params=params), "Users")
+        return self.response.transform()
+
+    def remove_user_restrictions_of_protected_branch(self, owner, repo, branch, array):
+        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users"
+        params = {"array": array}
+        self.response = Response(self.delete(url, params=params), "Users")
+        return self.response.status_code == 204
+
+    def apps_with_access_to_protected_branch(self, owner, repo, branch):
+        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps"
+        self.response = Response(self.get(url), "Apps")
+        return self.response.transform()
+
+    def replace_app_restrictions_of_protected_branch(self, owner, repo, branch, array):
+        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps"
+        params = {"array": array}
+        self.response = Response(self.put(url, params=params), "Apps")
+        return self.response.transform()
+
+    def add_app_restrictions_of_protected_branch(self, owner, repo, branch, array):
+        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps"
+        params = {"array": array}
+        self.response = Response(self.post(url, params=params), "Apps")
+        return self.response.transform()
+
+    def remove_app_restrictions_of_protected_branch(self, owner, repo, branch, array):
+        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps"
+        params = {"array": array}
+        self.response = Response(self.delete(url, params=params), "Apps")
+        return self.response.status_code == 204
