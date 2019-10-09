@@ -9,14 +9,14 @@ class IssueType(Enum):
     FULL = "application/vnd.github.VERSION.full+json"
 
 
-class LockReason(Enum):
+class IssueLockReason(Enum):
     OFFTOPIC = "off - topic"
     TOOHEATED = "too heated"
     RESOLVED = "resolved"
     SPAM = "spam"
 
 
-class Filter(Enum):
+class IssueFilter(Enum):
     ASSIGNED = "assigned"
     CREATED = "created"
     MENTIONED = "mentioned"
@@ -24,7 +24,7 @@ class Filter(Enum):
     ALL = "all"
 
 
-class State(Enum):
+class IssueState(Enum):
     OPEN = "open"
     CLOSED = "closed"
     ALL = "all"
@@ -36,7 +36,7 @@ class IssueSort(Enum):
     COMMENTS = "comments"
 
 
-class Direction(Enum):
+class IssueDirection(Enum):
     ASCENDING = "asc"
     DESCENDING = "desc"
 
@@ -47,11 +47,11 @@ IssueCustomMediaType = "application/vnd.github.symmetra-preview+json"
 class IssueMixin:
     def all_assigned_issues(
         self,
-        filter=Filter.ASSIGNED,
-        state=State.OPEN,
+        filter=IssueFilter.ASSIGNED,
+        state=IssueState.OPEN,
         labels="",
         sort=IssueSort.CREATED,
-        direction=Direction.DESCENDING,
+        direction=IssueDirection.DESCENDING,
         since="",
     ):
         url = "/issues"
@@ -70,11 +70,11 @@ class IssueMixin:
 
     def user_issues(
         self,
-        filter=Filter.ASSIGNED,
-        state=State.OPEN,
+        filter=IssueFilter.ASSIGNED,
+        state=IssueState.OPEN,
         labels="",
         sort=IssueSort.CREATED,
-        direction=Direction.DESCENDING,
+        direction=IssueDirection.DESCENDING,
         since="",
     ):
         url = "/user/issues"
@@ -94,11 +94,11 @@ class IssueMixin:
     def org_user_issues(
         self,
         org,
-        filter=Filter.ASSIGNED,
-        state=State.OPEN,
+        filter=IssueFilter.ASSIGNED,
+        state=IssueState.OPEN,
         labels="",
         sort=IssueSort.CREATED,
-        direction=Direction.DESCENDING,
+        direction=IssueDirection.DESCENDING,
         since="",
     ):
         url = f"/org/{org}/issues"
@@ -120,13 +120,13 @@ class IssueMixin:
         owner,
         repo,
         milestone="*",
-        state=State.Open,
+        state=IssueState.Open,
         assignee="*",
         creator=None,
         mentioned=None,
         labels=None,
         sort=IssueSort.CREATED,
-        direction=Direction.DESCENDING,
+        direction=IssueDirection.DESCENDING,
         since=None,
     ):
         url = f"/repos/{owner}/{repo}/issues"
@@ -247,7 +247,7 @@ class IssueMixin:
         return self.response.transform()
 
     def lock_issue(self, owner, repo, issue_number, lock_reason=None):
-        if lock_reason and not isinstance(lock_reason, LockReason):
+        if lock_reason and not isinstance(lock_reason, IssueLockReason):
             raise ValueError(
                 "You should use LockReason instance for lock_reason variable."
             )
