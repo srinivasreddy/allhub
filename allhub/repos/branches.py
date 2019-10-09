@@ -16,6 +16,14 @@ class BranchMixin:
         return self.response.transform()
 
     def protected_branch(self, owner, repo, branch):
+        """
+        Protected branches are not available for Free plans.
+        Use Pro plan or Github Enterprise.
+        :param owner:
+        :param repo:
+        :param branch:
+        :return:
+        """
         mime = "application/vnd.github.luke-cage-preview+json"
         url = f"/repos/{owner}/{repo}/branches/{branch}/protection"
         self.response = Response(self.get(url, **{"Accept": mime}), "BranchProtection")

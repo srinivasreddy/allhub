@@ -4,6 +4,7 @@ from .transform import transform
 class Response:
     def __init__(self, response, class_name):
         self.response = response
+        # TODO: Add plural and singular class names for list of results.
         self.class_name = class_name
 
     def headers(self):
