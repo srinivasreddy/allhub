@@ -16,7 +16,7 @@ from .releases import ReleaseMixin
 from .statistics import StatisticsMixin
 from .pages import PagesSiteMixin
 from .community import CommunityMixin
-from .collabs import CollaboratorsMixin
+from .collabs import CollaboratorsMixin, CollabPermission
 from .commits import CommitMixin
 from .comments import CommentsMixin
 from allhub.util import ConflictCheck
