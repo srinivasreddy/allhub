@@ -1,4 +1,4 @@
-from .utils import allhub
+from allhub.tests.utils import allhub
 
 
 class TestEmoji:
