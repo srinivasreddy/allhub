@@ -23,5 +23,5 @@ class Iterator:
 
     def page_results(self, page=1):
         self.kwargs.update({"page": page})
-        self.response = self.function(*self.args, **self.kwargs)
-        return self.response
+        response = self.function(*self.args, **self.kwargs)
+        return response
