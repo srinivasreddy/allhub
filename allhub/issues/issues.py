@@ -3,42 +3,42 @@ from allhub.response import Response
 
 
 class IssueType(Enum):
-    Raw = f"application/vnd.github.VERSION.raw+json"
-    Text = "application/vnd.github.VERSION.text+json"
-    Html = "application/vnd.github.VERSION.html+json"
-    Full = "application/vnd.github.VERSION.full+json"
+    RAW = f"application/vnd.github.VERSION.raw+json"
+    TEXT = "application/vnd.github.VERSION.text+json"
+    HTML = "application/vnd.github.VERSION.html+json"
+    FULL = "application/vnd.github.VERSION.full+json"
 
 
 class LockReason(Enum):
-    OffTopic = "off - topic"
-    TooHeated = "too heated"
-    Resolved = "resolved"
-    Spam = "spam"
+    OFFTOPIC = "off - topic"
+    TOOHEATED = "too heated"
+    RESOLVED = "resolved"
+    SPAM = "spam"
 
 
 class Filter(Enum):
-    Assigned = "assigned"
-    Created = "created"
-    Mentioned = "mentioned"
-    Subscribed = "subscribed"
-    All = "all"
+    ASSIGNED = "assigned"
+    CREATED = "created"
+    MENTIONED = "mentioned"
+    SUBSCRIBED = "subscribed"
+    ALL = "all"
 
 
 class State(Enum):
-    Open = "open"
-    Closed = "closed"
-    All = "all"
+    OPEN = "open"
+    CLOSED = "closed"
+    ALL = "all"
 
 
-class Sort(Enum):
-    Created = "created"
-    Updated = "updated"
-    Comments = "comments"
+class IssueSort(Enum):
+    CREATED = "created"
+    UPDATED = "updated"
+    COMMENTS = "comments"
 
 
 class Direction(Enum):
-    Ascending = "asc"
-    Descending = "desc"
+    ASCENDING = "asc"
+    DESCENDING = "desc"
 
 
 IssueCustomMediaType = "application/vnd.github.symmetra-preview+json"
@@ -47,11 +47,11 @@ IssueCustomMediaType = "application/vnd.github.symmetra-preview+json"
 class IssueMixin:
     def assigned_issues(
         self,
-        filter=Filter.Assigned,
-        state=State.Open,
+        filter=Filter.ASSIGNED,
+        state=State.OPEN,
         labels="",
-        sort=Sort.Created,
-        direction=Direction.Descending,
+        sort=IssueSort.CREATED,
+        direction=Direction.DESCENDING,
         since="",
     ):
         url = "/issues"
@@ -70,11 +70,11 @@ class IssueMixin:
 
     def user_issues(
         self,
-        filter=Filter.Assigned,
-        state=State.Open,
+        filter=Filter.ASSIGNED,
+        state=State.OPEN,
         labels="",
-        sort=Sort.Created,
-        direction=Direction.Descending,
+        sort=IssueSort.CREATED,
+        direction=Direction.DESCENDING,
         since="",
     ):
         url = "/user/issues"
@@ -94,11 +94,11 @@ class IssueMixin:
     def org_user_issues(
         self,
         org,
-        filter=Filter.Assigned,
-        state=State.Open,
+        filter=Filter.ASSIGNED,
+        state=State.OPEN,
         labels="",
-        sort=Sort.Created,
-        direction=Direction.Descending,
+        sort=IssueSort.CREATED,
+        direction=Direction.DESCENDING,
         since="",
     ):
         url = f"/org/{org}/issues"
@@ -112,6 +112,46 @@ class IssueMixin:
         ]
         self.response = Response(
             self.get(url, params=params, **{"Accept": IssueCustomMediaType}), "Issues"
+        )
+        return self.response.transform()
+
+    def repo_issues(
+        self,
+        owner,
+        repo,
+        milestone="*",
+        state=State.Open,
+        assignee="*",
+        creator=None,
+        mentioned=None,
+        labels=None,
+        sort=IssueSort.CREATED,
+        direction=Direction.DESCENDING,
+        since=None,
+    ):
+        url = f"/repos/{owner}/{repo}/issues"
+        params = [
+            ("milestone", milestone),
+            ("state", state.value),
+            ("assignee", assignee),
+            ("sort", sort.value),
+            ("direction", direction.value),
+        ]
+        if creator:
+            params.append(("creator", creator))
+        if mentioned:
+            params.append(("mentioned", mentioned))
+        if labels:
+            params.append(("labels", labels))
+        if since:
+            params.append(("since", since))
+        self.response = Response(
+            self.get(
+                url,
+                params=params,
+                **{"Accept": "application/vnd.github.symmetra-preview+json"},
+            ),
+            "Issues",
         )
         return self.response.transform()
 
