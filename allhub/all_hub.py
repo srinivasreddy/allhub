@@ -15,6 +15,7 @@ from allhub.apps import AppMixin
 from allhub.misc import MiscellaneousMixin
 from allhub.migrations import MigrationMixin
 from allhub.iterator import Iterator
+from allhub.interactions import InteractionLimitsMixin
 
 """
 The usage pattern is like this,
@@ -49,6 +50,7 @@ class AllHub(
     OrganizationMixin,
     MiscellaneousMixin,
     MigrationMixin,
+    InteractionLimitsMixin,
     metaclass=ConflictCheck,
 ):
     def __init__(self, username, auth_token, app_token=None, password=None):
