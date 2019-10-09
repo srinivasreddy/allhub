@@ -47,6 +47,8 @@ class Response:
         return self.response.status_code
 
     def transform(self):
+        if "text/html" in self.headers()["Content-Type"]:
+            return str(self.content())
         return transform(self.class_name, self.json())
 
     def content(self):

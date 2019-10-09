@@ -2,7 +2,7 @@ from allhub.response import Response
 
 
 class MarkDownMixin:
-    def render_markdown(self, text, mode, content):
+    def render_markdown(self, text, mode="markdown", content=None):
         url = "/markdown"
         params = {"text": text, "mode": mode, "content": content}
         self.response = Response(self.post(url, params=params), "Markdown")
