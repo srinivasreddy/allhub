@@ -106,3 +106,27 @@ class ReviewCommentsMixin:
             self.post(url, params=params, **{"Accept": _mime}), "PRComment"
         )
         return self.response.transform()
+
+    def create_comment_reply_on_pull_request(
+        self, owner, repo, pull_number, comment_id, body
+    ):
+        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies"
+        self.response = Response(self.post(url, params={"body": body}), "PRComment")
+        return self.response.transform()
+
+    def edit_comment_on_pull_request(self, owner, repo, pull_number, comment_id, body):
+        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}"
+        self.response = Response(
+            self.patch(
+                url,
+                params={"body": body},
+                **{"Accept": "application/vnd.github.comfort-fade-preview+json"},
+            ),
+            "PRComment",
+        )
+        return self.response.transform()
+
+    def delete_comment_on_pull_request(self, owner, repo, pull_number, comment_id):
+        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}"
+        self.response = Response(self.delete(url), "")
+        return self.response.status_code == 204
