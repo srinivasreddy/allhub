@@ -2,7 +2,14 @@
 
 from .branches import BranchMixin
 from .webhooks import WebHooksMixin
-from .repos import ReposMixin
+from .repos import (
+    ReposMixin,
+    RepoAffiliation,
+    RepoDirection,
+    RepoSort,
+    RepoType,
+    RepoVisibility,
+)
 from .traffic import TrafficMixin
 from .statuses import StatusMixin
 from .downloads import DownloadMixin

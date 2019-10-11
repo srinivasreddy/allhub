@@ -3,20 +3,20 @@ from allhub.response import Response
 from enum import Enum
 
 
-class Visibility(Enum):
+class RepoVisibility(Enum):
     ALL = "all"
     PUBLIC = "public"
     PRIVATE = "private"
 
 
-class Sort(Enum):
+class RepoSort(Enum):
     CREATED = "created"
     UPDATED = "updated"
     PUSHED = "pushed"
     FULLNAME = "full_name"
 
 
-class Type(Enum):
+class RepoType(Enum):
     ALL = "all"
     OWNER = "owner"
     PUBLIC = "public"
@@ -24,18 +24,18 @@ class Type(Enum):
     MEMBER = "member"
 
 
-class Affiliation(Enum):
+class RepoAffiliation(Enum):
     OWNER = "owner"
     COLLABORATOR = "collaborator"
     ORGANIZATION_MEMBER = "organization_member"
 
 
-class Direction(Enum):
+class RepoDirection(Enum):
     ASC = "asc"
     DESC = "desc"
 
 
-_affiliation = f"{Affiliation.OWNER.value},{Affiliation.COLLABORATOR.value},{Affiliation.ORGANIZATION_MEMBER.value}"
+_affiliation = f"{RepoAffiliation.OWNER.value},{RepoAffiliation.COLLABORATOR.value},{RepoAffiliation.ORGANIZATION_MEMBER.value}"
 
 
 class ReposMixin:
@@ -51,9 +51,9 @@ class ReposMixin:
         params = []
         if "visibility" in kwargs:
             visibility = kwargs.pop("visibility")
-            if not isinstance(visibility, Visibility):
+            if not isinstance(visibility, RepoVisibility):
                 raise ValueError(f"'{visibility}' should be instance Visibility")
-            if visibility not in Visibility:
+            if visibility not in RepoVisibility:
                 raise ValueError(
                     f"'{visibility}' should either be 'ALL','PUBLIC', or 'PRIVATE'"
                 )
@@ -72,93 +72,93 @@ class ReposMixin:
             )
         if "type" in kwargs:
             type = kwargs.pop("type")
-            if not isinstance(type, Type):
+            if not isinstance(type, RepoType):
                 raise ValueError(f"'{type}' should be instance of Type")
-            if type not in Type:
+            if type not in RepoType:
                 raise ValueError(
                     f"'{type}' should either be 'ALL', 'OWNER', 'PUBLIC', 'PRIVATE', or 'MEMBER'"
                 )
             params.append(("type", type.value))
         if "sort" in kwargs:
             sort = kwargs.pop("sort")
-            if not isinstance(sort, Sort):
+            if not isinstance(sort, RepoSort):
                 raise ValueError(f"{sort} should be instance of Sort")
-            if sort not in Sort:
+            if sort not in RepoSort:
                 raise ValueError(
                     f"'{sort}' should either be 'CREATED', 'UPDATED', 'PUSHED', or 'FULLNAME'"
                 )
             params.append(("sort", sort.value))
         if "direction" in kwargs:
             direction = kwargs.pop("direction")
-            if not isinstance(direction, Direction):
+            if not isinstance(direction, RepoDirection):
                 raise ValueError(f"'{direction}' is not an instance of Direction")
-            if direction not in Direction:
+            if direction not in RepoDirection:
                 raise ValueError(f"'{direction}' should either be 'ASC', or 'DESC'")
             params.append(("direction", direction.value))
         url = "/user/repos"
-        self.response = Response(self.get_basic(url, params=params), "Repos")
+        self.response = Response(self.get_basic(url, params=params, **kwargs), "Repos")
         return self.response.transform()
 
     def user_repos(self, username, **kwargs):
         params = []
         if "type" in kwargs:
             type = kwargs.pop("type")
-            if not isinstance(type, Type):
+            if not isinstance(type, RepoType):
                 raise ValueError(f"'{type}' should be instance of Type")
-            if type not in Type:
+            if type not in RepoType:
                 raise ValueError(
                     f"'{type}' should either be 'ALL', 'OWNER', 'PUBLIC', 'PRIVATE', or 'MEMBER'"
                 )
             params.append(("type", type.value))
         if "sort" in kwargs:
             sort = kwargs.pop("sort")
-            if not isinstance(sort, Sort):
+            if not isinstance(sort, RepoSort):
                 raise ValueError(f"{sort} should be instance of Sort")
-            if sort not in Sort:
+            if sort not in RepoSort:
                 raise ValueError(
                     f"'{sort}' should either be 'CREATED', 'UPDATED', 'PUSHED', or 'FULLNAME'"
                 )
             params.append(("sort", sort.value))
         if "direction" in kwargs:
             direction = kwargs.pop("direction")
-            if not isinstance(direction, Direction):
+            if not isinstance(direction, RepoDirection):
                 raise ValueError(f"'{direction}' is not an instance of Direction")
-            if direction not in Direction:
+            if direction not in RepoDirection:
                 raise ValueError(f"'{direction}' should either be 'ASC', or 'DESC'")
             params.append(("direction", direction.value))
         url = f"/users/{username}/repos"
-        self.response = Response(self.get_basic(url, params=params), "Repos")
+        self.response = Response(self.get_basic(url, params=params, **kwargs), "Repos")
         return self.response.transform()
 
     def org_repos(self, org, **kwargs):
         params = []
         if "type" in kwargs:
             type = kwargs.pop("type")
-            if not isinstance(type, Type):
+            if not isinstance(type, RepoType):
                 raise ValueError(f"'{type}' should be instance of Type")
-            if type not in Type:
+            if type not in RepoType:
                 raise ValueError(
                     f"'{type}' should either be 'ALL', 'OWNER', 'PUBLIC', 'PRIVATE', or 'MEMBER'"
                 )
             params.append(("type", type.value))
         if "sort" in kwargs:
             sort = kwargs.pop("sort")
-            if not isinstance(sort, Sort):
+            if not isinstance(sort, RepoSort):
                 raise ValueError(f"{sort} should be instance of Sort")
-            if sort not in Sort:
+            if sort not in RepoSort:
                 raise ValueError(
                     f"'{sort}' should either be 'CREATED', 'UPDATED', 'PUSHED', or 'FULLNAME'"
                 )
             params.append(("sort", sort.value))
         if "direction" in kwargs:
             direction = kwargs.pop("direction")
-            if not isinstance(direction, Direction):
+            if not isinstance(direction, RepoDirection):
                 raise ValueError(f"'{direction}' is not an instance of Direction")
-            if direction not in Direction:
+            if direction not in RepoDirection:
                 raise ValueError(f"'{direction}' should either be 'ASC', or 'DESC'")
             params.append(("direction", direction.value))
         url = f"/users/{org}/repos"
-        self.response = Response(self.get_basic(url, params=params), "Repos")
+        self.response = Response(self.get_basic(url, params=params, **kwargs), "Repos")
         return self.response.transform()
 
     def all_repos(self, **kwargs):
@@ -167,5 +167,5 @@ class ReposMixin:
         if "since" in kwargs:
             since = kwargs.pop("since")
             params.append(("since", since))
-        self.response = Response(self.get_basic(url, params=params), "Repos")
+        self.response = Response(self.get_basic(url, params=params, **kwargs), "Repos")
         return self.response.transform()
