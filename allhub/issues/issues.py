@@ -120,7 +120,7 @@ class IssueMixin:
         owner,
         repo,
         milestone="*",
-        state=IssueState.Open,
+        state=IssueState.OPEN,
         assignee="*",
         creator=None,
         mentioned=None,

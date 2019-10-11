@@ -11,7 +11,6 @@ from allhub.repos import RepositoryMixin
 from allhub.reactions import ReactionMixin
 from allhub.search import SearchMixin
 from allhub.projects import ProjectsMixin
-from allhub.apps import AppMixin
 from allhub.misc import MiscellaneousMixin
 from allhub.migrations import MigrationMixin
 from allhub.iterator import Iterator
@@ -25,7 +24,7 @@ from allhub.pull_requests import PullRequestsMixin
 from allhub.checks import ChecksMixin
 
 """
-The usage pattern is like this,
+The usage pattern,
 ```
 from allhub import AllHub
 all_hub = AllHub('username', 'oauth_token')
@@ -58,7 +57,6 @@ class AllHub(
     ReactionMixin,
     SearchMixin,
     ProjectsMixin,
-    AppMixin,
     OrganizationMixin,
     MiscellaneousMixin,
     MigrationMixin,
