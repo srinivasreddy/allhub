@@ -2,11 +2,9 @@
 
 from setuptools import *
 
-requires = open("requirements.txt").read().splitlines()
-
 setup(
     name="allhub",
-    version="0.0.4a1",
+    version="0.0.4a2",
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     description="Interact with Github REST API v3",
     long_description=open("README.md").read(),
@@ -15,7 +13,7 @@ setup(
     author="Srinivas Reddy Thatiparthy",
     author_email="srinivas.thatiparthy@gmail.com",
     license="PSF",
-    install_requires=requires,
+    install_requires=["requests==2.22.0"],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Programming Language :: Python :: 3.6",
