@@ -1,4 +1,4 @@
-from .utils import allhub
+from tests.utils import allhub
 
 
 class TestStarring:

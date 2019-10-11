@@ -1,5 +1,5 @@
 import pytest
-from .utils import allhub
+from tests.utils import allhub
 
 
 class TestNotifications:
