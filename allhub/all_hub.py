@@ -239,6 +239,9 @@ class AllHub(
                 f"In order to obtain app_token see the documentation on how to generate JWT"
             )
 
+    def api_version(self):
+        return "v3"
+
     @property
     def page(self):
         return self._page
