@@ -1,24 +1,38 @@
 from allhub.response import Response
 
-_app_mime_type = "application/vnd.github.machine-man-preview+json"
+_mime = ", ".join(
+    [
+        "application/vnd.github.machine-man-preview+json",
+        "application/vnd.github.mercy-preview+json",
+    ]
+)
 
 
 class InstallationMixin:
-    def installation_repos(self):
-        if self.app_token is None:
-            raise ValueError(
-                f"You need to supply app_token to {self.__class__.__name__}(.....)."
-                f"In order to obtain app_token see the documentation on how to generate JWT"
-            )
+    def github_app_installation_repos(self):
+        self._app_token_check()
         url = "/installation/repositories"
         self.response = Response(
             self.get(
-                url,
-                **{
-                    "Authorization": f"Bearer {self.app_token}",
-                    "Accept": _app_mime_type,
-                },
+                url, **{"Authorization": f"Bearer {self.app_token}", "Accept": _mime}
             ),
-            "App",
+            "Apps",
+        )
+        return self.response.transform()
+
+    def github_app_installations_for_user(self):
+        """
+        Lists installations of your GitHub App that the authenticated user has explicit permission
+        (:read, :write, or :admin) to access.
+        :return:
+        """
+        self._app_token_check()
+        _mime = "application/vnd.github.machine-man-preview+json"
+        url = "/user/installations"
+        self.response = Response(
+            self.get(
+                url, **{"Authorization": f"Bearer {self.app_token}", "Accept": _mime}
+            ),
+            "Apps",
         )
         return self.response.transform()
