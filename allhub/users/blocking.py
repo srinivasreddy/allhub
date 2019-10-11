@@ -3,12 +3,13 @@ from allhub.util import ErrorAPICode
 
 
 class BlockMixin:
-    def list_blocked_users(self):
+    def list_blocked_users(self, **kwargs):
         url = f"/user/blocks"
         self.response = Response(
             self.get(
                 url,
                 **{"Accept": "application/vnd.github.giant-sentry-fist-preview+json"},
+                **kwargs,
             ),
             "BlockedUsers",
         )

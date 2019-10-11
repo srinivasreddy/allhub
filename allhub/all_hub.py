@@ -17,6 +17,12 @@ from allhub.migrations import MigrationMixin
 from allhub.iterator import Iterator
 from allhub.interactions import InteractionLimitsMixin
 from allhub.issues import IssuesMixin
+from allhub.apps import AppsMixin
+from allhub.git_data import GitDataMixin
+from allhub.teams import TeamsMixin
+from allhub.pull_requests import PullRequestsMixin
+
+from allhub.checks import ChecksMixin
 
 """
 The usage pattern is like this,
@@ -39,6 +45,11 @@ export APP_NAME="Grandeur"
 
 
 class AllHub(
+    GitDataMixin,
+    PullRequestsMixin,
+    TeamsMixin,
+    AppsMixin,
+    ChecksMixin,
     GistMixin,
     OAuthMixin,
     ActivityMixin,

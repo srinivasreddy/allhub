@@ -3,5 +3,5 @@ from .check_suites import CheckSuitesMixin
 from allhub.util import ConflictCheck
 
 
-class CheckMixin(CheckRunsMixin, CheckSuitesMixin, metaclass=ConflictCheck):
+class ChecksMixin(CheckRunsMixin, CheckSuitesMixin, metaclass=ConflictCheck):
     pass
