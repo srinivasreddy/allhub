@@ -6,7 +6,7 @@ requires = open("requirements.txt").read().splitlines()
 
 setup(
     name="allhub",
-    version="0.0.3",
+    version="0.0.4",
     packages=find_packages(exclude=["tests"]),
     description="Clone all projects from Github to your local directory.",
     include_package_data=True,
