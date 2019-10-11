@@ -1,4 +1,4 @@
-from allhub.tests.utils import allhub
+from tests.utils import allhub
 
 
 class TestMarkdown:

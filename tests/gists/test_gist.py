@@ -1,5 +1,5 @@
 from tempfile import NamedTemporaryFile
-from allhub.tests.utils import allhub
+from tests.utils import allhub
 
 
 named_file = NamedTemporaryFile(delete=False)
