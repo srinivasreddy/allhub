@@ -25,20 +25,22 @@ class PullRequestMixin:
         self,
         owner,
         repo,
-        head,
-        base,
+        head=None,
+        base=None,
         state=PRState.OPEN,
         sort=PRSort.CREATED,
         direction=PRDirection.DSC,
     ):
         url = f"/repos/{owner}/{repo}/pulls"
         params = {
-            "head": head,
-            "base": base,
             "state": state.value,
             "sort": sort.value,
             "direction": direction.value,
         }
+        if head:
+            params["head"] = head
+        if base:
+            params["base"] = base
         _mime = ", ".join(
             [
                 "application/vnd.github.shadow-cat-preview+json",
