@@ -50,7 +50,8 @@ class TestPullRequests:
         ) == sorted([resp.filename for resp in response])
 
     def test_is_pull_request_has_been_merged(self):
-        pass
+        assert allhub.is_pull_request_has_been_merged("python", "cpython", 9916)
+        assert not allhub.is_pull_request_has_been_merged("python", "cpython", 10564)
 
     def test_merge_pull_request(self):
         pass
