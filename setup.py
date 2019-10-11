@@ -6,7 +6,7 @@ requires = open("requirements.txt").read().splitlines()
 
 setup(
     name="allhub",
-    version="0.0.4",
+    version="0.0.4a1",
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     description="Interact with Github REST API v3",
     long_description=open("README.md").read(),
@@ -17,7 +17,7 @@ setup(
     license="PSF",
     install_requires=requires,
     classifiers=[
-        "Development Status :: 4 - Alpha",
+        "Development Status :: 3 - Alpha",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3 :: Only",
