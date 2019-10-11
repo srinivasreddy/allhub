@@ -10,32 +10,36 @@ class Permission(Enum):
 
 
 class OrgMixin:
-    def organizations(self):
+    def organizations(self, **kwargs):
         """List your organizations"""
         url = "/user/orgs"
-        self.response = Response(self.get(url), "Organizations")
+        self.response = Response(self.get(url, **kwargs), "Organizations")
         return self.response.transform()
 
-    def all_organizations(self, since=None):
+    def all_organizations(self, since=None, **kwargs):
         """List all organizations"""
         url = "/organizations"
-        self.response = Response(self.get(url), "Organizations")
+        self.response = Response(self.get(url, **kwargs), "Organizations")
         return self.response.transform()
 
-    def user_organizations(self, username):
+    def user_organizations(self, username, **kwargs):
         """
         This method only lists public memberships, regardless of authentication.
         If you need to fetch all of the organization memberships (public and private)
         for the authenticated user, use the `def organizations()` API instead.
         """
         url = f"/users/{username}/orgs"
-        self.response = Response(self.get(url), "Organizations")
+        self.response = Response(self.get(url, **kwargs), "Organizations")
         return self.response.transform()
 
-    def get_organization(self, org):
+    def get_organization(self, org, **kwargs):
         url = f"/orgs/{org}"
         self.response = Response(
-            self.get(url, **{"Accept": "application/vnd.github.surtur-preview+json"}),
+            self.get(
+                url,
+                **{"Accept": "application/vnd.github.surtur-preview+json"},
+                **kwargs,
+            ),
             "Organization",
         )
         return self.response.transform()
