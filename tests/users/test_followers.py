@@ -1,6 +1,6 @@
 import os
 import pytest
-from .utils import allhub
+from tests.utils import allhub
 
 
 @pytest.fixture(scope="module")
