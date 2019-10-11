@@ -16,6 +16,7 @@ class Iterator:
         if not self.next:
             raise StopIteration()
         results = self.page_results(self.page)
+        self.client.page = self.page
         self.page += 1
         if self.client.response.next_link() is None:
             self.next = False

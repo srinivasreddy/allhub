@@ -6,6 +6,10 @@ class TestOrg:
         response = allhub.organizations()
         assert response == []
 
+    def test_user_orgs(self):
+        response = allhub.user_organizations("serhiy-storchaka")
+        assert response[0].login == "python"
+
     def test_all_orgs(self):
         response = allhub.all_organizations()
         assert set(
@@ -24,3 +28,10 @@ class TestOrg:
                 "description",
             ]
         ) == set(response[0].keys())
+        counter = 10
+        for resp in allhub.iterator(allhub.all_organizations):
+            print(allhub.page)
+            if counter == allhub.page:
+                break
+        else:
+            assert False, "There are no 10 page ogs"
