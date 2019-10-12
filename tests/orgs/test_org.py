@@ -4,11 +4,15 @@ from tests.utils import allhub
 class TestOrg:
     def test_orgs(self):
         response = allhub.organizations()
-        assert response == []
+        assert len(response) == 1
+
+    def test_user_org(self):
+        response = allhub.get_organization("test-github43")
+        response.login == "test-github43"
 
     def test_user_orgs(self):
-        response = allhub.user_organizations("serhiy-storchaka")
-        assert response[0].login == "python"
+        response = allhub.user_organizations("srinivasreddy")
+        assert len(response) == 1
 
     def test_all_orgs(self):
         response = allhub.all_organizations()
@@ -30,8 +34,7 @@ class TestOrg:
         ) == set(response[0].keys())
         counter = 10
         for resp in allhub.iterator(allhub.all_organizations):
-            print(allhub.page)
             if counter == allhub.page:
                 break
         else:
-            assert False, "There are no 10 page ogs"
+            assert False, "There are no 10 orgs in Github"
