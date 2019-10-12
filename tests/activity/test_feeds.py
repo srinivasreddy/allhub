@@ -16,7 +16,7 @@ class TestFeeds:
         assert len(feed) > 0
 
     def test_user_feed(self):
-        feed = allhub.user_feed(os.environ.get("USERNAME"))
+        feed = allhub.user_feed(os.environ.get("GH_USERNAME"))
         assert len(feed) > 0
 
     def test_current_user_public_feed(self):

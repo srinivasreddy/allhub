@@ -15,14 +15,14 @@ class TestFollowers:
 
     def test_follow_unfollow(self, cleanup):
         assert (
-            allhub.user_is_following(os.environ.get("USERNAME"), "srinivasreddy")
+            allhub.user_is_following(os.environ.get("GH_USERNAME"), "srinivasreddy")
             is False
         )
         assert allhub.follow("srinivasreddy")
-        assert allhub.user_is_following(os.environ.get("USERNAME"), "srinivasreddy")
+        assert allhub.user_is_following(os.environ.get("GH_USERNAME"), "srinivasreddy")
         assert allhub.unfollow("srinivasreddy")
         assert (
-            allhub.user_is_following(os.environ.get("USERNAME"), "srinivasreddy")
+            allhub.user_is_following(os.environ.get("GH_USERNAME"), "srinivasreddy")
             is False
         )
         assert len(allhub.user_following("srinivasreddy")) > 1

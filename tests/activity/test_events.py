@@ -31,24 +31,24 @@ class TestEvents:
         TestEvents.helper(events, "OrgPublicEvent")
 
     def test_user_received_events(self):
-        events = allhub.user_received_events(os.environ.get("USERNAME"))
+        events = allhub.user_received_events(os.environ.get("GH_USERNAME"))
         # TODO: Need to do something to receive the user to receive events.
         assert len(events) == 0
 
     def test_user_received_public_events(self):
-        events = allhub.user_received_public_events(os.environ.get("USERNAME"))
+        events = allhub.user_received_public_events(os.environ.get("GH_USERNAME"))
         # TODO: Need to do something to receive the user to receive events.
         assert len(events) == 0
 
     def test_events_by_user(self):
-        events = allhub.events_by_user(os.environ.get("USERNAME"))
+        events = allhub.events_by_user(os.environ.get("GH_USERNAME"))
         TestEvents.helper(events, "UserEvent")
 
     def test_public_events_by_user(self):
-        events = allhub.public_events_by_user(os.environ.get("USERNAME"))
+        events = allhub.public_events_by_user(os.environ.get("GH_USERNAME"))
         # TODO: Need to do something to receive the user to receive events.
         assert len(events) == 0
 
     def test_events_for_org(self):
-        events = allhub.events_for_org(os.environ.get("USERNAME"), "python")
+        events = allhub.events_for_org(os.environ.get("GH_USERNAME"), "python")
         TestEvents.helper(events, "UserReceivedEvent")
