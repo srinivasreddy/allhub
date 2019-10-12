@@ -10,28 +10,28 @@ I wanted `allhub` to give property access like Javascript does.
 
 
 ```
-from allhub import User
-user = User("srinivasreddy", "xxxxxxxxxxxxx", True, "Git@weqwe")
-events = user.public_events()
+from allhub import AllHub
+allhub = AllHub("srinivasreddy", "xxxxxxxxxxxxx", password="xxxxxxxx")
+events = allhub.public_events()
 for event in events:
     print(event.created_at)
 ```
 
 
 ```
-from allhub import User, Response
-user = User("srinivasreddy", "xxxxxxxxxxxxx", True, "Git@weqwe")
-events = user.public_events()
-new_events = user.public_events(**{"If-None-Match": user.response.etag})
-new_events = user.public_events(**{"If-Modified-Since": user.response.last_modified})
+from allhub import AllHub, Response
+allhub = AllHub("srinivasreddy", "xxxxxxxxxxxxx", password="xxxxxxxx")
+events = allhub.public_events()
+new_events = allhub.public_events(**{"If-None-Match": user.response.etag})
+new_events = allhub.public_events(**{"If-Modified-Since": user.response.last_modified})
 
 ```
 
 ```
-from allhub import User, Response, Iterator
-user = User("srinivasreddy", "xxxxxxxxxxxxx", True, "Git@weqwe")
-events = user.public_events()
-for events in Iterator(user.public_events, user, page=1, per_page=100):
+from allhub import AllHub, Response, Iterator
+allhub = AllHub("srinivasreddy", "xxxxxxxxxxxxx", password="xxxxxxxx")
+events = allhub.public_events()
+for events in Iterator(allhub.public_events, user, page=1, per_page=100):
     print(event)
     
 ```

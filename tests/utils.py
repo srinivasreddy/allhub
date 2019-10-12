@@ -2,7 +2,7 @@ from allhub import AllHub
 import os
 
 allhub = AllHub(
-    os.environ.get("USERNAME"),
-    os.environ.get("TOKEN"),
-    password=os.environ.get("PASSWORD"),
+    os.environ.get("GH_USERNAME"),
+    os.environ.get("GH_TOKEN"),
+    password=os.environ.get("GH_PASSWORD"),
 )
