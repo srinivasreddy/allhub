@@ -1,3 +1,4 @@
+####  TODO
 ### Design Notes.
 
 I am documenting the use cases for `allhub` library, all the API functions return
@@ -34,3 +35,7 @@ for events in Iterator(user.public_events, user, page=1, per_page=100):
     print(event)
     
 ```
+### Notes on development
+
+
+1. I have skipped https://developer.github.com/v3/activity/events/types/ and is to be implemented yet.
