@@ -3,12 +3,12 @@ from allhub.response import Response
 
 class WatchingMixin:
     def list_watchers(self, owner, repo, **kwargs):
-        url = f"/repos/{owner}/{repo}/subscribers"
+        url = "/repos/{owner}/{repo}/subscribers".format(owner=owner, repo=repo)
         self.response = Response(self.get(url, **kwargs), "Watchers")
         return self.response.transform()
 
     def repos_watched_by(self, username, **kwargs):
-        url = f"/users/{username}/subscriptions"
+        url = "/users/{username}/subscriptions".format(username=username)
         self.response = Response(self.get(url, **kwargs), "WatchedRepos")
         return self.response.transform()
 
@@ -18,18 +18,18 @@ class WatchingMixin:
         return self.response.transform()
 
     def repo_subscription(self, owner, repo, **kwargs):
-        url = f"/repos/{owner}/{repo}/subscription"
+        url = "/repos/{owner}/{repo}/subscription".format(owner=owner, repo=repo)
         self.response = Response(self.get(url, **kwargs), "RepoSubscription")
         return self.response.transform()
 
     def set_subscription(self, owner, repo, subscribed=True, ignored=False, **kwargs):
-        url = f"repos/{owner}/{repo}/subscription"
+        url = "repos/{owner}/{repo}/subscription".format(owner=owner, repo=repo)
         params = [("subscribed", subscribed), ("ignored", ignored)]
         self.response = Response(self.put(url, params=params, **kwargs), "Subscription")
         return self.response.transform()
 
     def delete_subscription(self, owner, repo, **kwargs):
-        url = f"repos/{owner}/{repo}/subscription"
+        url = "repos/{owner}/{repo}/subscription".format(owner=owner, repo=repo)
         self.response = Response(self.delete(url, **kwargs), "")
         return self.response.status_code == 204
 

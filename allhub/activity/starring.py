@@ -3,19 +3,19 @@ from allhub.util import ErrorAPICode, config
 from enum import Enum
 
 
-class Direction(Enum):
+class StarringDirection(Enum):
     ASC = "asc"
     DESC = "desc"
 
 
-class Sort(Enum):
+class StarringSort(Enum):
     CREATED = "created"
     UPDATED = "updated"
 
 
 class StarringMixin:
     def stargazers(self, owner, repo, starred_at=False, **kwargs):
-        url = f"/repos/{owner}/{repo}/stargazers"
+        url = "/repos/{owner}/{repo}/stargazers".format(owner=owner, repo=repo)
         kwargs.update(
             {
                 "Accept": f"application/vnd.github.v{config.api_version}.star+{config.api_mime_type}"
@@ -27,11 +27,15 @@ class StarringMixin:
         return self.response.transform()
 
     def starred(
-        self, sort=Sort.CREATED, direction=Direction.DESC, starred_at=False, **kwargs
+        self,
+        sort=StarringSort.CREATED,
+        direction=StarringDirection.DESC,
+        starred_at=False,
+        **kwargs,
     ):
-        if sort not in Sort:
+        if sort not in StarringSort:
             raise ValueError("'sort' must be of type Sort")
-        if direction not in Direction:
+        if direction not in StarringDirection:
             raise ValueError("'direction' must be of type Direction")
 
         url = "/user/starred"
@@ -48,17 +52,17 @@ class StarringMixin:
     def starred_by(
         self,
         username,
-        sort=Sort.CREATED,
-        direction=Direction.DESC,
+        sort=StarringSort.CREATED,
+        direction=StarringDirection.DESC,
         starred_at=False,
         **kwargs,
     ):
-        if sort not in Sort:
+        if sort not in StarringSort:
             raise ValueError("'sort' must be of type Sort")
-        if direction not in Direction:
+        if direction not in StarringDirection:
             raise ValueError("'direction' must be of type Direction")
 
-        url = f"/users/{username}/starred"
+        url = "/users/{username}/starred".format(username=username)
         params = [("sort", sort.value), ("direction", direction.value)]
         if starred_at:
             kwargs.update(
@@ -70,7 +74,7 @@ class StarringMixin:
         return self.response.transform()
 
     def is_starred(self, owner, repo, **kwargs):
-        url = f"/user/starred/{owner}/{repo}"
+        url = "/user/starred/{owner}/{repo}".format(owner=owner, repo=repo)
         self.response = Response(self.get(url), "")
         status_code = self.response.status_code
         if status_code == 204:
@@ -85,11 +89,11 @@ class StarringMixin:
         return is_starred
 
     def star_repo(self, owner, repo, **kwargs):
-        url = f"/user/starred/{owner}/{repo}"
+        url = "/user/starred/{owner}/{repo}".format(owner=owner, repo=repo)
         self.response = Response(self.put(url, **{"Content-Length": "0"}), "")
         return self.response.status_code == 204
 
     def unstar_repo(self, owner, repo):
-        url = f"/user/starred/{owner}/{repo}"
+        url = "/user/starred/{owner}/{repo}".format(owner=owner, repo=repo)
         self.response = Response(self.delete(url), "")
         return self.response.status_code == 204
