@@ -10,7 +10,7 @@ _mime = ", ".join(
 
 class InstallationMixin:
     def github_app_installation_repos(self):
-        self._app_token_check()
+        self._check_app_token()
         url = "/installation/repositories"
         self.response = Response(
             self.get(
@@ -26,7 +26,7 @@ class InstallationMixin:
         (:read, :write, or :admin) to access.
         :return:
         """
-        self._app_token_check()
+        self._check_app_token()
         _mime = "application/vnd.github.machine-man-preview+json"
         url = "/user/installations"
         self.response = Response(
@@ -38,7 +38,7 @@ class InstallationMixin:
         return self.response.transform()
 
     def repos_accessible_to_user_for_installation(self, installation_id):
-        self._app_token_check()
+        self._check_app_token()
         url = f"/user/installations/{installation_id}/repositories"
         self.response = Response(
             self.get(
@@ -49,7 +49,7 @@ class InstallationMixin:
         return self.response.transform()
 
     def add_repo_to_app_installation(self, installation_id, repository_id):
-        self._app_token_check()
+        self._check_app_token()
         _mime = "application/vnd.github.machine-man-preview+json"
         url = f"/user/installations/{installation_id}/repositories/{repository_id}"
         self.response = Response(
@@ -61,7 +61,7 @@ class InstallationMixin:
         return self.response.status_code == 204
 
     def remove_repo_from_app_installation(self, installation_id, repository_id):
-        self._app_token_check()
+        self._check_app_token()
         _mime = "application/vnd.github.machine-man-preview+json"
         url = f"/user/installations/{installation_id}/repositories/{repository_id}"
         self.response = Response(
@@ -74,7 +74,7 @@ class InstallationMixin:
 
     def create_content_attachment(self, content_reference_id, title, body):
         url = f"/content_references/{content_reference_id}/attachments"
-        self._app_token_check()
+        self._check_app_token()
         _mime = "application/vnd.github.corsair-preview+json"
         self.response = Response(
             self.post(

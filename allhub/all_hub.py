@@ -236,7 +236,7 @@ class AllHub(
     def per_page(self):
         return self._per_page
 
-    def _app_token_check(self):
+    def _check_app_token(self):
         if self.app_token is None:
             raise ValueError(
                 f"You need to supply app_token to {self.__class__.__name__}(.....)."

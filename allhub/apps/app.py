@@ -13,7 +13,7 @@ class AppMixin:
 
     def auth_app(self):
         """Get the authenticated GitHub App"""
-        self._app_token_check(self)
+        self._check_app_token(self)
         url = "/app"
         self.response = Response(
             self.get(
@@ -28,7 +28,7 @@ class AppMixin:
         return self.response.transform()
 
     def app_installations(self):
-        self._app_token_check(self)
+        self._check_app_token(self)
         url = "/app/installations"
         self.response = Response(
             self.get(
@@ -43,7 +43,7 @@ class AppMixin:
         return self.response.transform()
 
     def app_installtion(self, installation_id):
-        self._app_token_check(self)
+        self._check_app_token(self)
         url = "/app/installations/{installation_id}".format(
             installation_id=installation_id
         )
@@ -61,7 +61,7 @@ class AppMixin:
 
     def delete_app_installtion(self, installation_id):
         """Uninstalls a GitHub App on a user, organization, or business account."""
-        self._app_token_check(self)
+        self._check_app_token(self)
         url = "/app/installations/{installation_id}".format(
             installation_id=installation_id
         )
@@ -97,7 +97,7 @@ class AppMixin:
         return self.response.transform()
 
     def org_installation(self, org):
-        self._app_token_check(self)
+        self._check_app_token(self)
         url = "/orgs/{org}/installation".format(org=org)
         self.response = Response(
             self.get(
@@ -112,7 +112,7 @@ class AppMixin:
         return self.response.transform()
 
     def repo_installation(self, owner, repo):
-        self._app_token_check(self)
+        self._check_app_token(self)
         url = "/repos/{owner}/{repo}/installation".format(owner=owner, repo=repo)
         self.response = Response(
             self.get(
@@ -127,7 +127,7 @@ class AppMixin:
         return self.response.transform()
 
     def user_installation(self, username):
-        self._app_token_check(self)
+        self._check_app_token(self)
         url = "/users/{username}/installation".format(username=username)
         self.response = Response(
             self.get(
