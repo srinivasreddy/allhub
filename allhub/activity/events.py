@@ -19,7 +19,7 @@ class EventsMixin:
         """
         List repository events.
         """
-        url = f"/repos/{owner}/{repo}/events"
+        url = "/repos/{owner}/{repo}/events".format(owner=owner, repo=repo)
         self.response = Response(self.get(url, **kwargs), "RepoEvents")
         return self.response.transform()
 
@@ -27,7 +27,7 @@ class EventsMixin:
         """
         List issue events for a repository.
         """
-        url = f"/repos/{owner}/{repo}/issues/events"
+        url = "/repos/{owner}/{repo}/issues/events".format(owner=owner, repo=repo)
         self.response = Response(self.get(url, **kwargs), "IssueEvents")
         return self.response.transform()
 
@@ -35,7 +35,7 @@ class EventsMixin:
         """
         List public events for a network of repositories.
         """
-        url = f"/networks/{owner}/{repo}/events"
+        url = "/networks/{owner}/{repo}/events".format(owner=owner, repo=repo)
         self.response = Response(self.get(url, **kwargs), "NetworkRepoPublicEvents")
         return self.response.transform()
 
@@ -43,7 +43,7 @@ class EventsMixin:
         """
         List public events for an organization.
         """
-        url = f"/orgs/{org}/events"
+        url = "/orgs/{org}/events".format(org=org)
         self.response = Response(self.get(url, **kwargs), "OrgPublicEvents")
         return self.response.transform()
 
@@ -51,7 +51,7 @@ class EventsMixin:
         """
         List events that a user has received.
         """
-        url = f"/users/{username}/received_events"
+        url = "/users/{username}/received_events".format(username=username)
         self.response = Response(self.get(url, **kwargs), "UserReceivedEvents")
         return self.response.transform()
 
@@ -59,7 +59,7 @@ class EventsMixin:
         """
         List public events that a user has received.
         """
-        url = f"/users/{username}/received_events/public"
+        url = "/users/{username}/received_events/public".format(username=username)
         self.response = Response(self.get(url, **kwargs), "UserReceivedPublicEvents")
         return self.response.transform()
 
@@ -70,7 +70,7 @@ class EventsMixin:
         If you are authenticated as the given user, you will see your private events.
         Otherwise, you'll only see public events.
         """
-        url = f"/users/{username}/events"
+        url = "/users/{username}/events".format(username=username)
         self.response = Response(self.get(url, **kwargs), "UserEvents")
         return self.response.transform()
 
@@ -78,7 +78,7 @@ class EventsMixin:
         """
         List public events performed by a user
         """
-        url = f"/users/{username}/received_events"
+        url = "/users/{username}/received_events".format(username=username)
         self.response = Response(self.get(url, **kwargs), "UserPublicEvents")
         return self.response.transform()
 
@@ -89,6 +89,6 @@ class EventsMixin:
         This is the user's organization dashboard.
         You must be authenticated as the user to view this.
         """
-        url = f"/users/{username}/events/orgs/{org}"
+        url = "/users/{username}/events/orgs/{org}".format(username=username, org=org)
         self.response = Response(self.get(url, **kwargs), "UserReceivedEvents")
         return self.response.transform()
