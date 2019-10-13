@@ -10,17 +10,17 @@ _mime = ", ".join(
 
 class TeamMembersMixin:
     def org_teams(self, org):
-        url = f"/orgs/{org}/teams"
+        url = "/orgs/{org}/teams".format(org=org)
         self.response = Response(self.get(url, **{"Accept": _mime}), "OrgTeams")
         return self.response.transform()
 
     def org_team(self, team_id):
-        url = f"/teams/{team_id}/"
+        url = "/teams/{team_id}/".format(team_id=team_id)
         self.response = Response(self.get(url, **{"Accept": _mime}), "OrgTeam")
         return self.response.transform()
 
     def org_team_by_name(self, org, team_slug):
-        url = f"/orgs/{org}/teams/{team_slug}"
+        url = "/orgs/{org}/teams/{team_slug}".format(org=org, team_slug=team_slug)
         self.response = Response(self.get(url, **{"Accept": _mime}), "OrgTeam")
         return self.response.transform()
 
@@ -44,7 +44,7 @@ class TeamMembersMixin:
             "repo_names": repo_names,
             "parent_team_id": parent_team_id,
         }
-        url = f"/orgs/{org}/teams"
+        url = "/orgs/{org}/teams".format(org=org)
         self.response = Response(
             self.post(url, params=params, **{"Accept": _mime}), "OrgTeam"
         )
@@ -60,41 +60,47 @@ class TeamMembersMixin:
             "privacy": privacy,
             "parent_team_id": parent_team_id,
         }
-        url = f"/teams/{team_id}"
+        url = "/teams/{team_id}".format(team_id=team_id)
         self.response = Response(
             self.patch(url, params=params, **{"Accept": _mime}), "OrgTeam"
         )
         return self.response.transform()
 
     def delete_team_in_org(self, team_id):
-        url = f"/teams/{team_id}"
+        url = "/teams/{team_id}".format(team_id=team_id)
         self.response = Response(self.delete(url, **{"Accept": _mime}), "")
         return self.response.status_code == 204
 
     def child_teams_in_team(self, team_id):
-        url = f"/teams/{team_id}/teams"
+        url = "/teams/{team_id}/teams".format(team_id=team_id)
         self.response = Response(self.get(url, **{"Accept": _mime}), "ChildTeams")
         return self.response.transform()
 
     def team_repos(self, team_id):
-        url = f"/teams/{team_id}/repos"
+        url = "/teams/{team_id}/repos".format(team_id=team_id)
         self.response = Response(self.get(url, **{"Accept": _mime}), "TeamRepos")
         return self.response.transform()
 
     def team_manage_repo(self, owner, repo, team_id):
-        url = f"/teams/{team_id}/repos/{owner}/{repo}"
+        url = "/teams/{team_id}/repos/{owner}/{repo}".format(
+            team_id=team_id, owner=owner, repo=repo
+        )
         self.response = Response(self.get(url, **{"Accept": _mime}), "")
         return self.response.status_code == 204
 
     def add_update_team_repo(self, owner, repo, team_id, permission):
-        url = f"/teams/{team_id}/repos/{owner}/{repo}"
+        url = "/teams/{team_id}/repos/{owner}/{repo}".format(
+            team_id=team_id, owner=owner, repo=repo
+        )
         self.response = Response(
             self.put(url, params={"permission": permission}, **{"Accept": _mime}), ""
         )
         return self.response.status_code == 204
 
     def remove_team_repo(self, owner, repo, team_id):
-        url = f"/teams/{team_id}/repos/{owner}/{repo}"
+        url = "/teams/{team_id}/repos/{owner}/{repo}".format(
+            team_id=team_id, owner=owner, repo=repo
+        )
         self.response = Response(self.delete(url, **{"Accept": _mime}), "")
         return self.response.status_code == 204
 
@@ -104,17 +110,21 @@ class TeamMembersMixin:
         return self.response.transform()
 
     def team_projects(self, team_id):
-        url = f"/teams/{team_id}/projects"
+        url = "/teams/{team_id}/projects".format(team_id=team_id)
         self.response = Response(self.get(url, **{"Accept": _mime}), "TeamProjects")
         return self.response.transform()
 
     def review_team_project(self, team_id, project_id):
-        url = f"/teams/{team_id}/projects/{project_id}"
+        url = "/teams/{team_id}/projects/{project_id}".format(
+            team_id=team_id, project_id=project_id
+        )
         self.response = Response(self.get(url, **{"Accept": _mime}), "TeamProject")
         return self.response.transform()
 
     def add_update_team_project(self, team_id, project_id, permission):
-        url = f"/teams/{team_id}/projects/{project_id}"
+        url = "/teams/{team_id}/projects/{project_id}".format(
+            team_id=team_id, project_id=project_id
+        )
         self.response = Response(
             self.put(
                 url,
@@ -126,6 +136,8 @@ class TeamMembersMixin:
         return self.response.status_code == 204
 
     def remove_team_project(self, team_id, project_id):
-        url = f"/teams/{team_id}/projects/{project_id}"
+        url = "/teams/{team_id}/projects/{project_id}".format(
+            team_id=team_id, project_id=project_id
+        )
         self.response = Response(self.delete(url), "")
         return self.response.status_code == 204

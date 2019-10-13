@@ -7,5 +7,5 @@ class OAuthMixin:
     """
 
     def grants(self, mime_type=None):
-        url = f"{self.host}applications/grants"
+        url = "/applications/grants"
         return transform("AppGrants", self.get_basic(url, mime_type))

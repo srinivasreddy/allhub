@@ -31,7 +31,9 @@ class EmailMixin:
         for email in emails:
             if not isinstance(email, str):
                 raise ValueError(
-                    f"{email} should be string, but of type: {type(email)}"
+                    "{email} should be string, but of type: {type}".format(
+                        email=email, type=type(email)
+                    )
                 )
 
         c_headers = {"Accept": "application/vnd.github.giant-sentry-fist-preview+json"}
@@ -47,7 +49,9 @@ class EmailMixin:
         for email in emails:
             if not isinstance(email, str):
                 raise ValueError(
-                    f"{email} should be string, but of type: {type(email)}"
+                    "{email} should be string, but of type: {type}".format(
+                        email=email, type=type(email)
+                    )
                 )
 
         self.response = Response(
@@ -64,7 +68,9 @@ class EmailMixin:
             return False
         else:
             raise ValueError(
-                f"the API returned response code:{self.response.status_code}, it should either be 204 or 404"
+                "the API returned response code:{status_code}, it should either be 204 or 404".format(
+                    status_code=self.response.status_code
+                )
             )
 
     def toggle_email_visibility(self, email, visibility):

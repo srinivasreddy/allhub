@@ -10,7 +10,9 @@ class IssueEventsMixin:
                 "application/vnd.github.sailor-v-preview+json",
             ]
         )
-        url = f"/repos/{owner}/{repo}/issues/{issue_number}/events"
+        url = "/repos/{owner}/{repo}/issues/{issue_number}/events".format(
+            owner=owner, repo=repo, issue_number=issue_number
+        )
         self.response = Response(self.get(url, **{"Accept": _mime}), "Events")
         return self.response.transform()
 
@@ -22,7 +24,7 @@ class IssueEventsMixin:
                 "application/vnd.github.sailor-v-preview+json",
             ]
         )
-        url = f"/repos/{owner}/{repo}/issues/events"
+        url = "/repos/{owner}/{repo}/issues/events".format(owner=owner, repo=repo)
         self.response = Response(self.get(url, **{"Accept": _mime}), "Events")
         return self.response.transform()
 
@@ -35,6 +37,8 @@ class IssueEventsMixin:
                 "application/vnd.github.sailor-v-preview+json",
             ]
         )
-        url = f"/repos/{owner}/{repo}/issues/events/{event_id}"
+        url = "/repos/{owner}/{repo}/issues/events/{event_id}".format(
+            owner=owner, repo=repo, event_id=event_id
+        )
         self.response = Response(self.get(url, **{"Accept": _mime}), "Event")
         return self.response.transform()

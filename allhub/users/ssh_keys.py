@@ -3,7 +3,7 @@ from allhub.response import Response
 
 class SSHKeysMixin:
     def list_public_ssh_keys(self, username):
-        url = f"/users/{username}/keys"
+        url = "/users/{username}/keys".format(username=username)
         self.response = Response(
             self.get(
                 url,
@@ -25,7 +25,7 @@ class SSHKeysMixin:
         return self.response.transform()
 
     def ssh_key(self, key_id):
-        url = f"/user/keys/{key_id}"
+        url = "/user/keys/{key_id}".format(key_id=key_id)
         self.response = Response(
             self.get(
                 url,
@@ -48,7 +48,7 @@ class SSHKeysMixin:
         return self.response.transform()
 
     def delete_public_ssh_key(self, key_id):
-        url = f"/user/keys/{key_id}"
+        url = "/user/keys/{key_id}".format(key_id=key_id)
         self.response = Response(
             self.delete(
                 url,

@@ -17,11 +17,17 @@ config = Config()
 
 
 class MediaType(Enum):
-    RAW = f"application/vnd.github.{config.api_version}.raw+json"
-    TEXT = f"application/vnd.github.{config.api_version}.text+json"
-    HTML = f"application/vnd.github.{config.api_version}.html+json"
-    FULL = f"application/vnd.github.{config.api_version}.full+json"
-    JSON = f"application/vnd.github.{config.api_version}+json"
+    RAW = "application/vnd.github.{version}.raw+json".format(version=config.api_version)
+    TEXT = "application/vnd.github.{version}.text+json".format(
+        version=config.api_version
+    )
+    HTML = "application/vnd.github.{version}.html+json".format(
+        version=config.api_version
+    )
+    FULL = "application/vnd.github.{version}.full+json".format(
+        version=config.api_version
+    )
+    JSON = "application/vnd.github.{version}+json".format(version=config.api_version)
     NONE = None
 
 
@@ -61,17 +67,19 @@ class ConflictCheck(type):
             (key, count) for (key, count) in counter.most_common() if count != 1
         ]
         if conflict_names:
-            data = "\n".join([f"{key}: {count}" for key, count in conflict_names])
+            data = "\n".join(
+                ["{}: {}".format(key, count) for key, count in conflict_names]
+            )
             raise ValueError(
-                f"The following methods defined more than once.\n {data}\n"
-                f"Please choose other names for your methods."
+                "The following methods defined more than once.\n {data}\n"
+                "Please choose other names for your methods.".format(data=data)
             )
         return super(ConflictCheck, mcs).__new__(mcs, name, bases, dikt)
 
 
 def shell_git_clone(_url):
     # TODO: How to recover from the network failure, existing repos??
-    command = f"git clone {_url}"
+    command = "git clone {_url}".format(_url=_url)
     subprocess.call(
         command,
         stdin=subprocess.PIPE,

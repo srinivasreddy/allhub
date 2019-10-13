@@ -5,7 +5,7 @@ _mime_type = "application/vnd.github.giant-sentry-fist-preview+json"
 
 class BlockingMixin:
     def blocked_users(self, org):
-        url = f"/orgs/{org}/blocks"
+        url = "/orgs/{org}/blocks".format(org=org)
         self.response = Response(self.get(url, **{"Accept": _mime_type}), "Users")
         return self.response.transform()
 
@@ -16,7 +16,7 @@ class BlockingMixin:
         :param username:
         :return:
         """
-        url = f"/orgs/{org}/blocks/{username}"
+        url = "/orgs/{org}/blocks/{username}".format(org=org, username=username)
         self.response = Response(self.get(url, **{"Accept": _mime_type}), "User")
         if self.response.status_code == 204:
             return True
@@ -24,7 +24,9 @@ class BlockingMixin:
             return False
         else:
             raise ValueError(
-                f"blocked_from_org(....) returned status code : {self.response.status_code}, it should either be 204 or 404"
+                "blocked_from_org(....) returned status code : {status_code} it should either be 204 or 404".format(
+                    status_code=self.response.status_code
+                )
             )
 
     def block_user_from_org(self, org, username):
@@ -35,12 +37,14 @@ class BlockingMixin:
         :param username:
         :return:
         """
-        url = f"/orgs/{org}/blocks/{username}"
+        url = "/orgs/{org}/blocks/{username}".format(org=org, username=username)
         self.response = Response(self.put(url, **{"Accept": _mime_type}), "")
         if self.response.status_code == 204:
             return True
         raise ValueError(
-            f"block_user_from_org(....) returned status code : {self.response.status_code}, instead of 204"
+            "block_user_from_org(....) returned status code : {status_code}, instead of 204".format(
+                status_code=self.response.status_code
+            )
         )
 
     def unblock_user_from_org(self, org, username):
@@ -50,10 +54,12 @@ class BlockingMixin:
         :param username:
         :return:
         """
-        url = f"/orgs/{org}/blocks/{username}"
+        url = "/orgs/{org}/blocks/{username}".format(org=org, username=username)
         self.response = Response(self.delete(url, **{"Accept": _mime_type}), "")
         if self.response.status_code == 204:
             return True
         raise ValueError(
-            f"unblock_user_from_org(....) returned status code : {self.response.status_code}, instead of 204"
+            "unblock_user_from_org(....) returned status code : {status_code}, instead of 204".format(
+                status_code=self.response.status_code
+            )
         )

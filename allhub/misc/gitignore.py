@@ -11,7 +11,7 @@ class GitIgnoreMixin:
         return self.response.transform()
 
     def git_ignore_template(self, name, media_type=MediaType.JSON):
-        url = f"/gitignore/templates/{name}"
+        url = "/gitignore/templates/{name}".format(name=name)
         self.response = Response(
             self.get(url, **{"Accept": media_type.value}), "Template"
         )

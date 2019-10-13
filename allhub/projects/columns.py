@@ -12,7 +12,7 @@ class CardPosition(Enum):
 
 class ColumnsMixin:
     def project_columns(self, project_id):
-        url = f"/projects/{project_id}/columns"
+        url = "/projects/{project_id}/columns".format(project_id=project_id)
         self.response = Response(
             self.get(url, **{"Accept": _project_accept_header}), "Columns"
         )
@@ -20,7 +20,7 @@ class ColumnsMixin:
         return self.response.transform()
 
     def project_column(self, column_id):
-        url = f"/projects/columns/{column_id}"
+        url = "/projects/columns/{column_id}".format(column_id=column_id)
         self.response = Response(
             self.get(url, **{"Accept": _project_accept_header}), "Column"
         )
@@ -28,7 +28,7 @@ class ColumnsMixin:
         return self.response.transform()
 
     def create_project_column(self, project_id, name):
-        url = f"/projects/{project_id}/columns"
+        url = "/projects/{project_id}/columns".format(project_id=project_id)
         params = [("name", name)]
         self.response = Response(
             self.post(url, params=params, **{"Accept": _project_accept_header}),
@@ -38,7 +38,7 @@ class ColumnsMixin:
         return self.response.transform()
 
     def update_project_column(self, column_id, name):
-        url = f"/projects/columns/{column_id}"
+        url = "/projects/columns/{column_id}".format(column_id=column_id)
         params = [("name", name)]
         self.response = Response(
             self.patch(url, params=params, **{"Accept": _project_accept_header}),
@@ -48,7 +48,7 @@ class ColumnsMixin:
         return self.response.transform()
 
     def delete_project_column(self, column_id):
-        url = f"/projects/columns/{column_id}"
+        url = "/projects/columns/{column_id}".format(column_id=column_id)
         self.response = Response(
             self.delete(url, **{"Accept": _project_accept_header}), "Column"
         )
@@ -56,7 +56,7 @@ class ColumnsMixin:
         return self.response.status_code == 204
 
     def move_project_column(self, column_id, position):
-        url = f"/projects/columns/{column_id}/moves"
+        url = "/projects/columns/{column_id}/moves".format(column_id=column_id)
         if position not in CardPosition:
             raise ValueError("position should be of type CardPosition.")
         params = [("position", position.value)]

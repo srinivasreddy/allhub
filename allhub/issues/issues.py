@@ -3,7 +3,7 @@ from allhub.response import Response
 
 
 class IssueType(Enum):
-    RAW = f"application/vnd.github.VERSION.raw+json"
+    RAW = "application/vnd.github.VERSION.raw+json"
     TEXT = "application/vnd.github.VERSION.text+json"
     HTML = "application/vnd.github.VERSION.html+json"
     FULL = "application/vnd.github.VERSION.full+json"
@@ -101,7 +101,7 @@ class IssueMixin:
         direction=IssueDirection.DESCENDING,
         since="",
     ):
-        url = f"/org/{org}/issues"
+        url = "/org/{org}/issues".format(org=org)
         params = [
             ("filter", filter.value),
             ("state", state.value),
@@ -129,7 +129,7 @@ class IssueMixin:
         direction=IssueDirection.DESCENDING,
         since=None,
     ):
-        url = f"/repos/{owner}/{repo}/issues"
+        url = "/repos/{owner}/{repo}/issues".format(owner=owner, repo=repo)
         params = [
             ("milestone", milestone),
             ("state", state.value),
@@ -156,7 +156,9 @@ class IssueMixin:
         return self.response.transform()
 
     def issue(self, owner, repo, issue_number):
-        url = f"/repos/{owner}/{repo}/issues/{issue_number}"
+        url = "/repos/{owner}/{repo}/issues/{issue_number}".format(
+            owner=owner, repo=repo, issue_number=issue_number
+        )
         self.response = Response(
             self.get(
                 url,
@@ -189,7 +191,7 @@ class IssueMixin:
             params["assignee"] = assignee
         if assignees:
             params["assignees"] = assignees
-        url = f"/repos/{owner}/{repo}/issues"
+        url = "/repos/{owner}/{repo}/issues".format(owner=owner, repo=repo)
         self.response = Response(
             self.post(
                 url,
@@ -228,7 +230,9 @@ class IssueMixin:
         Send an empty array ([]) to clear all assignees from the Issue.
         :return:
         """
-        url = f"/repos/{owner}/{repo}/issues/{issue_number}"
+        url = "/repos/{owner}/{repo}/issues/{issue_number}".format(
+            owner=owner, repo=repo, issue_number=issue_number
+        )
         self.response = Response(
             self.patch(
                 url,
@@ -251,7 +255,9 @@ class IssueMixin:
             raise ValueError(
                 "You should use LockReason instance for lock_reason variable."
             )
-        url = f"/repos/{owner}/{repo}/issues/{issue_number}/lock"
+        url = "/repos/{owner}/{repo}/issues/{issue_number}/lock".format(
+            owner=owner, repo=repo, issue_number=issue_number
+        )
         custom_headers = {}
         if lock_reason is None:
             custom_headers["Content-Length"] = "0"
@@ -269,7 +275,9 @@ class IssueMixin:
         return self.response.status_code == 204
 
     def unlock_issue(self, owner, repo, issue_number):
-        url = f"/repos/{owner}/{repo}/issues/{issue_number}/lock"
+        url = "/repos/{owner}/{repo}/issues/{issue_number}/lock".format(
+            owner=owner, repo=repo, issue_number=issue_number
+        )
         self.response = Response(
             self.delete(url, **{"Accept": IssueCustomMediaType}), ""
         )

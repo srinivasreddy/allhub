@@ -28,12 +28,12 @@ class OrgMixin:
         If you need to fetch all of the organization memberships (public and private)
         for the authenticated user, use the `def organizations()` API instead.
         """
-        url = f"/users/{username}/orgs"
+        url = "/users/{username}/orgs".format(username=username)
         self.response = Response(self.get(url, **kwargs), "Organizations")
         return self.response.transform()
 
     def get_organization(self, org, **kwargs):
-        url = f"/orgs/{org}"
+        url = "/orgs/{org}".format(org=org)
         self.response = Response(
             self.get(
                 url,
@@ -58,7 +58,7 @@ class OrgMixin:
         members_can_create_repositories=None,
         members_allowed_repository_creation_type=None,
     ):
-        url = f"/orgs/{org}"
+        url = "/orgs/{org}".format(org=org)
         params = {}
         if billing_email:
             params["billing_email"] = billing_email
@@ -94,15 +94,19 @@ class OrgMixin:
         return self.response.transform()
 
     def org_credential_authorizations(self, org):
-        url = f"/orgs/{org}/credential-authorizations"
+        url = "/orgs/{org}/credential-authorizations".format(org=org)
         self.response = Response(self.get(url), "Credentials")
         return self.response.transform()
 
     def remove_org_credential_authorizations(self, org, credential_id):
-        url = f"/orgs/{org}/credential-authorizations/{credential_id}"
+        url = "/orgs/{org}/credential-authorizations/{credential_id}".format(
+            org=org, credential_id=credential_id
+        )
         self.response = Response(self.delete(url), "")
         if self.response.status_code == 204:
             return True
         raise ValueError(
-            f"remove_org_credential_authorizations(.....) returned {self.response.status_code} instead of 204"
+            "remove_org_credential_authorizations(.....) returned {status_code} instead of 204".format(
+                status_code=self.response.status_code
+            )
         )

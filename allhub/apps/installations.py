@@ -14,7 +14,13 @@ class InstallationMixin:
         url = "/installation/repositories"
         self.response = Response(
             self.get(
-                url, **{"Authorization": f"Bearer {self.app_token}", "Accept": _mime}
+                url,
+                **{
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
+                    "Accept": _mime,
+                },
             ),
             "Apps",
         )
@@ -31,7 +37,13 @@ class InstallationMixin:
         url = "/user/installations"
         self.response = Response(
             self.get(
-                url, **{"Authorization": f"Bearer {self.app_token}", "Accept": _mime}
+                url,
+                **{
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
+                    "Accept": _mime,
+                },
             ),
             "Apps",
         )
@@ -39,10 +51,18 @@ class InstallationMixin:
 
     def repos_accessible_to_user_for_installation(self, installation_id):
         self._check_app_token()
-        url = f"/user/installations/{installation_id}/repositories"
+        url = "/user/installations/{installation_id}/repositories".format(
+            installation_id=installation_id
+        )
         self.response = Response(
             self.get(
-                url, **{"Authorization": f"Bearer {self.app_token}", "Accept": _mime}
+                url,
+                **{
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
+                    "Accept": _mime,
+                },
             ),
             "Repositories",
         )
@@ -51,10 +71,18 @@ class InstallationMixin:
     def add_repo_to_app_installation(self, installation_id, repository_id):
         self._check_app_token()
         _mime = "application/vnd.github.machine-man-preview+json"
-        url = f"/user/installations/{installation_id}/repositories/{repository_id}"
+        url = "/user/installations/{installation_id}/repositories/{repository_id}".format(
+            installation_id=installation_id, repository_id=repository_id
+        )
         self.response = Response(
             self.put(
-                url, **{"Authorization": f"Bearer {self.app_token}", "Accept": _mime}
+                url,
+                **{
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
+                    "Accept": _mime,
+                },
             ),
             "",
         )
@@ -63,24 +91,39 @@ class InstallationMixin:
     def remove_repo_from_app_installation(self, installation_id, repository_id):
         self._check_app_token()
         _mime = "application/vnd.github.machine-man-preview+json"
-        url = f"/user/installations/{installation_id}/repositories/{repository_id}"
+        url = "/user/installations/{installation_id}/repositories/{repository_id}".format(
+            installation_id=installation_id, repository_id=repository_id
+        )
         self.response = Response(
             self.delete(
-                url, **{"Authorization": f"Bearer {self.app_token}", "Accept": _mime}
+                url,
+                **{
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
+                    "Accept": _mime,
+                },
             ),
             "",
         )
         return self.response.status_code == 204
 
     def create_content_attachment(self, content_reference_id, title, body):
-        url = f"/content_references/{content_reference_id}/attachments"
+        url = "/content_references/{content_reference_id}/attachments".format(
+            content_reference_id=content_reference_id
+        )
         self._check_app_token()
         _mime = "application/vnd.github.corsair-preview+json"
         self.response = Response(
             self.post(
                 url,
                 params={"title": title, "body": body},
-                **{"Authorization": f"Bearer {self.app_token}", "Accept": _mime},
+                **{
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
+                    "Accept": _mime,
+                },
             ),
             "",
         )

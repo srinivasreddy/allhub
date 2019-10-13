@@ -10,14 +10,14 @@ class Sort(Enum):
 
 class ForkMixin:
     def forks(self, owner, repo, sort=Sort.NEWEST, **kwargs):
-        url = f"/repos/{owner}/{repo}/forks"
+        url = "/repos/{owner}/{repo}/forks".format(owner=owner, repo=repo)
         self.response = Response(
             self.get(url, params=[("sort", sort.value)], **kwargs), "Forks"
         )
         return self.response.transform()
 
     def create_fork(self, owner, repo, organization=None, **kwargs):
-        url = f"/repos/{owner}/{repo}/forks"
+        url = "/repos/{owner}/{repo}/forks".format(owner=owner, repo=repo)
         params = {}
         if organization:
             params["organization"] = organization

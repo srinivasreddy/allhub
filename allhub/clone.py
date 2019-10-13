@@ -12,12 +12,16 @@ class CloneMixin:
         check_git_installed()  # TODO: Move this call to decorator.
         list_of_repos = requests.get(
             self.clone_url.format(user=self.username),
-            headers={"Authorization": f"token {self.auth_token}"},
+            headers={
+                "Authorization": "token {auth_token}".format(auth_token=self.auth_token)
+            },
         ).json()
         return [repo["clone_url"] for repo in list_of_repos]
 
     def _build_clone_url(self, repo_name):
-        return f"https://github.com/{self.username}/{repo_name}.git"
+        return "https://github.com/{username}/{repo_name}.git".format(
+            username=self.username, repo_name=repo_name
+        )
 
     def clone_repos(self, urls=None):
         check_git_installed()
@@ -32,7 +36,9 @@ class CloneMixin:
         check_git_installed()
         if not isinstance(repo_name, str):
             raise AttributeError(
-                f"repo_name should be string, instead got {type(repo_name)}"
+                "repo_name should be string, instead got {name}".format(
+                    name=type(repo_name)
+                )
             )
         clone_url = self._build_clone_url(repo_name)
         shell_git_clone(clone_url)

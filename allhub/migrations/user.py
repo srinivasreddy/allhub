@@ -26,29 +26,39 @@ class UserMigrationMixin:
         return self.response.transform()
 
     def user_migration_status(self, migration_id):
-        url = f"/user/migrations/{migration_id}"
+        url = "/user/migrations/{migration_id}".format(migration_id=migration_id)
         self.response = Response(self.get(url, **{"Accept": _mime}), "UserMigrations")
         return self.response.transform()
 
     def download_user_migration_archive(self, migration_id):
-        url = f"/user/migrations/{migration_id}/archive"
+        url = "/user/migrations/{migration_id}/archive".format(
+            migration_id=migration_id
+        )
         self.response = Response(self.get(url, **{"Accept": _mime}), "UserMigrations")
         return self.response.transform()
 
     def delete_user_migration_archive(self, migration_id):
-        url = f"/user/migrations/{migration_id}/archive"
+        url = "/user/migrations/{migration_id}/archive".format(
+            migration_id=migration_id
+        )
         self.response = Response(self.delete(url, **{"Accept": _mime}), "")
         if self.response.status_code == 204:
             return True
         raise ValueError(
-            f"delete_user_migration_archive(......) should return 204, but it returned {self.response.status_code}"
+            "delete_user_migration_archive(......) should return 204, but it returned {status_code}".format(
+                status_code=self.response.status_code
+            )
         )
 
     def unlock_user_repository(self, migration_id, repo_name):
-        url = f"/user/migrations/{migration_id}/repos/{repo_name}/lock"
+        url = "/user/migrations/{migration_id}/repos/{repo_name}/lock".format(
+            migration_id=migration_id, repo_name=repo_name
+        )
         self.response = Response(self.delete(url, **{"Accept": _mime}), "")
         if self.response.status_code == 204:
             return True
         raise ValueError(
-            f"unlock_user_repository(......) should return 204, but it returned {self.response.status_code}"
+            "unlock_user_repository(......) should return 204, but it returned {status_code}".format(
+                status_code=self.response.status_code
+            )
         )

@@ -4,7 +4,7 @@ from allhub.response import Response
 
 class DeploymentMixin:
     def deployments(self, owner, repo, sha=None, ref=None, task=None, environment=None):
-        url = f"/repos/{owner}/{repo}/deployments"
+        url = "/repos/{owner}/{repo}/deployments".format(owner=owner, repo=repo)
         params = {}
         if sha:
             params["sha"] = sha
@@ -20,7 +20,9 @@ class DeploymentMixin:
         return self.response.transform()
 
     def deployment(self, owner, repo, deployment_id):
-        url = f"/repos/{owner}/{repo}/deployments/{deployment_id}"
+        url = "/repos/{owner}/{repo}/deployments/{deployment_id}".format(
+            owner=owner, repo=repo, deployment_id=deployment_id
+        )
         self.response = Response(self.get(url, **{"Accept": _mime}), "Deployments")
         return self.response.transform()
 
@@ -38,7 +40,7 @@ class DeploymentMixin:
         transient_environment=False,
         production_environment=True,
     ):
-        url = f"/repos/{owner}/{repo}/deployments"
+        url = "/repos/{owner}/{repo}/deployments".format(owner=owner, repo=repo)
         params = {
             "ref": ref,
             "auto_merge": auto_merge,
@@ -56,12 +58,14 @@ class DeploymentMixin:
         return self.response.transform()
 
     def deployment_statuses(self, owner, repo, deployment_id):
-        url = f"/repos/{owner}/{repo}/deployments/{deployment_id}/statuses"
+        url = "/repos/{owner}/{repo}/deployments/{deployment_id}/statuses"
         self.response = Response(self.get(url, **{"Accept": _mime}), "DeploymentStatus")
         return self.response.transform()
 
     def deployment_status(self, owner, repo, deployment_id, status_id):
-        url = f"/repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id}"
+        url = "/repos/{owner}/{repo}/deployments/{deployment_id}/statuses/{status_id}".format(
+            owner=owner, repo=repo, deployment_id=deployment_id, status_id=status_id
+        )
         self.response = Response(
             self.get(url, **{"Accept": "application/vnd.github.machine-man-preview"}),
             "DeploymentStatus",
@@ -81,7 +85,9 @@ class DeploymentMixin:
         environment_url="",
         auto_inactive=True,
     ):
-        url = f"/repos/{owner}/{repo}/deployments/{deployment_id}/statuses/"
+        url = "/repos/{owner}/{repo}/deployments/{deployment_id}/statuses/".format(
+            owner=owner, repo=repo, deployment_id=deployment_id
+        )
         params = {
             "state": state,
             "environment": environment,

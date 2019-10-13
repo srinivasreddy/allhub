@@ -5,7 +5,7 @@ from pathlib import Path
 
 class GistMixin:
     def user_gists(self):
-        url = f"/users/{self.username}/gists"
+        url = "/users/{username}/gists".format(username=self.username)
         self.response = Response(self.get(url), "UserGists")
         return self.response.transform()
 
@@ -37,12 +37,12 @@ class GistMixin:
         return self.response.transform()
 
     def gist(self, gist_id):
-        url = f"/gists/{gist_id}"
+        url = "/gists/{gist_id}".format(gist_id=gist_id)
         self.response = Response(self.get(url), "Gist")
         return self.response.transform()
 
     def gist_revision(self, gist_id, sha):
-        url = f"/gists/{gist_id}/{sha}"
+        url = "/gists/{gist_id}/{sha}".format(gist_id=gist_id, sha=sha)
         self.response = Response(self.get(url), "Gist")
         return self.response.transform()
 
@@ -57,7 +57,7 @@ class GistMixin:
         return self.response.transform()
 
     def edit_gist(self, gist_id, files, description):
-        url = f"/gists/{gist_id}"
+        url = "/gists/{gist_id}".format(gist_id=gist_id)
         files_contents = {}
         for _file in files:
             _path = Path(_file)
@@ -67,20 +67,20 @@ class GistMixin:
         return self.response.transform()
 
     def gist_commits(self, gist_id):
-        url = f"/gists/{gist_id}/commits"
+        url = "/gists/{gist_id}/commits".format(gist_id=gist_id)
         self.response = Response(self.patch(url), "GitCommits")
         return self.response.transform()
 
     def star_gist(self, gist_id):
-        url = f"/gists/{gist_id}/star"
+        url = "/gists/{gist_id}/star".format(gist_id=gist_id)
         return Response(self.put(url, **{"Content-Length": "0"}), "").status_code == 204
 
     def unstar_gist(self, gist_id):
-        url = f"/gists/{gist_id}/star"
+        url = "/gists/{gist_id}/star".format(gist_id=gist_id)
         return Response(self.delete(url), "").status_code == 204
 
     def is_gist_starred(self, gist_id):
-        url = f"/gists/{gist_id}/star"
+        url = "/gists/{gist_id}/star".format(gist_id=gist_id)
         code = Response(self.delete(url), "").status_code
         if code == 204:
             return True
@@ -88,19 +88,21 @@ class GistMixin:
             return False
         else:
             raise ErrorAPICode(
-                f"The url:{url} returned status code: {code}. Maybe try after sometime?"
+                "The url:{url} returned status code: {code}. Maybe try after sometime?".format(
+                    url=url, code=code
+                )
             )
 
     def fork_gist(self, gist_id):
-        url = f"/gists/{gist_id}/forks"
+        url = "/gists/{gist_id}/forks".format(gist_id=gist_id)
         self.response = Response(self.post(url), "GistFork")
         return self.response.transform()
 
     def gist_forks(self, gist_id):
-        url = f"/gists/{gist_id}/forks"
+        url = "/gists/{gist_id}/forks".format(gist_id=gist_id)
         self.response = Response(self.get(url), "GistForks")
         return self.response.transform()
 
     def delete_gist(self, gist_id):
-        url = f"/gists/{gist_id}"
+        url = "/gists/{gist_id}".format(gist_id=gist_id)
         return Response(self.delete(url), "").status_code == 204

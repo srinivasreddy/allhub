@@ -31,7 +31,7 @@ class PullRequestMixin:
         sort=PRSort.CREATED,
         direction=PRDirection.DSC,
     ):
-        url = f"/repos/{owner}/{repo}/pulls"
+        url = "/repos/{owner}/{repo}/pulls".format(owner=owner, repo=repo)
         params = {
             "state": state.value,
             "sort": sort.value,
@@ -54,7 +54,9 @@ class PullRequestMixin:
         return self.response.transform()
 
     def repo_pull_request(self, owner, repo, pull_number):
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}".format(
+            owner=owner, repo=repo, pull_number=pull_number
+        )
         _mime = ", ".join(
             [
                 "application/vnd.github.shadow-cat-preview+json",
@@ -76,7 +78,7 @@ class PullRequestMixin:
         maintainer_can_modify=None,
         draft=None,
     ):
-        url = f"/repos/{owner}/{repo}/pulls"
+        url = "/repos/{owner}/{repo}/pulls".format(owner=owner, repo=repo)
         _mime = ", ".join(
             [
                 "application/vnd.github.shadow-cat-preview+json",
@@ -98,7 +100,9 @@ class PullRequestMixin:
 
     def update_pull_request_branch(self, owner, repo, pull_number, expected_head_sha):
         _mime = "application/vnd.github.lydian-preview+json"
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/update-branch"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}/update-branch".format(
+            owner=owner, repo=repo, pull_number=pull_number
+        )
         self.response = Response(
             self.put(
                 url,
@@ -112,7 +116,9 @@ class PullRequestMixin:
     def update_pull_request(
         self, owner, repo, pull_number, title, body, state, base, maintainer_can_modify
     ):
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}".format(
+            owner=owner, repo=repo, pull_number=pull_number
+        )
         _mime = ", ".join(
             [
                 "application/vnd.github.shadow-cat-preview+json",
@@ -133,24 +139,32 @@ class PullRequestMixin:
         return self.response.transform()
 
     def commits_in_pull_request(self, owner, repo, pull_number):
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/commits"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}/commits".format(
+            owner=owner, repo=repo, pull_number=pull_number
+        )
         self.response = Response(self.get(url), "Commits")
         return self.response.transform()
 
     def files_in_pull_request(self, owner, repo, pull_number):
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/files"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}/files".format(
+            owner=owner, repo=repo, pull_number=pull_number
+        )
         self.response = Response(self.get(url), "Files")
         return self.response.transform()
 
     def is_pull_request_has_been_merged(self, owner, repo, pull_number):
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/merge"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}/merge".format(
+            owner=owner, repo=repo, pull_number=pull_number
+        )
         self.response = Response(self.get(url), "")
         return self.response.status_code == 204
 
     def merge_pull_request(
         self, owner, repo, pull_number, commit_title, commit_message, sha, merge_method
     ):
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/merge"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}/merge".format(
+            owner=owner, repo=repo, pull_number=pull_number
+        )
         params = {
             "commit_title": commit_title,
             "commit_message": commit_message,

@@ -34,7 +34,9 @@ class ReviewCommentsMixin:
         if since:
             params["since"] = since
 
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/comments"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}/comments".format(
+            owner=owner, repo=repo, pull_number=pull_number
+        )
         self.response = Response(
             self.get(url, params=params, **{"Accept": _mime}), "PRComments"
         )
@@ -54,7 +56,7 @@ class ReviewCommentsMixin:
             params["direction"] = direction
         if since:
             params["since"] = since
-        url = f"/repos/{owner}/{repo}/pulls/comments"
+        url = "/repos/{owner}/{repo}/pulls/comments".format(owner=owner, repo=repo)
         self.response = Response(
             self.get(url, params=params, **{"Accept": _mime}), "PRComments"
         )
@@ -67,7 +69,9 @@ class ReviewCommentsMixin:
                 "application/vnd.github.squirrel-girl-preview",
             ]
         )
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}".format(
+            owner=owner, repo=repo, pull_number=pull_number, comment_id=comment_id
+        )
         self.response = Response(self.get(url, **{"Accept": _mime}), "PRComments")
         return self.response.transform()
 
@@ -101,7 +105,9 @@ class ReviewCommentsMixin:
             "start_line": start_line,
             "start_side": start_side,
         }
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/comments"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}/comments".format(
+            owner=owner, repo=repo, pull_number=pull_number
+        )
         self.response = Response(
             self.post(url, params=params, **{"Accept": _mime}), "PRComment"
         )
@@ -110,12 +116,16 @@ class ReviewCommentsMixin:
     def create_comment_reply_on_pull_request(
         self, owner, repo, pull_number, comment_id, body
     ):
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}/replies".format(
+            owner=owner, repo=repo, pull_number=pull_number, comment_id=comment_id
+        )
         self.response = Response(self.post(url, params={"body": body}), "PRComment")
         return self.response.transform()
 
     def edit_comment_on_pull_request(self, owner, repo, pull_number, comment_id, body):
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}".format(
+            owner=owner, repo=repo, pull_number=pull_number, comment_id=comment_id
+        )
         self.response = Response(
             self.patch(
                 url,
@@ -127,6 +137,8 @@ class ReviewCommentsMixin:
         return self.response.transform()
 
     def delete_comment_on_pull_request(self, owner, repo, pull_number, comment_id):
-        url = f"/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}"
+        url = "/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}".format(
+            owner=owner, repo=repo, pull_number=pull_number, comment_id=comment_id
+        )
         self.response = Response(self.delete(url), "")
         return self.response.status_code == 204

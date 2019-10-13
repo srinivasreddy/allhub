@@ -30,7 +30,7 @@ class CheckRunsMixin:
             "completed_at": completed_at,
             "actions": actions,
         }
-        url = f"/repos/{owner}/{repo}/check-runs"
+        url = "/repos/{owner}/{repo}/check-runs".format(owner=owner, repo=repo)
         self.response = Response(
             self.post(url, params=params, **{"Accept": _mime}), "CheckRun"
         )
@@ -62,14 +62,18 @@ class CheckRunsMixin:
             "completed_at": completed_at,
             "actions": actions,
         }
-        url = f"/repos/{owner}/{repo}/check-runs/{check_run_id}"
+        url = "/repos/{owner}/{repo}/check-runs/{check_run_id}".format(
+            owner=owner, repo=repo, check_run_id=check_run_id
+        )
         self.response = Response(
             self.patch(url, params=params, **{"Accept": _mime}), "CheckRun"
         )
         return self.response.transform()
 
     def check_runs_for_ref(self, owner, repo, ref, check_name, status, filter):
-        url = f"/repos/{owner}/{repo}/commits/{ref}/check-runs"
+        url = "/repos/{owner}/{repo}/commits/{ref}/check-runs".format(
+            owner=owner, repo=repo, ref=ref
+        )
         params = {"check_name": check_name, "status": status, "filter": filter}
         self.response = Response(
             self.get(url, params=params, **{"Accept": _mime}), "CheckRuns"
@@ -77,21 +81,28 @@ class CheckRunsMixin:
         return self.response.transform()
 
     def check_runs_in_suite(self, owner, repo, check_suite_id, **kwargs):
-        url = f"/repos/{owner}/{repo}/check-suites/{check_suite_id}/check-runs"
+        url = "/repos/{owner}/{repo}/check-suites/{check_suite_id}/check-runs".format(
+            owner=owner, repo=repo, check_suite_id=check_suite_id
+        )
+
         self.response = Response(
             self.get(url, **{"Accept": _mime}, **kwargs), "CheckSuites"
         )
         return self.response.transform()
 
     def single_check_run(self, owner, repo, check_run_id, **kwargs):
-        url = f"/repos/{owner}/{repo}/check-runs/{check_run_id}"
+        url = "/repos/{owner}/{repo}/check-runs/{check_run_id}".format(
+            owner=owner, repo=repo, check_run_id=check_run_id
+        )
         self.response = Response(
             self.get(url, **{"Accept": _mime}, **kwargs), "CheckRun"
         )
         return self.response.transform()
 
     def annotations_for_check_run(self, owner, repo, check_run_id, **kwargs):
-        url = f"/repos/{owner}/{repo}/check-runs/{check_run_id}/annotations"
+        url = "/repos/{owner}/{repo}/check-runs/{check_run_id}/annotations".format(
+            owner=owner, repo=repo, check_run_id=check_run_id
+        )
         self.response = Response(
             self.get(url, **{"Accept": _mime}, **kwargs), "Annotations"
         )

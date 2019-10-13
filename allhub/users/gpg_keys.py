@@ -3,7 +3,7 @@ from allhub.response import Response
 
 class GPGKeysMixin:
     def list_gpg_keys(self, username):
-        url = f"/users/{username}/gpg_keys"
+        url = "/users/{username}/gpg_keys".format(username=username)
         self.response = Response(
             self.get(
                 url,
@@ -14,7 +14,7 @@ class GPGKeysMixin:
         return self.response.transform()
 
     def gpg_keys(self):
-        url = f"/users/gpg_keys"
+        url = "/users/gpg_keys"
         self.response = Response(
             self.get(
                 url,
@@ -25,7 +25,7 @@ class GPGKeysMixin:
         return self.response.transform()
 
     def gpg_key(self, gpg_key_id):
-        url = f"/user/gpg_keys/{gpg_key_id}"
+        url = "/user/gpg_keys/{gpg_key_id}".format(gpg_key_id=gpg_key_id)
         self.response = Response(
             self.get(
                 url,
@@ -48,7 +48,7 @@ class GPGKeysMixin:
         return self.response.transform()
 
     def delete_public_gpg_key(self, gpg_key_id):
-        url = f"/user/gpg_keys/{gpg_key_id}"
+        url = "/user/gpg_keys/{gpg_key_id}".format(gpg_key_id=gpg_key_id)
         self.response = Response(
             self.delete(
                 url,

@@ -19,7 +19,9 @@ class AppMixin:
             self.get(
                 url,
                 **{
-                    "Authorization": f"Bearer {self.app_token}",
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
                     "Accept": _app_mime_type,
                 },
             ),
@@ -34,7 +36,9 @@ class AppMixin:
             self.get(
                 url,
                 **{
-                    "Authorization": f"Bearer {self.app_token}",
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
                     "Accept": _app_mime_type,
                 },
             ),
@@ -51,7 +55,9 @@ class AppMixin:
             self.get(
                 url,
                 **{
-                    "Authorization": f"Bearer {self.app_token}",
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
                     "Accept": _app_mime_type,
                 },
             ),
@@ -69,7 +75,9 @@ class AppMixin:
             self.delete(
                 url,
                 **{
-                    "Authorization": f"Bearer {self.app_token}",
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
                     "Accept": _app_mime_type,
                 },
             ),
@@ -103,7 +111,9 @@ class AppMixin:
             self.get(
                 url,
                 **{
-                    "Authorization": f"Bearer {self.app_token}",
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
                     "Accept": _app_mime_type,
                 },
             ),
@@ -118,7 +128,9 @@ class AppMixin:
             self.get(
                 url,
                 **{
-                    "Authorization": f"Bearer {self.app_token}",
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
                     "Accept": _app_mime_type,
                 },
             ),
@@ -133,7 +145,9 @@ class AppMixin:
             self.get(
                 url,
                 **{
-                    "Authorization": f"Bearer {self.app_token}",
+                    "Authorization": "Bearer {app_token}".format(
+                        app_token=self.app_token
+                    ),
                     "Accept": _app_mime_type,
                 },
             ),

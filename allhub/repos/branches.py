@@ -3,7 +3,7 @@ from allhub.response import Response
 
 class BranchMixin:
     def branches(self, owner, repo, protected=None):
-        url = f"/repos/{owner}/{repo}/branches"
+        url = "/repos/{owner}/{repo}/branches".format(owner=owner, repo=repo)
         params = {}
         if protected:
             params = {"protected": protected}
@@ -11,7 +11,9 @@ class BranchMixin:
         return self.response.transform()
 
     def branch(self, owner, repo, branch):
-        url = f"/repos/{owner}/{repo}/branches/{branch}"
+        url = "/repos/{owner}/{repo}/branches/{branch}".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.get(url), "Branch")
         return self.response.transform()
 
@@ -25,7 +27,9 @@ class BranchMixin:
         :return:
         """
         mime = "application/vnd.github.luke-cage-preview+json"
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.get(url, **{"Accept": mime}), "BranchProtection")
         return self.response.transform()
 
@@ -52,7 +56,9 @@ class BranchMixin:
         :return:
         """
         mime = "application/vnd.github.luke-cage-preview+json"
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection".format(
+            owner=owner, repo=repo, branch=branch
+        )
         params = {
             "required_status_checks": required_status_checks,
             "enforce_admins": enforce_admins,
@@ -74,7 +80,9 @@ class BranchMixin:
         :return:
         """
         mime = "application/vnd.github.luke-cage-preview+json"
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.delete(url, **{"Accept": mime}), "")
         return self.response.status_code == 204
 
@@ -87,8 +95,8 @@ class BranchMixin:
         :param branch:
         :return:
         """
-        url = (
-            f"/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks".format(
+            owner=owner, repo=repo, branch=branch
         )
         self.response = Response(self.get(url), "RequiredChecks")
         return self.response.transform()
@@ -106,8 +114,8 @@ class BranchMixin:
         :param contexts:
         :return:
         """
-        url = (
-            f"/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks".format(
+            owner=owner, repo=repo, branch=branch
         )
         params = {"strict": strict, "contexts": contexts}
         self.response = Response(self.patch(url, params=params), "RequiredChecks")
@@ -122,14 +130,16 @@ class BranchMixin:
         :param branch:
         :return:
         """
-        url = (
-            f"/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks".format(
+            owner=owner, repo=repo, branch=branch
         )
         self.response = Response(self.delete(url), "")
         return self.response.status_code == 204
 
     def required_status_checks_contexts_of_protected_branch(self, owner, repo, branch):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.get(url), "Contexts")
         return self.response.transform()
 
@@ -137,7 +147,9 @@ class BranchMixin:
         self, owner, repo, branch, contexts
     ):
         assert isinstance(contexts, (list, tuple))
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts".format(
+            owner=owner, repo=repo, branch=branch
+        )
         params = {"contexts": list(contexts)}
         self.response = Response(self.put(url, params=params), "Contexts")
         return self.response.transform()
@@ -146,7 +158,9 @@ class BranchMixin:
         self, owner, repo, branch, contexts
     ):
         assert isinstance(contexts, (list, tuple))
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts".format(
+            owner=owner, repo=repo, branch=branch
+        )
         params = {"contexts": list(contexts)}
         self.response = Response(self.post(url, params=params), "Contexts")
         return self.response.transform()
@@ -154,13 +168,17 @@ class BranchMixin:
     def remove_required_status_checks_contexts_of_protected_branch(
         self, owner, repo, branch
     ):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_status_checks/contexts".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.delete(url), "")
         return self.response.status_code == 204
 
     def get_pr_review_enforcement_of_protected_branch(self, owner, repo, branch):
         _mime = "application/vnd.github.luke-cage-preview+json"
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(
             self.get(url, **{"Accept": _mime}), "PRReviewEnforcement"
         )
@@ -183,7 +201,9 @@ class BranchMixin:
             "require_code_owner_reviews": require_code_owner_reviews,
             "required_approving_review_count": required_approving_review_count,
         }
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(
             self.patch(url, params=params, **{"Accept": _mime}), "PRReviewEnforcement"
         )
@@ -191,13 +211,17 @@ class BranchMixin:
 
     def remove_pr_review_enforcement_of_protected_branch(self, owner, repo, branch):
         _mime = "application/vnd.github.luke-cage-preview+json"
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_pull_request_reviews".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.delete(url, **{"Accept": _mime}), "")
         return self.response.status_code == 204
 
     def required_signatures_of_protected_branch(self, owner, repo, branch):
         _mime = "application/vnd.github.zzzax-preview+json"
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/required_signatures"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_signatures".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(
             self.get(url, **{"Accept": _mime}), "RequiredSignatures"
         )
@@ -205,7 +229,9 @@ class BranchMixin:
 
     def add_required_signatures_of_protected_branch(self, owner, repo, branch):
         _mime = "application/vnd.github.zzzax-preview+json"
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/required_signatures"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_signatures".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(
             self.post(url, **{"Accept": _mime}), "RequiredSignatures"
         )
@@ -213,37 +239,51 @@ class BranchMixin:
 
     def remove_required_signatures_of_protected_branch(self, owner, repo, branch):
         _mime = "application/vnd.github.zzzax-preview+json"
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/required_signatures"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/required_signatures".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.delete(url, **{"Accept": _mime}), "")
         return self.response.status_code == 204
 
     def admin_enforcement_of_protected_branch(self, owner, repo, branch):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.get(url), "AdminEnforcementOfProtectedBranch")
         return self.response.transform()
 
     def add_admin_enforcement_of_protected_branch(self, owner, repo, branch):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.post(url), "AdminEnforcementOfProtectedBranch")
         return self.response.transform()
 
     def remove_admin_enforcement_of_protected_branch(self, owner, repo, branch):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/enforce_admins".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.delete(url), "")
         return self.response.status_code == 204
 
     def restrictions_of_protected_branch(self, owner, repo, branch):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.get(url), "RestrictionsOfProtectedBranch")
         return self.response.transform()
 
     def remove_restrictions_of_protected_branch(self, owner, repo, branch):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.delete(url), "")
         return self.response.status_code == 204
 
     def teams_with_access_to_protected_branch(self, owner, repo, branch):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams".format(
+            owner=owner, repo=repo, branch=branch
+        )
         _mime = "application/vnd.github.hellcat-preview+json"
         self.response = Response(
             self.get(url, **{"Accept": _mime}), "RestrictionsOfProtectedBranch"
@@ -251,7 +291,9 @@ class BranchMixin:
         return self.response.transform()
 
     def replace_team_restrictions_to_protected_branch(self, owner, repo, branch, array):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams".format(
+            owner=owner, repo=repo, branch=branch
+        )
         _mime = "application/vnd.github.hellcat-preview+json"
         params = {"array": array}
         self.response = Response(
@@ -261,7 +303,9 @@ class BranchMixin:
         return self.response.transform()
 
     def add_team_restrictions_to_protected_branch(self, owner, repo, branch, array):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams".format(
+            owner=owner, repo=repo, branch=branch
+        )
         _mime = "application/vnd.github.hellcat-preview+json"
         params = {"array": array}
         self.response = Response(
@@ -271,7 +315,9 @@ class BranchMixin:
         return self.response.transform()
 
     def remove_team_restrictions_of_protected_branch(self, owner, repo, branch, array):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/teams".format(
+            owner=owner, repo=repo, branch=branch
+        )
         _mime = "application/vnd.github.hellcat-preview+json"
         params = {"array": array}
         self.response = Response(
@@ -281,47 +327,63 @@ class BranchMixin:
         return self.response.status_code == 204
 
     def users_with_access_to_protected_branch(self, owner, repo, branch):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.get(url), "Users")
         return self.response.transform()
 
     def replace_user_restrictions_of_protected_branch(self, owner, repo, branch, array):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users".format(
+            owner=owner, repo=repo, branch=branch
+        )
         params = {"array": array}
         self.response = Response(self.put(url, params=params), "Users")
         return self.response.transform()
 
     def add_user_restrictions_of_protected_branch(self, owner, repo, branch, array):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users".format(
+            owner=owner, repo=repo, branch=branch
+        )
         params = {"array": array}
         self.response = Response(self.post(url, params=params), "Users")
         return self.response.transform()
 
     def remove_user_restrictions_of_protected_branch(self, owner, repo, branch, array):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/users".format(
+            owner=owner, repo=repo, branch=branch
+        )
         params = {"array": array}
         self.response = Response(self.delete(url, params=params), "Users")
         return self.response.status_code == 204
 
     def apps_with_access_to_protected_branch(self, owner, repo, branch):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps".format(
+            owner=owner, repo=repo, branch=branch
+        )
         self.response = Response(self.get(url), "Apps")
         return self.response.transform()
 
     def replace_app_restrictions_of_protected_branch(self, owner, repo, branch, array):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps".format(
+            owner=owner, repo=repo, branch=branch
+        )
         params = {"array": array}
         self.response = Response(self.put(url, params=params), "Apps")
         return self.response.transform()
 
     def add_app_restrictions_of_protected_branch(self, owner, repo, branch, array):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps".format(
+            owner=owner, repo=repo, branch=branch
+        )
         params = {"array": array}
         self.response = Response(self.post(url, params=params), "Apps")
         return self.response.transform()
 
     def remove_app_restrictions_of_protected_branch(self, owner, repo, branch, array):
-        url = f"/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps"
+        url = "/repos/{owner}/{repo}/branches/{branch}/protection/restrictions/apps".format(
+            owner=owner, repo=repo, branch=branch
+        )
         params = {"array": array}
         self.response = Response(self.delete(url, params=params), "Apps")
         return self.response.status_code == 204

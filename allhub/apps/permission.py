@@ -1,7 +1,10 @@
 from enum import Enum
 
 
-class Permission(Enum):
+# TODO: Need to check again how these names fare while using API.
+
+
+class AppPermissionEnum(Enum):
     READ = "read"
     WRITE = "write"
     NONE = None
@@ -10,36 +13,36 @@ class Permission(Enum):
 class AppPermission:
     def __init__(
         self,
-        administration=Permission.NONE,
-        blocking=Permission.NONE,
-        checks=Permission.NONE,
-        content_reference=Permission.NONE,
-        contents=Permission.NONE,
-        deployments=Permission.NONE,
-        emails=Permission.NONE,
-        followers=Permission.NONE,
-        gpg_keys=Permission.NONE,
-        issues=Permission.NONE,
-        keys=Permission.NONE,
-        members=Permission.NONE,
-        metadata=Permission.NONE,
-        organization_administration=Permission.NONE,
-        organization_hooks=Permission.NONE,
-        organization_plan=Permission.NONE,
-        organization_projects=Permission.NONE,
-        organization_user_blocking=Permission.NONE,
-        packages=Permission.NONE,
-        pages=Permission.NONE,
-        plan=Permission.NONE,
-        pull_requests=Permission.NONE,
-        repository_hooks=Permission.NONE,
-        repository_projects=Permission.NONE,
-        single_file=Permission.NONE,
-        starring=Permission.NONE,
-        statuses=Permission.NONE,
-        team_discussions=Permission.NONE,
-        vulnerability_alerts=Permission.NONE,
-        watching=Permission.NONE,
+        administration=AppPermissionEnum.NONE,
+        blocking=AppPermissionEnum.NONE,
+        checks=AppPermissionEnum.NONE,
+        content_reference=AppPermissionEnum.NONE,
+        contents=AppPermissionEnum.NONE,
+        deployments=AppPermissionEnum.NONE,
+        emails=AppPermissionEnum.NONE,
+        followers=AppPermissionEnum.NONE,
+        gpg_keys=AppPermissionEnum.NONE,
+        issues=AppPermissionEnum.NONE,
+        keys=AppPermissionEnum.NONE,
+        members=AppPermissionEnum.NONE,
+        metadata=AppPermissionEnum.NONE,
+        organization_administration=AppPermissionEnum.NONE,
+        organization_hooks=AppPermissionEnum.NONE,
+        organization_plan=AppPermissionEnum.NONE,
+        organization_projects=AppPermissionEnum.NONE,
+        organization_user_blocking=AppPermissionEnum.NONE,
+        packages=AppPermissionEnum.NONE,
+        pages=AppPermissionEnum.NONE,
+        plan=AppPermissionEnum.NONE,
+        pull_requests=AppPermissionEnum.NONE,
+        repository_hooks=AppPermissionEnum.NONE,
+        repository_projects=AppPermissionEnum.NONE,
+        single_file=AppPermissionEnum.NONE,
+        starring=AppPermissionEnum.NONE,
+        statuses=AppPermissionEnum.NONE,
+        team_discussions=AppPermissionEnum.NONE,
+        vulnerability_alerts=AppPermissionEnum.NONE,
+        watching=AppPermissionEnum.NONE,
     ):
 
         self.administration = administration

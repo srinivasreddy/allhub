@@ -103,8 +103,10 @@ class AllHub(
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("GH_APP_NAME", self.username),
-            "Authorization": f"token {self.auth_token}",
-            "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
+            "Authorization": "token {auth_token}".format(auth_token=self.auth_token),
+            "Accept": "application/vnd.github.v{version}+{mime}".format(
+                version=config.api_version, mime=config.api_mime_type
+            ),
         }
         headers.update(**kwargs)
         response = requests.get(full_url, headers=headers, params=params)
@@ -126,7 +128,9 @@ class AllHub(
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("GH_APP_NAME", self.username),
-            "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
+            "Accept": "application/vnd.github.v{version}+{mime}".format(
+                version=config.api_version, mime=config.api_mime_type
+            ),
         }
         password = kwargs.pop("password", None)
         headers.update(**kwargs)
@@ -153,8 +157,10 @@ class AllHub(
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("GH_APP_NAME", self.username),
-            "Authorization": f"token {self.auth_token}",
-            "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
+            "Authorization": "token {auth_token}".format(auth_token=self.auth_token),
+            "Accept": "application/vnd.github.v{version}+{mime}".format(
+                version=config.api_version, mime=config.api_mime_type
+            ),
         }
         headers.update(**kwargs)
         response = requests.put(full_url, headers=headers, params=params)
@@ -176,8 +182,10 @@ class AllHub(
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.username),
-            "Authorization": f"token {self.auth_token}",
-            "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
+            "Authorization": "token {auth_token}".format(auth_token=self.auth_token),
+            "Accept": "application/vnd.github.v{version}+{mime}".format(
+                version=config.api_version, mime=config.api_mime_type
+            ),
         }
         headers.update(**kwargs)
         response = requests.post(full_url, headers=headers, json=params)
@@ -199,8 +207,10 @@ class AllHub(
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.username),
-            "Authorization": f"token {self.auth_token}",
-            "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
+            "Authorization": "token {auth_token}".format(auth_token=self.auth_token),
+            "Accept": "application/vnd.github.v{version}+{mime}".format(
+                version=config.api_version, mime=config.api_mime_type
+            ),
         }
         headers.update(**kwargs)
         response = requests.patch(full_url, headers=headers, json=params)
@@ -223,8 +233,10 @@ class AllHub(
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("APP_NAME", self.username),
-            "Authorization": f"token {self.auth_token}",
-            "Accept": f"application/vnd.github.v{config.api_version}+{config.api_mime_type}",
+            "Authorization": "token {auth_token}".format(auth_token=self.auth_token),
+            "Accept": "application/vnd.github.v{version}+{mime}".format(
+                version=config.api_version, mime=config.api_mime_type
+            ),
         }
         headers.update(**kwargs)
         response = requests.delete(full_url, headers=headers, json=params)
@@ -239,8 +251,10 @@ class AllHub(
     def _check_app_token(self):
         if self.app_token is None:
             raise ValueError(
-                f"You need to supply app_token to {self.__class__.__name__}(.....)."
-                f"In order to obtain app_token see the documentation on how to generate JWT"
+                "You need to supply app_token to {name}(.....)."
+                "In order to obtain app_token see the documentation on how to generate JWT".format(
+                    name=self.__class__.__name__
+                )
             )
 
     @property

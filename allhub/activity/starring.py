@@ -13,14 +13,15 @@ class StarringSort(Enum):
     UPDATED = "updated"
 
 
+_mime_option = "application/vnd.github.v{version}.star+{mime}".format(
+    version=config.api_version, mime=config.api_mime_type
+)
+
+
 class StarringMixin:
     def stargazers(self, owner, repo, starred_at=False, **kwargs):
         url = "/repos/{owner}/{repo}/stargazers".format(owner=owner, repo=repo)
-        kwargs.update(
-            {
-                "Accept": f"application/vnd.github.v{config.api_version}.star+{config.api_mime_type}"
-            }
-        )
+        kwargs.update({"Accept": _mime_option})
         self.response = Response(
             self.get(url, params={"starred_at": starred_at}, **kwargs), "StarGazers"
         )
@@ -41,11 +42,7 @@ class StarringMixin:
         url = "/user/starred"
         params = [("sort", sort.value), ("direction", direction.value)]
         if starred_at:
-            kwargs.update(
-                {
-                    "Accept": f"application/vnd.github.v{config.api_version}.star+{config.api_mime_type}"
-                }
-            )
+            kwargs.update({"Accept": _mime_option})
         self.response = Response(self.get(url, params, **kwargs), "StarRepos")
         return self.response.transform()
 
@@ -65,11 +62,7 @@ class StarringMixin:
         url = "/users/{username}/starred".format(username=username)
         params = [("sort", sort.value), ("direction", direction.value)]
         if starred_at:
-            kwargs.update(
-                {
-                    "Accept": f"application/vnd.github.v{config.api_version}.star+{config.api_mime_type}"
-                }
-            )
+            kwargs.update({"Accept": _mime_option})
         self.response = Response(self.get(url, params, **kwargs), "StarRepos")
         return self.response.transform()
 
@@ -83,8 +76,8 @@ class StarringMixin:
             is_starred = False
         else:
             raise ErrorAPICode(
-                f"url: {url} supposed to return 204 or 404 but returned {status_code}."
-                f"Maybe try after sometime?"
+                "url: {url} supposed to return 204 or 404 but returned {status_code}."
+                "Maybe try after sometime?".format(url=url, status_code=status_code)
             )
         return is_starred
 

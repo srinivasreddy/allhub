@@ -6,15 +6,15 @@ _mime = "application/vnd.github.sombra-preview"
 
 class RepoMixin:
     def repo_interaction_limits(self, owner, repo):
-        url = f"/repos/{owner}/{repo}/interaction-limits"
+        url = "/repos/{owner}/{repo}/interaction-limits".format(owner=owner, repo=repo)
         self.response = Response(
             self.get(url, **{"Accept": _mime}), "RepoInteractionLimits"
         )
         return self.response.transform()
 
     def add_repo_interaction_limits(self, owner, repo, limit):
-        assert isinstance(limit, InteractionLimit)
-        url = f"/repos/{owner}/{repo}/interaction-limits"
+        assert isinstance(limit, InteractionLimit).format(owner=owner, repo=repo)
+        url = "/repos/{owner}/{repo}/interaction-limits"
         self.response = Response(
             self.put(url, params={"limit": limit.value}, **{"Accept": _mime}),
             "RepoInteractionLimits",
@@ -22,6 +22,6 @@ class RepoMixin:
         return self.response.transform()
 
     def remove_repo_interaction_limits(self, owner, repo):
-        url = f"/repos/{owner}/{repo}/interaction-limits"
+        url = "/repos/{owner}/{repo}/interaction-limits".format(owner=owner, repo=repo)
         self.response = Response(self.put(url), "")
         return self.response.status_code == 204

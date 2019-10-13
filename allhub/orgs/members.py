@@ -23,7 +23,7 @@ class OrgMembersMixin:
         :param role:
         :return:
         """
-        url = f"/orgs/{org}/members"
+        url = "/orgs/{org}/members".format(org=org)
         params = {"filter": filter.value, "role": role.value}
         self.response = Response(self.get(url, params=params), "OrgMembers")
         return self.response.transform()
@@ -48,81 +48,99 @@ class OrgMembersMixin:
         :param username:
         :return:
         """
-        url = f"/orgs/{org}/members/{username}"
+        url = "/orgs/{org}/members/{username}".format(org=org, username=username)
         self.response = Response(self.get(url), "")
         if self.response.status_code == 204:
             return True
         elif self.response.status_code in (404, 302):
             return False
         raise ValueError(
-            f"check_membership(.....) returned {self.response.status_code}, it should either be 204, 302 or 404."
+            "check_membership(.....) returned {status_code}, it should either be 204, 302 or 404.".format(
+                status_code=self.response.status_code
+            )
         )
 
     def delete_org_member(self, org, username):
-        url = f"/orgs/{org}/members/{username}"
+        url = "/orgs/{org}/members/{username}".format(org=org, username=username)
         self.response = Response(self.delete(url), "")
         if self.response.status_code == 204:
             return True
         raise ValueError(
-            f"delete_org_member(.....) returned {self.response.status_code}, it should be 204."
+            "delete_org_member(.....) returned {status_code}, it should be 204.".format(
+                status_code=self.response.status_code
+            )
         )
 
     def public_org_members(self, org):
-        url = f"/orgs/{org}/public_members"
+        url = "/orgs/{org}/public_members".format(org=org)
         self.response = Response(self.get(url), "OrgPublicMembers")
         return self.response.transform()
 
     def check_public_membership(self, org, username):
-        url = f"/orgs/{org}/public_members/{username}"
+        url = "/orgs/{org}/public_members/{username}".format(org=org, username=username)
         self.response = Response(self.get(url), "OrgPublicMembers")
         if self.response.status_code == 204:
             return True
         elif self.response.status_code == 404:
             return False
         raise ValueError(
-            f"check_public_membership(.....) returned {self.response.status_code}, it should be 204 or 404."
+            "check_public_membership(.....) returned {status_code}, it should be 204 or 404.".format(
+                status_code=self.response.status_code
+            )
         )
 
     def publicize_membership(self, org):
-        url = f"/orgs/{org}/public_members/{self.username}"
+        url = "/orgs/{org}/public_members/{username}".format(
+            org=org, username=self.username
+        )
         self.response = Response(self.put(url, **{"Content-Length": "0"}), "")
         if self.response.status_code == 204:
             return True
         raise ValueError(
-            f"publicize_membership(.....) returned {self.response.status_code}, it should be 204."
+            "publicize_membership(.....) returned {status_code}, it should be 204.".format(
+                status_code=self.response.status_code
+            )
         )
 
     def conceal_membership(self, org):
-        url = f"/orgs/{org}/public_members/{self.username}"
+        url = "/orgs/{org}/public_members/{username}".format(
+            org=org, username=self.username
+        )
         self.response = Response(self.delete(url), "")
         if self.response.status_code == 204:
             return True
         raise ValueError(
-            f"conceal_membership(.....) returned {self.response.status_code}, it should be 204."
+            "conceal_membership(.....) returned {status_code}, it should be 204.".format(
+                status_code=self.response.status_code
+            )
         )
 
     def get_org_membership(self, org, username):
-        url = f"/orgs/{org}/memberships/{username}"
+        url = "/orgs/{org}/memberships/{username}".format(org=org, username=username)
         self.response = Response(self.get(url), "")
         return self.response.transform()
 
     def add_or_update_org_membership(self, org, username, role="member"):
-        url = f"/orgs/{org}/memberships/{username}"
+        url = "/orgs/{org}/memberships/{username}".format(org=org, username=username)
         params = {"role": role}
         self.response = Response(self.put(url, params=params), "")
         return self.response.transform()
 
     def remove_org_membership(self, org, username):
-        url = f"/orgs/{org}/memberships/{username}"
+        url = "/orgs/{org}/memberships/{username}".format(org=org, username=username)
         self.response = Response(self.delete(url), "")
         if self.response.status_code == 204:
             return True
         raise ValueError(
-            f"remove_org_membership(.....) returned {self.response.status_code}, it should be 204."
+            "remove_org_membership(.....) returned {status_code}, it should be 204.".format(
+                status_code=self.response.status_code
+            )
         )
 
     def org_invitation_teams(self, org, invitation_id):
-        url = f"/orgs/{org}/invitations/{invitation_id}/teams"
+        url = "/orgs/{org}/invitations/{invitation_id}/teams".format(
+            org=org, invitation_id=invitation_id
+        )
         self.response = Response(
             self.get(url, **{"Accept": "application/vnd.github.dazzler-preview+json"}),
             "OrgInvitationTeams",
@@ -130,7 +148,7 @@ class OrgMembersMixin:
         return self.response.transform()
 
     def pending_org_invitations(self, org):
-        url = f"/orgs/{org}/invitations"
+        url = "/orgs/{org}/invitations".format(org=org)
         self.response = Response(
             self.get(url, **{"Accept": "application/vnd.github.dazzler-preview+json"}),
             "OrgInvitations",
@@ -140,7 +158,7 @@ class OrgMembersMixin:
     def create_org_invitation(
         self, org, team_ids, invitee_id=None, email=None, role="direct_member"
     ):
-        url = f"/orgs/{org}/invitations"
+        url = "/orgs/{org}/invitations".format(org=org)
         params = {}
         if invitee_id is None and email is None:
             raise ValueError("Either invitee_id or email should be provided.")
@@ -177,12 +195,12 @@ class OrgMembersMixin:
         return self.response.transform()
 
     def organization_membership(self, org):
-        url = f"/user/memberships/orgs/{org}"
+        url = "/user/memberships/orgs/{org}".format(org=org)
         self.response = Response(self.get(url), "OrgMembership")
         return self.response.transform()
 
     def edit_organization_membership(self, org, state="active"):
-        url = f"/user/memberships/orgs/{org}"
+        url = "/user/memberships/orgs/{org}".format(org=org)
         self.response = Response(
             self.patch(url, params={"state": state}), "OrgMembership"
         )

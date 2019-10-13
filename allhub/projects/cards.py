@@ -18,8 +18,8 @@ class CardPosition(Enum):
 
 class CardsMixin:
     def project_cards(self, column_id, archived_state=ArchivedState.NOT_ARCHIVED):
-        url = f"/projects/columns/{column_id}/cards"
-        params = [("column_id", column_id), ("archived_state", archived_state.value)]
+        url = "/projects/columns/{column_id}/cards".format(column_id=column_id)
+        params = {"column_id": column_id, "archived_state": archived_state.value}
         self.response = Response(
             self.get(url, params=params, **{"Accept": _project_accept_header}),
             "ProjectCards",
@@ -27,7 +27,7 @@ class CardsMixin:
         return self.response.transform()
 
     def project_card(self, card_id):
-        url = f"/projects/columns/cards/{card_id}"
+        url = "/projects/columns/cards/{card_id}".format(card_id=card_id)
         self.response = Response(
             self.get(url, **{"Accept": _project_accept_header}), "ProjectCard"
         )
@@ -49,7 +49,7 @@ class CardsMixin:
                 )
             params = [("content_id", int(content_id)), ("content_type", content_type)]
 
-        url = f"/projects/columns/{column_id}/cards"
+        url = "/projects/columns/{column_id}/cards".format(column_id=column_id)
         self.response = Response(
             self.post(url, params=params, **{"Accept": _project_accept_header}),
             "ProjectCard",
@@ -58,7 +58,7 @@ class CardsMixin:
 
     def update_project_card(self, card_id, archived, note=None):
         params = [("archived", archived), ("note", note)]
-        url = f"/projects/columns/cards/{card_id}"
+        url = "/projects/columns/cards/{card_id}".format(card_id=card_id)
         self.response = Response(
             self.patch(url, params=params, **{"Accept": _project_accept_header}),
             "ProjectCard",
@@ -66,20 +66,17 @@ class CardsMixin:
         return self.response.transform()
 
     def delete_project_card(self, card_id):
-        url = f"/projects/columns/cards/{card_id}"
+        url = "/projects/columns/cards/{card_id}".format(card_id=card_id)
         self.response = Response(
             self.delete(url, **{"Accept": _project_accept_header}), "ProjectCard"
         )
         return self.response.status_code == 204
 
     def move_project_card(self, card_id, position, column_id):
-        url = f"/projects/columns/cards/{card_id}/moves"
+        url = "/projects/columns/cards/{card_id}/moves".format(card_id=card_id)
         if position not in CardPosition:
             raise ValueError("position should be of type CardPosition.")
-        params = [
-            ("position", position.value.format(card_id)),
-            ("column_id", column_id),
-        ]
+        params = {"position": position.value.format(card_id), "column_id": column_id}
         self.response = Response(
             self.post(url, params=params, **{"Accept": _project_accept_header}),
             "ProjectCard",

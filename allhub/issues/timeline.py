@@ -3,7 +3,9 @@ from allhub.response import Response
 
 class TimelineMixin:
     def list_events_for_issue(self, owner, repo, issue_number):
-        url = f"/repos/{owner}/{repo}/issues/{issue_number}/timeline"
+        url = "/repos/{owner}/{repo}/issues/{issue_number}/timeline".format(
+            owner=owner, repo=repo, issue_number=issue_number
+        )
         _mime = ", ".join(
             [
                 "application/vnd.github.mockingbird-preview",

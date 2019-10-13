@@ -18,7 +18,7 @@ class UsersMixin:
         :param username:
         :return:
         """
-        url = f"/user/{username}"
+        url = "/user/{username}".format(username=username)
         self.response = Response(self.get(url), "User")
         return self.response.transform()
 
@@ -52,12 +52,12 @@ class UsersMixin:
     def hover_card(self, username, subject_tye=SubjectType.NONE, subject_id=None):
         if bool(subject_tye.value) != bool(subject_id):  # Python shortcut for XOR.
             raise ValueError(
-                f"subject_type and subject_id both should provided or both left out"
+                "subject_type and subject_id both should provided or both left out"
             )
         params = []
         if subject_id and subject_tye.value:
             params = [("subject_type", subject_tye.value), ("subject_id", subject_id)]
-        url = f"/users/{username}/hovercard"
+        url = "/users/{username}/hovercard".format(username=username)
         self.response = Response(
             self.get(
                 url,

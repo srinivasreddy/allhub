@@ -21,7 +21,7 @@ class CollaboratorsMixin:
         """
         Lists the collaborators for an organization project.
         """
-        url = f"/projects/{project_id}/collaborators"
+        url = "/projects/{project_id}/collaborators".format(project_id=project_id)
         params = [("collaborators", collaborators.value)]
         self.response = Response(
             self.get(url, params=params, **{"Accept": _project_accept_header}),
@@ -31,7 +31,9 @@ class CollaboratorsMixin:
         return self.response.transform()
 
     def review_permission_level(self, project_id, username):
-        url = f"/projects/{project_id}/collaborators/{username}/permission"
+        url = "/projects/{project_id}/collaborators/{username}/permission".format(
+            project_id=project_id, username=username
+        )
         self.response = Response(
             self.get(url, **{"Accept": _project_accept_header}), "Permission"
         )
@@ -39,7 +41,9 @@ class CollaboratorsMixin:
         return self.response.transform()
 
     def add_user_collaborator(self, project_id, username, permission=Permission.WRITE):
-        url = f"/projects/{project_id}/collaborators/{username}"
+        url = "/projects/{project_id}/collaborators/{username}".format(
+            project_id=project_id, username=username
+        )
         params = [("permission", permission.value)]
         self.response = Response(
             self.put(url, params=params, **{"Accept": _project_accept_header}), ""
@@ -48,7 +52,9 @@ class CollaboratorsMixin:
         return self.response.status_code == 204
 
     def delete_user_collaborator(self, project_id, username):
-        url = f"/projects/{project_id}/collaborators/{username}"
+        url = "/projects/{project_id}/collaborators/{username}".format(
+            project_id=project_id, username=username
+        )
         self.response = Response(
             self.delete(url, **{"Accept": _project_accept_header}), ""
         )
