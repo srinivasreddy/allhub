@@ -14,14 +14,16 @@ class Sort(Enum):
 
 
 class StarringMixin:
-    def stargazers(self, owner, repo, starred_at=False):
+    def stargazers(self, owner, repo, starred_at=False, **kwargs):
         url = f"/repos/{owner}/{repo}/stargazers"
-        kwargs = {}
-        if starred_at:
-            kwargs = {
+        kwargs.update(
+            {
                 "Accept": f"application/vnd.github.v{config.api_version}.star+{config.api_mime_type}"
             }
-        self.response = Response(self.get(url, **kwargs), "StarGazers")
+        )
+        self.response = Response(
+            self.get(url, params={"starred_at": starred_at}, **kwargs), "StarGazers"
+        )
         return self.response.transform()
 
     def starred(
@@ -67,7 +69,7 @@ class StarringMixin:
         self.response = Response(self.get(url, params, **kwargs), "StarRepos")
         return self.response.transform()
 
-    def is_starred(self, owner, repo):
+    def is_starred(self, owner, repo, **kwargs):
         url = f"/user/starred/{owner}/{repo}"
         self.response = Response(self.get(url), "")
         status_code = self.response.status_code
@@ -82,7 +84,7 @@ class StarringMixin:
             )
         return is_starred
 
-    def star_repo(self, owner, repo):
+    def star_repo(self, owner, repo, **kwargs):
         url = f"/user/starred/{owner}/{repo}"
         self.response = Response(self.put(url, **{"Content-Length": "0"}), "")
         return self.response.status_code == 204

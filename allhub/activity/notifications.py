@@ -9,12 +9,12 @@ class NotificationsMixin:
         List all notifications for the current user, sorted by most recently updated.
         """
         url = "/notifications"
-        params = [
-            ("all", all),
-            ("participating", participating),
-            ("since", since),
-            ("before", before),
-        ]
+        params = {
+            "all": all,
+            "participating": participating,
+            "since": since,
+            "before": before,
+        }
         self.response = Response(
             self.get(url, params=params, **kwargs), "Notifications"
         )
@@ -33,7 +33,7 @@ class NotificationsMixin:
         """
         List all notifications for the current user.
         """
-        url = f"/repos/{owner}/{repo}/notifications"
+        url = "/repos/{owner}/{repo}/notifications".format(owner=owner, repo=repo)
         params = [
             ("all", all),
             ("participating", participating),
@@ -49,18 +49,18 @@ class NotificationsMixin:
         url = "/notifications"
         params = None
         if "last_read_at" in kwargs:
-            params = [("last_read_at", kwargs.pop("last_read_at"))]
-        self.response = Response(self.put(url, params=params), "")
+            params = {"last_read_at": kwargs.pop("last_read_at")}
+        self.response = Response(self.put(url, params=params, **kwargs), "")
         # Status: 205 Reset Content
         # Status: 202 Accepted
         return self.response.status_code in (205, 202)
 
     def mark_repo_notifications_read(self, owner, repo, **kwargs):
-        url = f"/repos/{owner}/{repo}/notifications"
+        url = "/repos/{owner}/{repo}/notifications".format(owner=owner, repo=repo)
         params = None
         if "last_read_at" in kwargs:
-            params = [("last_read_at", kwargs.pop("last_read_at"))]
-        self.response = Response(self.put(url, params=params), "")
+            params = {"last_read_at": kwargs.pop("last_read_at")}
+        self.response = Response(self.put(url, params=params, **kwargs), "")
         # Status: 205 Reset Content
         # Status: 202 Accepted
         return self.response.status_code in (205, 202)
@@ -69,7 +69,7 @@ class NotificationsMixin:
         """
         View a single thread
         """
-        url = f"/notifications/threads/{thread_id}"
+        url = "/notifications/threads/{thread_id}".format(thread_id=thread_id)
         self.response = Response(self.get(url, **kwargs), "Thread")
         return self.response.transform()
 
@@ -77,16 +77,18 @@ class NotificationsMixin:
         """
         Mark thread as read.
         """
-        url = f"/notifications/threads/{thread_id}"
+        url = "/notifications/threads/{thread_id}".format(thread_id=thread_id)
         # Status: 205 Reset Content
-        self.response = Response(self.put(url), "")
+        self.response = Response(self.put(url, **kwargs), "")
         return self.response.status_code == 205
 
     def get_thread_subscription(self, thread_id, **kwargs):
         """
         Get thread subscription
         """
-        url = f"/notifications/threads/{thread_id}/subscription"
+        url = "/notifications/threads/{thread_id}/subscription".format(
+            thread_id=thread_id
+        )
         self.response = Response(self.get(url, **kwargs), "ThreadSubscription")
         return self.response.transform()
 
@@ -94,10 +96,12 @@ class NotificationsMixin:
         """
         Set thread subscription
         """
-        url = f"/notifications/threads/{thread_id}/subscription"
+        url = "/notifications/threads/{thread_id}/subscription".format(
+            thread_id=thread_id
+        )
         params = None
         if "ignored" in kwargs:
-            params = [("ignored", kwargs.pop("ignored"))]
+            params = {"ignored": kwargs.pop("ignored")}
         self.response = Response(
             self.put(url, params=params, **kwargs), "ThreadSubscription"
         )
@@ -107,6 +111,8 @@ class NotificationsMixin:
         """
         Delete thread subscription
         """
-        url = f"/notifications/threads/{thread_id}/subscription"
+        url = "/notifications/threads/{thread_id}/subscription".format(
+            thread_id=thread_id
+        )
         self.response = Response(self.delete(url, **kwargs), "")
         return self.response.status_code == 204

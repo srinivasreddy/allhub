@@ -7,60 +7,60 @@ class EventsMixin:
     Ref. https://developer.github.com/v3/activity/events/
     """
 
-    def public_events(self, **headers):
+    def public_events(self, **kwargs):
         """
         List public events.
         """
         url = "/events"
-        self.response = Response(self.get(url, **headers), "PublicEvents")
+        self.response = Response(self.get(url, **kwargs), "PublicEvents")
         return self.response.transform()
 
-    def repo_events(self, owner, repo, **headers):
+    def repo_events(self, owner, repo, **kwargs):
         """
         List repository events.
         """
         url = f"/repos/{owner}/{repo}/events"
-        self.response = Response(self.get(url, **headers), "RepoEvents")
+        self.response = Response(self.get(url, **kwargs), "RepoEvents")
         return self.response.transform()
 
-    def issue_events(self, owner, repo, **headers):
+    def issue_events(self, owner, repo, **kwargs):
         """
         List issue events for a repository.
         """
         url = f"/repos/{owner}/{repo}/issues/events"
-        self.response = Response(self.get(url, **headers), "IssueEvents")
+        self.response = Response(self.get(url, **kwargs), "IssueEvents")
         return self.response.transform()
 
-    def public_events_network_repos(self, owner, repo, **headers):
+    def public_events_network_repos(self, owner, repo, **kwargs):
         """
         List public events for a network of repositories.
         """
         url = f"/networks/{owner}/{repo}/events"
-        self.response = Response(self.get(url, **headers), "NetworkRepoPublicEvents")
+        self.response = Response(self.get(url, **kwargs), "NetworkRepoPublicEvents")
         return self.response.transform()
 
-    def public_events_orgs(self, org, **headers):
+    def public_events_orgs(self, org, **kwargs):
         """
         List public events for an organization.
         """
         url = f"/orgs/{org}/events"
-        self.response = Response(self.get(url, **headers), "OrgPublicEvents")
+        self.response = Response(self.get(url, **kwargs), "OrgPublicEvents")
         return self.response.transform()
 
-    def user_received_events(self, username, **headers):
+    def user_received_events(self, username, **kwargs):
         """
         List events that a user has received.
         """
         url = f"/users/{username}/received_events"
-        self.response = Response(self.get(url, **headers), "UserReceivedEvents")
+        self.response = Response(self.get(url, **kwargs), "UserReceivedEvents")
         return self.response.transform()
 
-    def user_received_public_events(self, username, **headers):
+    def user_received_public_events(self, username, **kwargs):
         """
         List public events that a user has received.
         """
         url = f"/users/{username}/received_events/public"
-        self.response = Response(self.get(url, **headers), "UserReceivedPublicEvents")
+        self.response = Response(self.get(url, **kwargs), "UserReceivedPublicEvents")
         return self.response.transform()
 
     def events_by_user(self, username, **kwargs):

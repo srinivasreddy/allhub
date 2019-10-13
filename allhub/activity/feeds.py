@@ -18,12 +18,12 @@ class FeedsMixin:
     security-related vulnerabilities in software on GitHub.
     """
 
-    def feeds(self):
+    def feeds(self, **kwargs):
         """
         List all the feeds in a JSON response - it is a dictionary.
         """
         url = "/feeds"
-        self.response = Response(self.get_basic(url), "Feeds")
+        self.response = Response(self.get_basic(url, **kwargs), "Feeds")
         return self.response.transform()
 
     def security_advisory_feed(self):
