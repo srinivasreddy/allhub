@@ -3,7 +3,15 @@ from allhub.response import Response
 
 class CommitMixin:
     def commits(
-        self, owner, repo, sha=None, path=None, author=None, since=None, until=None
+        self,
+        owner,
+        repo,
+        sha=None,
+        path=None,
+        author=None,
+        since=None,
+        until=None,
+        **kwargs
     ):
         url = "/repos/{owner}/{repo}/commits".format(owner=owner, repo=repo)
         params = {}
@@ -15,7 +23,7 @@ class CommitMixin:
             params["author"] = author
         if since:
             params["until"] = until
-        self.response = Response(self.get(url), "Commits")
+        self.response = Response(self.get(url, **kwargs), "Commits")
         return self.response.transform()
 
     def commit(self, owner, repo, ref):
