@@ -32,9 +32,9 @@ class TestOrg:
                 "description",
             ]
         ) == set(response[0].keys())
-        counter = 10
-        for resp in allhub.iterator(allhub.all_organizations):
-            if counter == allhub.page:
-                break
-        else:
-            assert False, "There are no 10 orgs in Github"
+        to_page = 4
+        for index, resp in enumerate(
+            allhub.iterator(allhub.all_organizations, to_page=to_page), start=1
+        ):
+            pass
+        assert to_page == index
