@@ -1,6 +1,8 @@
 __pycache__
 .tox/*
-*/allhub.egg-info/*
+dist/*
+allhub.egg-info/*
+.python-version
 .pytest_cache/*
 *.pyg
 *.pyc
