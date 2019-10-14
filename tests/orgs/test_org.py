@@ -32,9 +32,9 @@ class TestOrg:
                 "description",
             ]
         ) == set(response[0].keys())
-        to_page = 4
+        num_pages = 4
         for index, resp in enumerate(
-            allhub.iterator(allhub.all_organizations, to_page=to_page), start=1
+            allhub.iterator(allhub.all_organizations, num_pages=num_pages), start=1
         ):
             pass
-        assert to_page == index
+        assert num_pages == index
