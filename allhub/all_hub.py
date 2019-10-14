@@ -100,6 +100,8 @@ class AllHub(
         params.update(
             {"per_page": kwargs.pop("per_page", 30), "page": kwargs.pop("page", 1)}
         )
+        self.page = params["page"]
+        self.per_page = params["per_page"]
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("GH_APP_NAME", self.username),
