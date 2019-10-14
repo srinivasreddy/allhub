@@ -96,6 +96,9 @@ class AllHub(
 
     def get(self, url, params=None, *args, **kwargs):
         raise_for_status = kwargs.pop("raise_for_status", False)
+        kwargs.pop(
+            "num_pages", None
+        )  # throw away num_pages keyword argument which is meant for an iterator
         params = params and dict(params) or {}
         params.update(
             {"per_page": kwargs.pop("per_page", 30), "page": kwargs.pop("page", 1)}
@@ -125,8 +128,13 @@ class AllHub(
 
     def get_basic(self, url, params=None, *args, **kwargs):
         raise_for_status = kwargs.pop("raise_for_status", False)
+        kwargs.pop(
+            "num_pages", None
+        )  # throw away num_pages keyword argument which is meant for an iterator
         params = params and dict(params) or {}
         params.update({"per_page": self.per_page, "page": self.page})
+        self.page = params["page"]
+        self.per_page = params["per_page"]
         full_url = urljoin(self.host, url)
         headers = {
             "User-Agent": os.environ.get("GH_APP_NAME", self.username),
