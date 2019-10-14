@@ -60,7 +60,6 @@ class TestIterator:
             start=1,
         ):
             assert allhub.per_page == 50
-            print(allhub.response.headers()["Link"])
             assert allhub.page == counter
             assert len(response) == 50
             assert response is not None
