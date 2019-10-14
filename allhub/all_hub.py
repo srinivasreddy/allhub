@@ -33,12 +33,12 @@ all_hub.gist_comments('gist_id')
 For some API, like OAuth - please see oauth.py file, permits only basic authentication, in that case,
 you need to set the password environment variable.
 
-export PASSWORD="mypassword"
+export GH_PASSWORD="mypassword"
 
 If you are using this library as part of a third party Github app, you need to set the environment
 variable APP_NAME as well in order for the github to correctly log/diagnose the API requests.
 
-export APP_NAME="Grandeur"
+export GH_APP_NAME="Grandeur"
 
 """
 
@@ -284,6 +284,6 @@ class AllHub(
         self._page = value
 
     def iterator(self, function, *args, **kwargs):
-        page = kwargs.pop("page", 1)
-        self.page = page
-        return Iterator(self, function, self.per_page, page, *args, **kwargs)
+        page = kwargs.pop("page", None) or self.page
+        per_page = kwargs.pop("per_page", None) or self.per_page
+        return Iterator(self, function, per_page, page, *args, **kwargs)

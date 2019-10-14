@@ -3,14 +3,16 @@ from tests.utils import allhub
 
 class TestIterator:
     def test_with_iterator_defaults(self):
-        for index, response in enumerate(allhub.iterator(allhub.all_organizations)):
+        for index, response in enumerate(
+            allhub.iterator(allhub.all_organizations), start=1
+        ):
             assert len(response) == 30
-            if index == 3:
+            assert allhub.page == index
+            assert allhub.per_page == 30
+            if index == 4:
                 break
         else:
-            assert False, "There are not even 3 orgs in Github ;)"
-        assert allhub.page == 3
-        assert allhub.per_page == 30
+            assert False, "There are not even 3*30 = 90 orgs in Github ;)"
 
     def test_without_iterator(self):
         response = allhub.all_organizations()
@@ -58,6 +60,7 @@ class TestIterator:
             start=1,
         ):
             assert allhub.per_page == 50
+            print(allhub.response.headers()["Link"])
             assert allhub.page == counter
             assert len(response) == 50
             assert response is not None
