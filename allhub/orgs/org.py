@@ -17,7 +17,15 @@ class OrgMixin:
         return self.response.transform()
 
     def all_organizations(self, since=None, **kwargs):
-        """List all organizations"""
+        """
+        :param since: integer id of the organization you have last seen.
+
+        List all organizations.
+        Note: Pagination is powered exclusively by the since, and page parameter.
+        per_page parameter can be passed to limit the result set but it does not affect the
+        pagination.
+        """
+
         url = "/organizations"
         self.response = Response(
             self.get(url, **{"since": since}, **kwargs), "Organizations"
