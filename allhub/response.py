@@ -1,4 +1,5 @@
 from .transform import transform
+from urllib import parse
 
 
 class Response:
@@ -18,11 +19,51 @@ class Response:
         """
         return self.headers()["X-OAuth-Scopes"]
 
+    @property
+    def current_page_number(self):
+        if self.next_page_number is None:
+            return self.prev_page_number + 1
+        if self.prev_page_number is None:
+            return self.next_page_number - 1
+        return 1
+
     def next_link(self):
         for link in self.headers().get("Link", "").split(","):
             if 'rel="next"' in link:
                 return link.split(";")[0]
         return None
+
+    @property
+    def next_page_number(self):
+        if self.next_link() is None:
+            return None
+        parsed_url = parse.urlparse(self.next_link())
+        parsed_data = parse.parse_qs(parsed_url.query)
+        return parsed_data["page"][0]
+
+    @property
+    def prev_page_number(self):
+        if self.prev_link() is None:
+            return None
+        parsed_url = parse.urlparse(self.prev_link())
+        parsed_data = parse.parse_qs(parsed_url.query)
+        return parsed_data["page"][0]
+
+    @property
+    def last_page_number(self):
+        if self.last_link() is None:
+            return None
+        parsed_url = parse.urlparse(self.last_link())
+        parsed_data = parse.parse_qs(parsed_url.query)
+        return parsed_data["page"][0]
+
+    @property
+    def first_page_number(self):
+        if self.first_link() is None:
+            return None
+        parsed_url = parse.urlparse(self.first_link())
+        parsed_data = parse.parse_qs(parsed_url.query)
+        return parsed_data["page"][0]
 
     def prev_link(self):
         for link in self.headers().get("Link", "").split(","):
