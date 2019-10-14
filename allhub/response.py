@@ -21,11 +21,12 @@ class Response:
 
     @property
     def current_page_number(self):
+        if self.next_page_number is None and self.prev_page_number is None:
+            return 1
         if self.next_page_number is None:
-            return self.prev_page_number + 1
+            return int(self.prev_page_number) + 1
         if self.prev_page_number is None:
-            return self.next_page_number - 1
-        return 1
+            return int(self.next_page_number) - 1
 
     def next_link(self):
         for link in self.headers().get("Link", "").split(","):
@@ -39,7 +40,7 @@ class Response:
             return None
         parsed_url = parse.urlparse(self.next_link())
         parsed_data = parse.parse_qs(parsed_url.query)
-        return parsed_data["page"][0]
+        return int(parsed_data["page"][0])
 
     @property
     def prev_page_number(self):
@@ -47,7 +48,7 @@ class Response:
             return None
         parsed_url = parse.urlparse(self.prev_link())
         parsed_data = parse.parse_qs(parsed_url.query)
-        return parsed_data["page"][0]
+        return int(parsed_data["page"][0])
 
     @property
     def last_page_number(self):
@@ -55,7 +56,7 @@ class Response:
             return None
         parsed_url = parse.urlparse(self.last_link())
         parsed_data = parse.parse_qs(parsed_url.query)
-        return parsed_data["page"][0]
+        return int(parsed_data["page"][0])
 
     @property
     def first_page_number(self):
@@ -63,7 +64,7 @@ class Response:
             return None
         parsed_url = parse.urlparse(self.first_link())
         parsed_data = parse.parse_qs(parsed_url.query)
-        return parsed_data["page"][0]
+        return int(parsed_data["page"][0])
 
     def prev_link(self):
         for link in self.headers().get("Link", "").split(","):
