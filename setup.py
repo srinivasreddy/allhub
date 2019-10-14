@@ -23,6 +23,6 @@ setup(
         "Operating System :: OS Independent",
         "Intended Audience :: Developers",
     ],
-    python_requires=">=3.6.0",
+    python_requires=">=3.5",
     project_urls={"Source": "https://github.com/srinivasreddy/allhub"},
 )
