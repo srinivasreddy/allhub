@@ -6,7 +6,7 @@ class Iterator:
         self.kwargs = kwargs
         self.next = True
         self.page = page
-        self.per_page = per_page
+        self.to_page = kwargs.pop("to_page", None)
         self.kwargs.update({"per_page": per_page, "page": page})
 
     def __iter__(self):
@@ -18,7 +18,7 @@ class Iterator:
         results = self.page_results(self.page)
         self.client.page = self.page
         self.page += 1
-        if self.client.response.next_link() is None:
+        if self.client.response.next_link() is None or self.client.page == self.to_page:
             self.next = False
         return results
 

@@ -274,4 +274,6 @@ class AllHub(
         self._page = value
 
     def iterator(self, function, *args, **kwargs):
-        return Iterator(self, function, self._per_page, self._page, *args, **kwargs)
+        page = kwargs.pop("page", 1)
+        self.page = page
+        return Iterator(self, function, self.per_page, page, *args, **kwargs)
