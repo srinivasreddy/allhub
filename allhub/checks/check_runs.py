@@ -17,6 +17,7 @@ class CheckRunsMixin:
         completed_at,
         output,
         actions,
+        **kwargs
     ):
         params = {
             "name": name,
@@ -32,7 +33,7 @@ class CheckRunsMixin:
         }
         url = "/repos/{owner}/{repo}/check-runs".format(owner=owner, repo=repo)
         self.response = Response(
-            self.post(url, params=params, **{"Accept": _mime}), "CheckRun"
+            self.post(url, params=params, **{"Accept": _mime}, **kwargs), "CheckRun"
         )
         return self.response.transform()
 
@@ -50,6 +51,7 @@ class CheckRunsMixin:
         completed_at,
         output,
         actions,
+        **kwargs
     ):
         params = {
             "name": name,
@@ -66,17 +68,19 @@ class CheckRunsMixin:
             owner=owner, repo=repo, check_run_id=check_run_id
         )
         self.response = Response(
-            self.patch(url, params=params, **{"Accept": _mime}), "CheckRun"
+            self.patch(url, params=params, **{"Accept": _mime}, **kwargs), "CheckRun"
         )
         return self.response.transform()
 
-    def check_runs_for_ref(self, owner, repo, ref, check_name, status, filter):
+    def check_runs_for_ref(
+        self, owner, repo, ref, check_name, status, filter, **kwargs
+    ):
         url = "/repos/{owner}/{repo}/commits/{ref}/check-runs".format(
             owner=owner, repo=repo, ref=ref
         )
         params = {"check_name": check_name, "status": status, "filter": filter}
         self.response = Response(
-            self.get(url, params=params, **{"Accept": _mime}), "CheckRuns"
+            self.get(url, params=params, **{"Accept": _mime}, **kwargs), "CheckRuns"
         )
         return self.response.transform()
 
