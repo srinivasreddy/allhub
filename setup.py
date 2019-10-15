@@ -4,7 +4,7 @@ from setuptools import *
 
 setup(
     name="allhub",
-    version="0.0.4a2",
+    version="0.0.5",
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     description="Interact with Github REST API v3",
     long_description=open("README.md").read(),
