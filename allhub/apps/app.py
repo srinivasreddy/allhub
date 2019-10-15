@@ -5,13 +5,15 @@ _app_mime_type = "application/vnd.github.machine-man-preview+json"
 
 
 class AppMixin:
-    def app(self, app_slug):
+    def app(self, app_slug, **kwargs):
         """Get a single GitHub App"""
         url = "/apps/{app_slug}".format(app_slug=app_slug)
-        self.response = Response(self.get(url, **{"Accept": _app_mime_type}), "App")
+        self.response = Response(
+            self.get(url, **{"Accept": _app_mime_type}, **kwargs), "App"
+        )
         return self.response.transform()
 
-    def auth_app(self):
+    def auth_app(self, **kwargs):
         """Get the authenticated GitHub App"""
         self._check_app_token(self)
         url = "/app"
@@ -24,12 +26,13 @@ class AppMixin:
                     ),
                     "Accept": _app_mime_type,
                 },
+                **kwargs
             ),
             "App",
         )
         return self.response.transform()
 
-    def app_installations(self):
+    def app_installations(self, **kwargs):
         self._check_app_token(self)
         url = "/app/installations"
         self.response = Response(
@@ -41,12 +44,13 @@ class AppMixin:
                     ),
                     "Accept": _app_mime_type,
                 },
+                **kwargs
             ),
             "App",
         )
         return self.response.transform()
 
-    def app_installtion(self, installation_id):
+    def app_installtion(self, installation_id, **kwargs):
         self._check_app_token(self)
         url = "/app/installations/{installation_id}".format(
             installation_id=installation_id
@@ -60,12 +64,13 @@ class AppMixin:
                     ),
                     "Accept": _app_mime_type,
                 },
+                **kwargs
             ),
             "App",
         )
         return self.response.transform()
 
-    def delete_app_installtion(self, installation_id):
+    def delete_app_installtion(self, installation_id, **kwargs):
         """Uninstalls a GitHub App on a user, organization, or business account."""
         self._check_app_token(self)
         url = "/app/installations/{installation_id}".format(
@@ -80,12 +85,15 @@ class AppMixin:
                     ),
                     "Accept": _app_mime_type,
                 },
+                **kwargs
             ),
             "App",
         )
         return self.response.transform()
 
-    def create_app_access_token(self, installation_id, repository_ids, permissions):
+    def create_app_access_token(
+        self, installation_id, repository_ids, permissions, **kwargs
+    ):
         """Create a new installation token"""
         assert isinstance(repository_ids, list)
         assert isinstance(permissions, AppPermission)
@@ -100,11 +108,12 @@ class AppMixin:
             installation_id=installation_id
         )
         self.response = Response(
-            self.post(url, params=params, **{"Accept": _app_mime_type}), "Token"
+            self.post(url, params=params, **{"Accept": _app_mime_type}, **kwargs),
+            "Token",
         )
         return self.response.transform()
 
-    def org_installation(self, org):
+    def org_installation(self, org, **kwargs):
         self._check_app_token(self)
         url = "/orgs/{org}/installation".format(org=org)
         self.response = Response(
@@ -116,12 +125,13 @@ class AppMixin:
                     ),
                     "Accept": _app_mime_type,
                 },
+                **kwargs
             ),
             "OrgInstallation",
         )
         return self.response.transform()
 
-    def repo_installation(self, owner, repo):
+    def repo_installation(self, owner, repo, **kwargs):
         self._check_app_token(self)
         url = "/repos/{owner}/{repo}/installation".format(owner=owner, repo=repo)
         self.response = Response(
@@ -133,12 +143,13 @@ class AppMixin:
                     ),
                     "Accept": _app_mime_type,
                 },
+                **kwargs
             ),
             "RepoInstallation",
         )
         return self.response.transform()
 
-    def user_installation(self, username):
+    def user_installation(self, username, **kwargs):
         self._check_app_token(self)
         url = "/users/{username}/installation".format(username=username)
         self.response = Response(
@@ -150,15 +161,18 @@ class AppMixin:
                     ),
                     "Accept": _app_mime_type,
                 },
+                **kwargs
             ),
             "UserInstallation",
         )
         return self.response.transform()
 
-    def create_github_app_from_manifest(self, code):
+    def create_github_app_from_manifest(self, code, **kwargs):
         url = "/app-manifests/{code}/conversions".format(code=code)
         self.response = Response(
-            self.post(url, **{"Accept": "application/vnd.github.fury-preview+json"}),
+            self.post(
+                url, **{"Accept": "application/vnd.github.fury-preview+json"}, **kwargs
+            ),
             "App",
         )
         return self.response.transform()

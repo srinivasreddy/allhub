@@ -34,12 +34,12 @@ class NotificationsMixin:
         List all notifications for the current user.
         """
         url = "/repos/{owner}/{repo}/notifications".format(owner=owner, repo=repo)
-        params = [
-            ("all", all),
-            ("participating", participating),
-            ("since", since),
-            ("before", before),
-        ]
+        params = {
+            "all": all,
+            "participating": participating,
+            "since": since,
+            "before": before,
+        }
         self.response = Response(
             self.get(url, params=params, **kwargs), "NotificationsRepo"
         )
@@ -57,7 +57,7 @@ class NotificationsMixin:
 
     def mark_repo_notifications_read(self, owner, repo, **kwargs):
         url = "/repos/{owner}/{repo}/notifications".format(owner=owner, repo=repo)
-        params = None
+        params = {}
         if "last_read_at" in kwargs:
             params = {"last_read_at": kwargs.pop("last_read_at")}
         self.response = Response(self.put(url, params=params, **kwargs), "")
