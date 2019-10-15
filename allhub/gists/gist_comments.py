@@ -56,5 +56,5 @@ class GistCommentsMixin:
         url = "/gists/{gist_id}/comments/{comment_id}".format(
             gist_id=gist_id, comment_id=comment_id
         )
-        self.response = Response(self.delete(url), "GistComments")
+        self.response = Response(self.delete(url), "")
         return self.response.status_code == 204

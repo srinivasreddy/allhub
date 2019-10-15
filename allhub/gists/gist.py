@@ -4,28 +4,28 @@ from pathlib import Path
 
 
 class GistMixin:
-    def user_gists(self):
+    def user_gists(self, **kwargs):
         url = "/users/{username}/gists".format(username=self.username)
-        self.response = Response(self.get(url), "UserGists")
+        self.response = Response(self.get(url, **kwargs), "UserGists")
         return self.response.transform()
 
-    def gists(self, since=None):
+    def gists(self, since=None, **kwargs):
         url = "/gists"
         if since:
             validate_iso8601_string()
         params = {"since": since}
-        self.response = Response(self.get(url, params=params), "Gists")
+        self.response = Response(self.get(url, params=params, **kwargs), "Gists")
         return self.response.transform()
 
-    def public_gists(self, since=None):
+    def public_gists(self, since=None, **kwargs):
         if since:
             validate_iso8601_string()
         params = {"since": since}
         url = "/gists/public"
-        self.response = Response(self.get(url, params=params), "PublicGists")
+        self.response = Response(self.get(url, params=params, **kwargs), "PublicGists")
         return self.response.transform()
 
-    def starred_gists(self, since=None):
+    def starred_gists(self, since=None, **kwargs):
         """
         :return: List the authenticated user's starred gists.
         """
@@ -33,12 +33,12 @@ class GistMixin:
             validate_iso8601_string()
         params = {"since": since}
         url = "/gists/starred"
-        self.response = Response(self.get(url, params=params), "StarredGists")
+        self.response = Response(self.get(url, params=params, **kwargs), "StarredGists")
         return self.response.transform()
 
-    def gist(self, gist_id):
+    def gist(self, gist_id, **kwargs):
         url = "/gists/{gist_id}".format(gist_id=gist_id)
-        self.response = Response(self.get(url), "Gist")
+        self.response = Response(self.get(url, **kwargs), "Gist")
         return self.response.transform()
 
     def gist_revision(self, gist_id, sha):
@@ -66,9 +66,9 @@ class GistMixin:
         self.response = Response(self.patch(url, params=params), "Gist")
         return self.response.transform()
 
-    def gist_commits(self, gist_id):
+    def gist_commits(self, gist_id, **kwargs):
         url = "/gists/{gist_id}/commits".format(gist_id=gist_id)
-        self.response = Response(self.patch(url), "GitCommits")
+        self.response = Response(self.get(url, **kwargs), "GitCommits")
         return self.response.transform()
 
     def star_gist(self, gist_id):
@@ -81,7 +81,7 @@ class GistMixin:
 
     def is_gist_starred(self, gist_id):
         url = "/gists/{gist_id}/star".format(gist_id=gist_id)
-        code = Response(self.delete(url), "").status_code
+        code = Response(self.get(url), "").status_code
         if code == 204:
             return True
         elif code == 404:
@@ -98,9 +98,9 @@ class GistMixin:
         self.response = Response(self.post(url), "GistFork")
         return self.response.transform()
 
-    def gist_forks(self, gist_id):
+    def gist_forks(self, gist_id, **kwargs):
         url = "/gists/{gist_id}/forks".format(gist_id=gist_id)
-        self.response = Response(self.get(url), "GistForks")
+        self.response = Response(self.get(url, **kwargs), "GistForks")
         return self.response.transform()
 
     def delete_gist(self, gist_id):
