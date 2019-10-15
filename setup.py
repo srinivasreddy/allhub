@@ -8,6 +8,7 @@ setup(
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     description="Interact with Github REST API v3",
     long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
     include_package_data=True,
     keywords="scripts utilities github REST API V3",
     author="Srinivas Reddy Thatiparthy",
