@@ -5,7 +5,12 @@ class TestPullRequests:
     def test_pull_requests_in_repo(self):
         response = allhub.repo_pull_requests("python", "cpython")
         assert response[0].body is not None
-        assert len(response) <= 30
+        assert len(response) == 30
+
+    def test_pull_requests_in_repo_with_page_per_page_params(self):
+        response = allhub.repo_pull_requests("python", "cpython", page=4, per_page=50)
+        assert response[0].body is not None
+        assert len(response) == 50
 
     def test_pull_request_in_repo(self):
         response = allhub.repo_pull_request("python", "cpython", 16716)
@@ -50,8 +55,12 @@ class TestPullRequests:
         ) == sorted([resp.filename for resp in response])
 
     def test_is_pull_request_has_been_merged(self):
-        assert allhub.is_pull_request_has_been_merged("python", "cpython", 9916)
-        assert not allhub.is_pull_request_has_been_merged("python", "cpython", 10564)
+        assert allhub.is_pull_request_has_been_merged(
+            "python", "cpython", 9916
+        )  # Merged successfully.
+        assert not allhub.is_pull_request_has_been_merged(
+            "python", "cpython", 10564
+        )  # PR has been closed.
 
     def test_merge_pull_request(self):
         pass
