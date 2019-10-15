@@ -13,8 +13,8 @@ class RepoMixin:
         return self.response.transform()
 
     def add_repo_interaction_limits(self, owner, repo, limit):
-        assert isinstance(limit, InteractionLimit).format(owner=owner, repo=repo)
-        url = "/repos/{owner}/{repo}/interaction-limits"
+        assert isinstance(limit, InteractionLimit)
+        url = "/repos/{owner}/{repo}/interaction-limits".format(owner=owner, repo=repo)
         self.response = Response(
             self.put(url, params={"limit": limit.value}, **{"Accept": _mime}),
             "RepoInteractionLimits",
