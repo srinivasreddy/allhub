@@ -30,6 +30,7 @@ class PullRequestMixin:
         state=PRState.OPEN,
         sort=PRSort.CREATED,
         direction=PRDirection.DSC,
+        **kwargs,
     ):
         url = "/repos/{owner}/{repo}/pulls".format(owner=owner, repo=repo)
         params = {
@@ -49,7 +50,7 @@ class PullRequestMixin:
             ]
         )
         self.response = Response(
-            self.get(url, params=params, **{"Accept": _mime}), "PullRequests"
+            self.get(url, params=params, **{"Accept": _mime}, **kwargs), "PullRequests"
         )
         return self.response.transform()
 
