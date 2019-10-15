@@ -128,6 +128,7 @@ class IssueMixin:
         sort=IssueSort.CREATED,
         direction=IssueDirection.DESCENDING,
         since=None,
+        **kwargs,
     ):
         url = "/repos/{owner}/{repo}/issues".format(owner=owner, repo=repo)
         params = [
@@ -150,6 +151,7 @@ class IssueMixin:
                 url,
                 params=params,
                 **{"Accept": "application/vnd.github.symmetra-preview+json"},
+                **kwargs,
             ),
             "Issues",
         )
