@@ -18,7 +18,7 @@ class TreesMixin:
 
     def create_git_tree(self, repo, owner, tree, base_tree):
         assert isinstance(tree, (list, tuple))
-        url = "/repos/{owner}/{repo}/git/trees/".format(owner=owner, repo=repo)
+        url = "/repos/{owner}/{repo}/git/trees".format(owner=owner, repo=repo)
         params = {"tree": list(tree), "base_tree": base_tree}
         self.response = Response(self.post(url, params=params), "GitTree")
         return self.response.transform()
