@@ -1,12 +1,12 @@
 from allhub.response import Response
 
-_mime_type = "application/vnd.github.giant-sentry-fist-preview+json"
+_accept_header = {"Accept": "application/vnd.github.giant-sentry-fist-preview+json"}
 
 
 class BlockingMixin:
     def blocked_users(self, org):
         url = "/orgs/{org}/blocks".format(org=org)
-        self.response = Response(self.get(url, **{"Accept": _mime_type}), "Users")
+        self.response = Response(self.get(url, **_accept_header), "Users")
         return self.response.transform()
 
     def blocked_from_org(self, org, username):
@@ -17,7 +17,7 @@ class BlockingMixin:
         :return:
         """
         url = "/orgs/{org}/blocks/{username}".format(org=org, username=username)
-        self.response = Response(self.get(url, **{"Accept": _mime_type}), "User")
+        self.response = Response(self.get(url, **_accept_header), "User")
         if self.response.status_code == 204:
             return True
         elif self.response.status_code == 404:
@@ -38,7 +38,7 @@ class BlockingMixin:
         :return:
         """
         url = "/orgs/{org}/blocks/{username}".format(org=org, username=username)
-        self.response = Response(self.put(url, **{"Accept": _mime_type}), "")
+        self.response = Response(self.put(url, **_accept_header), "")
         if self.response.status_code == 204:
             return True
         raise ValueError(
@@ -55,7 +55,7 @@ class BlockingMixin:
         :return:
         """
         url = "/orgs/{org}/blocks/{username}".format(org=org, username=username)
-        self.response = Response(self.delete(url, **{"Accept": _mime_type}), "")
+        self.response = Response(self.delete(url, **_accept_header), "")
         if self.response.status_code == 204:
             return True
         raise ValueError(

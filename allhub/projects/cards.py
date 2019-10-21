@@ -44,7 +44,7 @@ class CardsMixin:
                 raise ValueError(
                     "When you do not specify note, you should specify both content_id and content_type."
                 )
-            params = [("content_id", int(content_id)), ("content_type", content_type)]
+            params = {"content_id": int(content_id), "content_type": content_type}
 
         url = "/projects/columns/{column_id}/cards".format(column_id=column_id)
         self.response = Response(
@@ -53,7 +53,7 @@ class CardsMixin:
         return self.response.transform()
 
     def update_project_card(self, card_id, archived, note=None):
-        params = [("archived", archived), ("note", note)]
+        params = {"archived": archived, "note": note}
         url = "/projects/columns/cards/{card_id}".format(card_id=card_id)
         self.response = Response(
             self.patch(url, params=params, **_accept_header), "ProjectCard"

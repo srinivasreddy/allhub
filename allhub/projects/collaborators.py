@@ -22,7 +22,7 @@ class CollaboratorsMixin:
         Lists the collaborators for an organization project.
         """
         url = "/projects/{project_id}/collaborators".format(project_id=project_id)
-        params = [("collaborators", collaborators.value)]
+        params = {"collaborators": collaborators.value}
         self.response = Response(
             self.get(url, params=params, **_accept_header), "Collaborators"
         )
@@ -41,7 +41,7 @@ class CollaboratorsMixin:
         url = "/projects/{project_id}/collaborators/{username}".format(
             project_id=project_id, username=username
         )
-        params = [("permission", permission.value)]
+        params = {"permission": permission.value}
         self.response = Response(self.put(url, params=params, **_accept_header), "")
 
         return self.response.status_code == 204
