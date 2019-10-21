@@ -1,4 +1,4 @@
-_mime = "application/vnd.github.ant-man-preview+json"
+_mime = {"Accept": "application/vnd.github.ant-man-preview+json"}
 from allhub.response import Response
 
 
@@ -14,16 +14,14 @@ class DeploymentMixin:
             params["task"] = task
         if environment:
             params["environment"] = environment
-        self.response = Response(
-            self.get(url, params=params, **{"Accept": _mime}), "Deployments"
-        )
+        self.response = Response(self.get(url, params=params, **_mime), "Deployments")
         return self.response.transform()
 
     def deployment(self, owner, repo, deployment_id):
         url = "/repos/{owner}/{repo}/deployments/{deployment_id}".format(
             owner=owner, repo=repo, deployment_id=deployment_id
         )
-        self.response = Response(self.get(url, **{"Accept": _mime}), "Deployments")
+        self.response = Response(self.get(url, **_mime), "Deployments")
         return self.response.transform()
 
     def create_deployment(
@@ -52,14 +50,12 @@ class DeploymentMixin:
             params["payload"] = payload
         if description:
             params["description"] = description
-        self.response = Response(
-            self.post(url, params=params, **{"Accept": _mime}), "Deployment"
-        )
+        self.response = Response(self.post(url, params=params, **_mime), "Deployment")
         return self.response.transform()
 
     def deployment_statuses(self, owner, repo, deployment_id):
         url = "/repos/{owner}/{repo}/deployments/{deployment_id}/statuses"
-        self.response = Response(self.get(url, **{"Accept": _mime}), "DeploymentStatus")
+        self.response = Response(self.get(url, **_mime), "DeploymentStatus")
         return self.response.transform()
 
     def deployment_status(self, owner, repo, deployment_id, status_id):
