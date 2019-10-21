@@ -4,6 +4,9 @@ import re
 
 pattern = re.compile(r"<(?P<data>.*?)>")  # simple pattern to match <...........>
 
+# TODO: Headers currently lives on response object, maybe should we access headers
+# through response.headers.next_link, response.headers.current_page_number.
+
 
 class Response:
     def __init__(self, response, class_name):

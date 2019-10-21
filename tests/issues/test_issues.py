@@ -24,4 +24,3 @@ class TestIssues:
         assert resp.url is not None
         assert allhub.page == 4
         assert allhub.response.next_page_number == 5
-        print(allhub.response.headers()["Link"])
