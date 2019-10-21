@@ -269,7 +269,7 @@ class AllHub(
 
     @property
     def api_version(self):
-        return "v3"
+        return config.api_version
 
     @property
     def page(self):

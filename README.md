@@ -16,6 +16,12 @@ all of REST API v3.
 3. I have designed this library keeping programmer ergonomics in mind, so that you create only one object
  to access any of the API.
 
+### License
+Apache License 2.0
+MIT
+
+in case you need  some other license, please let me know.
+
 
 ### Examples
 ```python
