@@ -1,5 +1,8 @@
 from .transform import transform
 from urllib import parse
+import re
+
+pattern = re.compile(r"<(?P<data>.*?)>")  # simple pattern to match <...........>
 
 
 class Response:
@@ -27,12 +30,6 @@ class Response:
             return int(self.prev_page_number) + 1
         if self.prev_page_number is None:
             return int(self.next_page_number) - 1
-
-    def next_link(self):
-        for link in self.headers().get("Link", "").split(","):
-            if 'rel="next"' in link:
-                return link.split(";")[0]
-        return None
 
     @property
     def next_page_number(self):
@@ -66,23 +63,24 @@ class Response:
         parsed_data = parse.parse_qs(parsed_url.query)
         return int(parsed_data["page"][0])
 
-    def prev_link(self):
+    def _extract_link(self, rel_name):
         for link in self.headers().get("Link", "").split(","):
-            if 'rel="prev"' in link:
-                return link.split(";")[0]
+            if rel_name in link:
+                match = re.match(pattern, link.split(";")[0].strip())
+                return match["data"]
         return None
+
+    def next_link(self):
+        return self._extract_link('rel="next"')
+
+    def prev_link(self):
+        return self._extract_link('rel="prev"')
 
     def last_link(self):
-        for link in self.headers().get("Link", "").split(","):
-            if 'rel="last"' in link:
-                return link.split(";")[0]
-        return None
+        return self._extract_link('rel="last"')
 
     def first_link(self):
-        for link in self.headers().get("Link", "").split(","):
-            if 'rel="first"' in link:
-                return link.split(";")[0]
-        return None
+        return self._extract_link('rel="first"')
 
     @property
     def status_code(self):
