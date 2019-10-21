@@ -12,6 +12,14 @@ class PRCommentsDirection(Enum):
     DSC = "dsc"
 
 
+_mime = ", ".join(
+    [
+        "application/vnd.github.comfort-fade-preview+json",
+        "application/vnd.github.squirrel-girl-preview",
+    ]
+)
+
+
 class ReviewCommentsMixin:
     def comments_on_pull_request(
         self,
@@ -22,12 +30,7 @@ class ReviewCommentsMixin:
         direction=None,
         since=None,
     ):
-        _mime = ", ".join(
-            [
-                "application/vnd.github.comfort-fade-preview+json",
-                "application/vnd.github.squirrel-girl-preview",
-            ]
-        )
+
         params = {"sort": sort.value}
         if direction:
             params["direction"] = direction
@@ -45,12 +48,6 @@ class ReviewCommentsMixin:
     def review_comments_in_repo(
         self, owner, repo, sort=PRCommentsSort.CREATED, direction=None, since=None
     ):
-        _mime = ", ".join(
-            [
-                "application/vnd.github.comfort-fade-preview+json",
-                "application/vnd.github.squirrel-girl-preview",
-            ]
-        )
         params = {"sort": sort.value}
         if direction:
             params["direction"] = direction
@@ -63,12 +60,6 @@ class ReviewCommentsMixin:
         return self.response.transform()
 
     def comment_on_pull_request(self, owner, repo, pull_number, comment_id):
-        _mime = ", ".join(
-            [
-                "application/vnd.github.comfort-fade-preview+json",
-                "application/vnd.github.squirrel-girl-preview",
-            ]
-        )
         url = "/repos/{owner}/{repo}/pulls/{pull_number}/comments/{comment_id}".format(
             owner=owner, repo=repo, pull_number=pull_number, comment_id=comment_id
         )
@@ -89,12 +80,6 @@ class ReviewCommentsMixin:
         start_line,
         start_side,
     ):
-        _mime = ", ".join(
-            [
-                "application/vnd.github.comfort-fade-preview+json",
-                "application/vnd.github.squirrel-girl-preview",
-            ]
-        )
         params = {
             "body": body,
             "commit_id": commit_id,

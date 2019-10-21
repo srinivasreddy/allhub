@@ -1,7 +1,7 @@
 from allhub.response import Response
 from enum import Enum
 
-_project_accept_header = "application/vnd.github.inertia-preview+json"
+_accept_header = {"Accept": "application/vnd.github.inertia-preview+json"}
 
 
 class ArchivedState(Enum):
@@ -21,16 +21,13 @@ class CardsMixin:
         url = "/projects/columns/{column_id}/cards".format(column_id=column_id)
         params = {"column_id": column_id, "archived_state": archived_state.value}
         self.response = Response(
-            self.get(url, params=params, **{"Accept": _project_accept_header}),
-            "ProjectCards",
+            self.get(url, params=params, **_accept_header), "ProjectCards"
         )
         return self.response.transform()
 
     def project_card(self, card_id):
         url = "/projects/columns/cards/{card_id}".format(card_id=card_id)
-        self.response = Response(
-            self.get(url, **{"Accept": _project_accept_header}), "ProjectCard"
-        )
+        self.response = Response(self.get(url, **_accept_header), "ProjectCard")
         return self.response.transform()
 
     def create_project_card(
@@ -51,8 +48,7 @@ class CardsMixin:
 
         url = "/projects/columns/{column_id}/cards".format(column_id=column_id)
         self.response = Response(
-            self.post(url, params=params, **{"Accept": _project_accept_header}),
-            "ProjectCard",
+            self.post(url, params=params, **_accept_header), "ProjectCard"
         )
         return self.response.transform()
 
@@ -60,16 +56,13 @@ class CardsMixin:
         params = [("archived", archived), ("note", note)]
         url = "/projects/columns/cards/{card_id}".format(card_id=card_id)
         self.response = Response(
-            self.patch(url, params=params, **{"Accept": _project_accept_header}),
-            "ProjectCard",
+            self.patch(url, params=params, **_accept_header), "ProjectCard"
         )
         return self.response.transform()
 
     def delete_project_card(self, card_id):
         url = "/projects/columns/cards/{card_id}".format(card_id=card_id)
-        self.response = Response(
-            self.delete(url, **{"Accept": _project_accept_header}), "ProjectCard"
-        )
+        self.response = Response(self.delete(url, **_accept_header), "ProjectCard")
         return self.response.status_code == 204
 
     def move_project_card(self, card_id, position, column_id):
@@ -78,7 +71,6 @@ class CardsMixin:
             raise ValueError("position should be of type CardPosition.")
         params = {"position": position.value.format(card_id), "column_id": column_id}
         self.response = Response(
-            self.post(url, params=params, **{"Accept": _project_accept_header}),
-            "ProjectCard",
+            self.post(url, params=params, **_accept_header), "ProjectCard"
         )
         return self.response.transform()

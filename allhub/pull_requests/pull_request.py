@@ -20,6 +20,15 @@ class PRDirection(Enum):
     DSC = "dsc"
 
 
+_mime = ", ".join(
+    [
+        "application/vnd.github.shadow-cat-preview+json",
+        "application/vnd.github.symmetra-preview+json",
+        "application/vnd.github.sailor-v-preview+json",
+    ]
+)
+
+
 class PullRequestMixin:
     def repo_pull_requests(
         self,
@@ -42,13 +51,6 @@ class PullRequestMixin:
             params["head"] = head
         if base:
             params["base"] = base
-        _mime = ", ".join(
-            [
-                "application/vnd.github.shadow-cat-preview+json",
-                "application/vnd.github.symmetra-preview+json",
-                "application/vnd.github.sailor-v-preview+json",
-            ]
-        )
         self.response = Response(
             self.get(url, params=params, **{"Accept": _mime}, **kwargs), "PullRequests"
         )
@@ -57,13 +59,6 @@ class PullRequestMixin:
     def repo_pull_request(self, owner, repo, pull_number):
         url = "/repos/{owner}/{repo}/pulls/{pull_number}".format(
             owner=owner, repo=repo, pull_number=pull_number
-        )
-        _mime = ", ".join(
-            [
-                "application/vnd.github.shadow-cat-preview+json",
-                "application/vnd.github.symmetra-preview+json",
-                "application/vnd.github.sailor-v-preview+json",
-            ]
         )
         self.response = Response(self.get(url, **{"Accept": _mime}), "PullRequest")
         return self.response.transform()
@@ -80,13 +75,6 @@ class PullRequestMixin:
         draft=None,
     ):
         url = "/repos/{owner}/{repo}/pulls".format(owner=owner, repo=repo)
-        _mime = ", ".join(
-            [
-                "application/vnd.github.shadow-cat-preview+json",
-                "application/vnd.github.symmetra-preview+json",
-                "application/vnd.github.sailor-v-preview+json",
-            ]
-        )
         params = {"title": title, "head": head, "base": base}
         if body:
             params["body"] = body
@@ -119,13 +107,6 @@ class PullRequestMixin:
     ):
         url = "/repos/{owner}/{repo}/pulls/{pull_number}".format(
             owner=owner, repo=repo, pull_number=pull_number
-        )
-        _mime = ", ".join(
-            [
-                "application/vnd.github.shadow-cat-preview+json",
-                "application/vnd.github.symmetra-preview+json",
-                "application/vnd.github.sailor-v-preview+json",
-            ]
         )
         params = {
             "title": title,

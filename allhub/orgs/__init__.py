@@ -1,6 +1,6 @@
 # flake8: NOQA
 from .blocking_users import BlockingMixin
-from .members import OrgMembersMixin
+from .members import OrgMembersMixin, OrgFilter, OrgRole
 from .org import OrgMixin
 from .outside_collab import OutsideCollabMixin
 from .webhooks import WebHooksMixin

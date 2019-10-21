@@ -2,19 +2,22 @@ from allhub.response import Response
 from enum import Enum
 
 
-class Filter(Enum):
+class OrgFilter(Enum):
     TWO_FA_DISABLED = "2fa_disabled"
     ALL = "all"
 
 
-class Role(Enum):
+class OrgRole(Enum):
     ALL = "all"
     ADMIN = "admin"
     MEMBER = "member"
 
 
+_accept_header = {"Accept": "application/vnd.github.dazzler-preview+json"}
+
+
 class OrgMembersMixin:
-    def org_members(self, org, filter=Filter.ALL, role=Role.ALL):
+    def org_members(self, org, filter=OrgFilter.ALL, role=OrgRole.ALL):
         """
         List all users who are members of an organization. If the authenticated user is also a member
         of this organization then both concealed and public members will be returned.
@@ -141,18 +144,12 @@ class OrgMembersMixin:
         url = "/orgs/{org}/invitations/{invitation_id}/teams".format(
             org=org, invitation_id=invitation_id
         )
-        self.response = Response(
-            self.get(url, **{"Accept": "application/vnd.github.dazzler-preview+json"}),
-            "OrgInvitationTeams",
-        )
+        self.response = Response(self.get(url, **_accept_header), "OrgInvitationTeams")
         return self.response.transform()
 
     def pending_org_invitations(self, org):
         url = "/orgs/{org}/invitations".format(org=org)
-        self.response = Response(
-            self.get(url, **{"Accept": "application/vnd.github.dazzler-preview+json"}),
-            "OrgInvitations",
-        )
+        self.response = Response(self.get(url, **_accept_header), "OrgInvitations")
         return self.response.transform()
 
     def create_org_invitation(
@@ -177,12 +174,7 @@ class OrgMembersMixin:
             params["role"] = role
 
         self.response = Response(
-            self.post(
-                url,
-                params=params,
-                **{"Accept": "application/vnd.github.dazzler-preview+json"},
-            ),
-            "OrgInvitations",
+            self.post(url, params=params, **_accept_header), "OrgInvitations"
         )
         return self.response.transform()
 

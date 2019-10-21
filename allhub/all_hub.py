@@ -36,7 +36,7 @@ you need to set the password environment variable.
 export GH_PASSWORD="mypassword"
 
 If you are using this library as part of a third party Github app, you need to set the environment
-variable APP_NAME as well in order for the github to correctly log/diagnose the API requests.
+variable GH_APP_NAME as well in order for the github to correctly log/diagnose the API requests.
 
 export GH_APP_NAME="Grandeur"
 

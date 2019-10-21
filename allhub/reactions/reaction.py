@@ -2,6 +2,7 @@ from allhub.response import Response
 from enum import Enum
 
 _mime_type = "application/vnd.github.squirrel-girl-preview+json"
+team_discussion_mime = {"Accept": "application/vnd.github.echo-preview+json"}
 
 
 class ReactionType(Enum):
@@ -23,7 +24,7 @@ class ReactionMixin:
             owner=owner, repo=repo, comment_id=comment_id
         )
         params = {}
-        if content.value:
+        if content.value:  # can be None
             params = {"content": content.value}
         self.response = Response(
             self.get(url, params=params, **{"Accept": _mime_type}), "Reactions"
@@ -112,12 +113,7 @@ class ReactionMixin:
         )
         params = {"content": content.value}
         self.response = Response(
-            self.get(
-                url,
-                params=params,
-                **{"Accept": "application/vnd.github.echo-preview+json"},
-            ),
-            "Reaction",
+            self.get(url, params=params, **team_discussion_mime), "Reaction"
         )
         return self.response.transform()
 
@@ -128,12 +124,7 @@ class ReactionMixin:
         )
         params = {"content": content.value}
         self.response = Response(
-            self.post(
-                url,
-                params=params,
-                **{"Accept": "application/vnd.github.echo-preview+json"},
-            ),
-            "Reaction",
+            self.post(url, params=params, **team_discussion_mime), "Reaction"
         )
         return self.response.transform()
 
@@ -148,12 +139,7 @@ class ReactionMixin:
         )
         params = {"content": content.value}
         self.response = Response(
-            self.get(
-                url,
-                params=params,
-                **{"Accept": "application/vnd.github.echo-preview+json"},
-            ),
-            "Reaction",
+            self.get(url, params=params, **team_discussion_mime), "Reaction"
         )
         return self.response.transform()
 
@@ -168,21 +154,13 @@ class ReactionMixin:
         )
         params = {"content": content.value}
         self.response = Response(
-            self.post(
-                url,
-                params=params,
-                **{"Accept": "application/vnd.github.echo-preview+json"},
-            ),
-            "Reaction",
+            self.post(url, params=params, **team_discussion_mime), "Reaction"
         )
         return self.response.transform()
 
     def delete_reaction(self, reaction_id):
         url = "/reactions/{reaction_id}".format(reaction_id=reaction_id)
-        self.response = Response(
-            self.delete(url, **{"Accept": "application/vnd.github.echo-preview+json"}),
-            "",
-        )
+        self.response = Response(self.delete(url, **team_discussion_mime), "")
         if self.response.status_code == 204:
             return True
         raise ValueError(
