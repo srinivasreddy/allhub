@@ -11,6 +11,8 @@ from dataclasses import dataclass
 class Config:
     api_version = 3
     api_mime_type = "json"
+    page = 1
+    per_page = 30
 
 
 config = Config()
