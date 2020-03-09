@@ -1,13 +1,13 @@
 ## Intro 
 Exporting username, password and auth token as environment variables enables us to not to write 
-them in code and expose it to outer world.
+them in the code and expose it to the outer world.
 
 ```bash
 export GH_USERNAME="test-github42"
 export GH_TOKEN="0499690952877243432fggga3db3a216eb01baba1f72"
 export GH_PASSWORD="PWD@78656"
 ```
-## All organizations.
+## All organizations
 
 To retrieve all the organizations on the Github, please use this example.
 
@@ -56,7 +56,7 @@ Output will be in the form of,
   'avatar_url': 'https://avatars1.githubusercontent.com/u/1964?v=4',
   'description': 'Makers of high performance web applications.'},
 ```
-## Organizations logged-in username belongs to...
+## Organizations that logged-in username belongs to
 
 ```python
 import os
@@ -69,7 +69,7 @@ client = AllHub(
 user_orgs = client.organizations()
 ```
 
-## Organizations a username belongs to...
+## Organizations a username belongs to
 ```python
 import os
 from allhub import AllHub
@@ -81,7 +81,7 @@ client = AllHub(
 user_orgs = client.user_organizations('srinivasreddy')
 ```
 
-## To get an organization information
+## Organization information
 ```python
 import os
 from allhub import AllHub
@@ -124,3 +124,25 @@ outputs to,
  'updated_at': '2019-12-19T21:09:14Z',
  'type': 'Organization'}
 ```
+## Blocked Users
+
+To list the blocked users in an organization your oauth token should have `org:admin` privileges, otherwise you receive 404
+error.
+
+```python
+import os
+from allhub import AllHub
+client = AllHub(
+    username = os.environ.get("GH_USERNAME"),
+    auth_token = os.environ.get("GH_TOKEN"),
+    password = os.environ.get("GH_PASSWORD")
+)
+users = client.blocked_users('google')
+print(users)
+```
+```text
+{'message': 'Not Found',
+ 'documentation_url': 'https://developer.github.com/v3/orgs/blocking/#list-blocked-users'}
+```
+
+```client.response.status_code``` gives 404.
