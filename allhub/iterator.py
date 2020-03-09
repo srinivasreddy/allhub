@@ -1,5 +1,13 @@
+def _valid_functions(function):
+    return True
+
+
 class Iterator:
     def __init__(self, client, function, per_page, page, *args, **kwargs):
+        if not _valid_functions(function):
+            raise ValueError(
+                f"{function} is not a valid function to iterate. you can pass any of these following."
+            )
         self.client = client
         self.function = function
         self.args = args
@@ -23,6 +31,9 @@ class Iterator:
             or self.client.page == self.num_pages
         ):
             self.next = False
+        if isinstance(results, list):
+            for result in results:
+                yield result
         return results
 
     def page_results(self, page=1):

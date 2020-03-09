@@ -146,3 +146,20 @@ print(users)
 ```
 
 ```client.response.status_code``` gives 404.
+
+## Using iterator 
+You can use iterator function to retrieve large number of results once. 
+If you want to see 600 organizations result. You can use the following code to 
+obtain the results.
+
+```python
+import os
+from allhub import AllHub
+client = AllHub(
+    username = os.environ.get("GH_USERNAME"),
+    auth_token = os.environ.get("GH_TOKEN"),
+    password = os.environ.get("GH_PASSWORD")
+)
+list_of_organizations = client.iterator(client.all_organizations, num_pages=20)
+print(users)
+```
