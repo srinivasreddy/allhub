@@ -34,3 +34,11 @@ allhub = AllHub(
 )
 response = allhub.xxxxxxxxx()
 ```
+
+## TODO
+
+`allhub` requires some love. Currently, unit tests are almost non existent. Love to take the coverage to 100%.
+But I am severely limited by time and priorities. If someone wants to send unit tests, please fork and
+send the patch away.
+
+You are more than welcome.
