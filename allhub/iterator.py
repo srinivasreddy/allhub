@@ -31,9 +31,6 @@ class Iterator:
             or self.client.page == self.num_pages
         ):
             self.next = False
-        if isinstance(results, list):
-            for result in results:
-                yield result
         return results
 
     def page_results(self, page=1):

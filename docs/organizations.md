@@ -160,6 +160,8 @@ client = AllHub(
     auth_token = os.environ.get("GH_TOKEN"),
     password = os.environ.get("GH_PASSWORD")
 )
-list_of_organizations = client.iterator(client.all_organizations, num_pages=20)
-print(users)
+list_of_list_of_organizations = client.iterator(client.all_organizations, num_pages=20)
+for list_of_orgs in list_of_list_of_organizations:
+    for org in list_of_orgs:
+        print(org)
 ```
