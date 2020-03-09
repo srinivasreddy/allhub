@@ -1,9 +1,16 @@
-To retrieve all the organizations on the Github, please use this example.
+## Intro 
+Exporting username, password and auth token as environment variables enables us to not to write 
+them in code and expose it to outer world.
+
 ```bash
 export GH_USERNAME="test-github42"
 export GH_TOKEN="0499690952877243432fggga3db3a216eb01baba1f72"
 export GH_PASSWORD="PWD@78656"
 ```
+## All organizations.
+
+To retrieve all the organizations on the Github, please use this example.
+
 
 ```python
 import os
@@ -48,4 +55,28 @@ Output will be in the form of,
   'public_members_url': 'https://api.github.com/orgs/lincolnloop/public_members{/member}',
   'avatar_url': 'https://avatars1.githubusercontent.com/u/1964?v=4',
   'description': 'Makers of high performance web applications.'},
+```
+## Organizations logged-in username belongs to...
+
+```python
+import os
+from allhub import AllHub
+client = AllHub(
+    username = os.environ.get("GH_USERNAME"),
+    auth_token = os.environ.get("GH_TOKEN"),
+    password = os.environ.get("GH_PASSWORD")
+)
+user_orgs = client.organizations()
+```
+
+## Organizations a username belongs to...
+```python
+import os
+from allhub import AllHub
+client = AllHub(
+    username = os.environ.get("GH_USERNAME"),
+    auth_token = os.environ.get("GH_TOKEN"),
+    password = os.environ.get("GH_PASSWORD")
+)
+user_orgs = client.user_organizations('srinivasreddy')
 ```
