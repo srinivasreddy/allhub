@@ -80,3 +80,47 @@ client = AllHub(
 )
 user_orgs = client.user_organizations('srinivasreddy')
 ```
+
+## To get an organization information
+```python
+import os
+from allhub import AllHub
+client = AllHub(
+    username = os.environ.get("GH_USERNAME"),
+    auth_token = os.environ.get("GH_TOKEN"),
+    password = os.environ.get("GH_PASSWORD")
+)
+org = client.get_organization('google')
+print(org)
+```
+outputs to, 
+```text
+{'login': 'google',
+ 'id': 1342004,
+ 'node_id': 'MDEyOk9yZ2FuaXphdGlvbjEzNDIwMDQ=',
+ 'url': 'https://api.github.com/orgs/google',
+ 'repos_url': 'https://api.github.com/orgs/google/repos',
+ 'events_url': 'https://api.github.com/orgs/google/events',
+ 'hooks_url': 'https://api.github.com/orgs/google/hooks',
+ 'issues_url': 'https://api.github.com/orgs/google/issues',
+ 'members_url': 'https://api.github.com/orgs/google/members{/member}',
+ 'public_members_url': 'https://api.github.com/orgs/google/public_members{/member}',
+ 'avatar_url': 'https://avatars1.githubusercontent.com/u/1342004?v=4',
+ 'description': 'Google ❤️ Open Source',
+ 'name': 'Google',
+ 'company': None,
+ 'blog': 'https://opensource.google/',
+ 'location': None,
+ 'email': 'opensource@google.com',
+ 'is_verified': True,
+ 'has_organization_projects': True,
+ 'has_repository_projects': True,
+ 'public_repos': 1689,
+ 'public_gists': 0,
+ 'followers': 0,
+ 'following': 0,
+ 'html_url': 'https://github.com/google',
+ 'created_at': '2012-01-18T01:30:18Z',
+ 'updated_at': '2019-12-19T21:09:14Z',
+ 'type': 'Organization'}
+```
