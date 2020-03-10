@@ -24,7 +24,6 @@ class Iterator:
         if not self.next:
             raise StopIteration()
         results = self.page_results(self.page)
-        print(f"The next link is :{self.client.response.next_link()}")
         self.client.page = self.page
         self.page += 1
         if (
@@ -36,5 +35,14 @@ class Iterator:
 
     def page_results(self, page=1):
         self.kwargs.update({"page": page})
+        if (
+            hasattr(self.client.response, "since")
+            and self.client.response.since() is not None
+        ):
+            self.kwargs.update({"since": self.client.response.since()})
+            if "page" in self.kwargs:
+                del self.kwargs["page"]
+            if "per_page" in self.kwargs:
+                del self.kwargs["per_page"]
         response = self.function(*self.args, **self.kwargs)
         return response

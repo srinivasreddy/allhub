@@ -27,7 +27,9 @@ class OrgMixin:
         """
 
         url = "/organizations"
-        self.response = Response(self.get(url, **kwargs), "Organizations")
+        self.response = Response(
+            self.get(url, **{"since": since}, **kwargs), "Organizations"
+        )
         return self.response.transform()
 
     def user_organizations(self, username, **kwargs):

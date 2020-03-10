@@ -73,6 +73,13 @@ class Response:
                 return match["data"]
         return None
 
+    def since(self):
+        if self.next_link() is None:
+            return None
+        parsed_url = parse.urlparse(self.next_link())
+        parsed_data = parse.parse_qs(parsed_url.query)
+        return parsed_data["since"][0]
+
     def next_link(self):
         return self._extract_link('rel="next"')
 

@@ -109,14 +109,17 @@ class AllHub(
             "num_pages", None
         )  # throw away num_pages keyword argument which is meant for an iterator
         params = params and dict(params) or {}
-        params.update(
-            {"per_page": kwargs.pop("per_page", 30), "page": kwargs.pop("page", 1)}
-        )
-        self.page = params["page"]
-        self.per_page = params["per_page"]
+        if "per_page" in kwargs:
+            params.update({"per_page": kwargs.pop("per_page", 30)})
+            self.per_page = params["per_page"]
+        if "page" in kwargs:
+            params.update({"page": kwargs.pop("page", 1)})
+            self.page = params["page"]
+
         full_url = urljoin(self.host, url)
         headers = self._get_headers()
         headers.update(**kwargs)
+        # print(f"full url: {full_url}, headers: {headers}, params:{params}")
         response = requests.get(full_url, headers=headers, params=params)
         if raise_for_status:
             response.raise_for_status()
