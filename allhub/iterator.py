@@ -24,6 +24,7 @@ class Iterator:
         if not self.next:
             raise StopIteration()
         results = self.page_results(self.page)
+        print(f"The next link is :{self.client.response.next_link()}")
         self.client.page = self.page
         self.page += 1
         if (

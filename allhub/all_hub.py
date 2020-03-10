@@ -94,6 +94,15 @@ class AllHub(
         obj.api_mime_type = api_mime_type
         return obj
 
+    def _get_headers(self):
+        return {
+            "User-Agent": os.environ.get("GH_APP_NAME", self.username),
+            "Authorization": "token {auth_token}".format(auth_token=self.auth_token),
+            "Accept": "application/vnd.github.v{version}+{mime}".format(
+                version=config.api_version, mime=config.api_mime_type
+            ),
+        }
+
     def get(self, url, params=None, *args, **kwargs):
         raise_for_status = kwargs.pop("raise_for_status", False)
         kwargs.pop(
@@ -106,13 +115,7 @@ class AllHub(
         self.page = params["page"]
         self.per_page = params["per_page"]
         full_url = urljoin(self.host, url)
-        headers = {
-            "User-Agent": os.environ.get("GH_APP_NAME", self.username),
-            "Authorization": "token {auth_token}".format(auth_token=self.auth_token),
-            "Accept": "application/vnd.github.v{version}+{mime}".format(
-                version=config.api_version, mime=config.api_mime_type
-            ),
-        }
+        headers = self._get_headers()
         headers.update(**kwargs)
         response = requests.get(full_url, headers=headers, params=params)
         if raise_for_status:
@@ -136,12 +139,9 @@ class AllHub(
         self.page = params["page"]
         self.per_page = params["per_page"]
         full_url = urljoin(self.host, url)
-        headers = {
-            "User-Agent": os.environ.get("GH_APP_NAME", self.username),
-            "Accept": "application/vnd.github.v{version}+{mime}".format(
-                version=config.api_version, mime=config.api_mime_type
-            ),
-        }
+        headers = self._get_headers()
+        # Remove the token for Authorization
+        del headers["Authorization"]
         password = kwargs.pop("password", None)
         headers.update(**kwargs)
         response = requests.get(
@@ -165,13 +165,7 @@ class AllHub(
         if params is not None:
             params = dict(params)
         full_url = urljoin(self.host, url)
-        headers = {
-            "User-Agent": os.environ.get("GH_APP_NAME", self.username),
-            "Authorization": "token {auth_token}".format(auth_token=self.auth_token),
-            "Accept": "application/vnd.github.v{version}+{mime}".format(
-                version=config.api_version, mime=config.api_mime_type
-            ),
-        }
+        headers = self._get_headers()
         headers.update(**kwargs)
         response = requests.put(full_url, headers=headers, params=params)
         if raise_for_status:
@@ -190,13 +184,7 @@ class AllHub(
         if params is not None:
             params = dict(params)
         full_url = urljoin(self.host, url)
-        headers = {
-            "User-Agent": os.environ.get("APP_NAME", self.username),
-            "Authorization": "token {auth_token}".format(auth_token=self.auth_token),
-            "Accept": "application/vnd.github.v{version}+{mime}".format(
-                version=config.api_version, mime=config.api_mime_type
-            ),
-        }
+        headers = self._get_headers()
         headers.update(**kwargs)
         response = requests.post(full_url, headers=headers, json=params)
         if raise_for_status:
@@ -215,13 +203,7 @@ class AllHub(
         if params is not None:
             params = dict(params)
         full_url = urljoin(self.host, url)
-        headers = {
-            "User-Agent": os.environ.get("APP_NAME", self.username),
-            "Authorization": "token {auth_token}".format(auth_token=self.auth_token),
-            "Accept": "application/vnd.github.v{version}+{mime}".format(
-                version=config.api_version, mime=config.api_mime_type
-            ),
-        }
+        headers = self._get_headers()
         headers.update(**kwargs)
         response = requests.patch(full_url, headers=headers, json=params)
         if raise_for_status:
@@ -239,15 +221,8 @@ class AllHub(
         raise_for_status = kwargs.pop("raise_for_status", False)
         if params is not None:
             params = dict(params)
-
         full_url = urljoin(self.host, url)
-        headers = {
-            "User-Agent": os.environ.get("APP_NAME", self.username),
-            "Authorization": "token {auth_token}".format(auth_token=self.auth_token),
-            "Accept": "application/vnd.github.v{version}+{mime}".format(
-                version=config.api_version, mime=config.api_mime_type
-            ),
-        }
+        headers = self._get_headers()
         headers.update(**kwargs)
         response = requests.delete(full_url, headers=headers, json=params)
         if raise_for_status:
